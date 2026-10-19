@@ -321,7 +321,6 @@ header > span {
   display: none;
 }
 
-/* Botão para sair da conta */
 
 .logout-button {
   display: inline-flex;
@@ -368,7 +367,6 @@ header > span {
   height: 23px;
 }
 
-/* O conteúdo ocupa o espaço disponível sem empurrar o rodapé */
 
 .page-container {
   flex: 1 0 auto;
@@ -1159,9 +1157,9 @@ textarea {
   }
 
   .brand-logo {
-  flex-basis: 56px;
-  width: 56px;
-  height: 56px;
+    flex-basis: 56px;
+    width: 56px;
+    height: 56px;
 }
 
   .hero {
@@ -1495,8 +1493,15 @@ textarea {
   }
 }
 
-/* Impede selecionar textos da interface */
+
 body {
   -webkit-user-select: none;
   user-select: none;
+}
+
+input,
+textarea,
+select {
+  -webkit-user-select: text;
+  user-select: text;
 }
