@@ -1,37 +1,35 @@
-CobbleLauncher
+# CobbleLauncher
 
-A custom launcher for Minecraft: Java Edition, built with Electron and Node.js.
+A custom Minecraft launcher built with Electron, focused on providing a simple and modern way to launch Minecraft.
 
-Features
+## Features
 
-- Microsoft account authentication
-- Saved session support
-- Minecraft version selection
-- Automatic Java setup
-- Game installation and launch progress
+- Launch Minecraft with Fabric support.
+- A clean desktop interface with a dark green theme.
+- Mod management interface.
+- Integration with the Minecraft Java Edition ecosystem.
 
-Planned Features
+## Technologies
 
-- Improved user interface
-- Custom launcher branding
-- More Minecraft version options
-- Launcher settings and customization
+- **Electron** — Desktop application framework.
+- **JavaScript, HTML and CSS** — Application interface and logic.
+- **eml-lib** — Minecraft launching functionality.
+- **Fabric** — Minecraft modding platform.
 
-Tech Stack
+## Planned Features
 
-- Electron
-- Node.js
-- Java
-- "eml-lib"
+- Mod discovery and browsing through Modrinth.
+- CurseForge mod discovery and browsing, subject to API access approval.
+- Improved mod management and launcher customization.
 
-Project Status
+## Project Status
 
-Currently in development.
+CobbleLauncher is currently under development. Features and integrations may change as development progresses.
 
-Security
+## Links
 
-Never commit authentication tokens, credentials, session files, or other sensitive information to this repository.
+- **GitHub Repository:** https://github.com/pedrxzy/CobbleLauncher
 
-Disclaimer
+## Disclaimer
 
-CobbleLauncher is an independent community project and is not affiliated with or endorsed by Mojang Studios or Microsoft.
+Minecraft is a trademark of Mojang Studios. CobbleLauncher is an independent community project and is not affiliated with or endorsed by Mojang Studios or Microsoft.
