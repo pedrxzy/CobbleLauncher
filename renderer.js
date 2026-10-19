@@ -1,12 +1,7 @@
 "use strict";
 
-// ==================================================
-// COBBLELAUNCHER - INTERFACE
-// ==================================================
-
 const $ = (id) => document.getElementById(id);
 
-// Inicialização e progresso
 const playButton = $("play");
 const statusText = $("status");
 const launchProgress = $("launch-progress");
@@ -22,7 +17,7 @@ const accountAvatar = $("account-avatar");
 const accountName = $("account-name");
 const logoutButton = $("logout-button");
 
-// Instalações
+
 const homeProfile = $("home-profile");
 const modsProfile = $("mods-profile");
 const settingsProfile = $("settings-profile");
@@ -38,7 +33,7 @@ const profilesList = $("profiles-list");
 const saveProfileButton = $("save-profile");
 const cancelProfileButton = $("cancel-profile");
 
-// Configurações
+
 const settingsForm = $("settings-form");
 const maxRamInput = $("max-ram");
 const javaMode = $("java-mode");
@@ -48,7 +43,7 @@ const javaStatus = $("java-status");
 const validateJavaButton = $("validate-java");
 const modsInfo = $("mods-info");
 
-// Estado da aplicação
+
 let loggedIn = false;
 let loginInProgress = false;
 let launchInProgress = false;
@@ -1078,7 +1073,7 @@ playButton?.addEventListener("click", async () => {
 });
 
 // ==================================================
-// EVENTOS DE PROGRESSO DO PROCESSO PRINCIPAL
+// EVENTOS DO PROCESSO PRINCIPAL
 // ==================================================
 
 if (window.cobble?.onLaunchProgress) {
