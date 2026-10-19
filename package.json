@@ -1,0 +1,19 @@
+{
+  "name": "cobblelauncher",
+  "version": "1.0.0",
+  "description": "Launcher made by an individual developer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "electron": "^44.9.0"
+  },
+  "dependencies": {
+    "eml-lib": "^2.7.4"
+  }
+}

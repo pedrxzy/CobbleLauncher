@@ -1,0 +1,43 @@
+
+# Dependências
+node_modules/
+
+# Configurações e segredos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Arquivos temporários
+.tmp/
+temp/
+tmp/
+*.tmp
+
+# Cache e cobertura
+.cache/
+coverage/
+
+# Sistema operacional e editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Builds e instaladores gerados
+dist/
+out/
+release/
+
+# Dados locais e sessões
+*.session
+token.json
+tokens.json
