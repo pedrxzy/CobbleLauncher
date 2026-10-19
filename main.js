@@ -17,9 +17,6 @@ const DEFAULT_RAM = 4096;
 const MAX_RAM_LIMIT = 65536;
 const SUPPORTED_VERSIONS = ["1.21.1", "1.20.1"];
 
-// ==================================================
-// CAMINHOS E CONTAS
-// ==================================================
 
 function getAccountPath() {
   return path.join(app.getPath("userData"), "account.dat");
@@ -371,12 +368,6 @@ function finishDownloadBatch(tracker, data = {}) {
 // ==================================================
 
 function createWindow() {
-  console.log(
-    "[Diagnóstico] preload existe:",
-    fs.existsSync(path.join(__dirname, "preload.js"))
-  );
-  console.log("[Diagnóstico] Electron:", process.versions.electron);
-  console.log("[Diagnóstico] Node:", process.versions.node);
 
   mainWindow = new BrowserWindow({
     width: 1100,
@@ -407,8 +398,6 @@ function createWindow() {
       console.error("[Página] Falha ao carregar:", errorCode, errorDescription);
     }
   );
-
-  console.log("[Preload] Caminho esperado:", path.join(__dirname, "preload.js"));
 
   mainWindow.loadFile(path.join(__dirname, "index.html"));
 
@@ -774,7 +763,6 @@ ipcMain.handle("install-and-launch", async (_event, selection) => {
       }
     });
 
-    // Verificação dos arquivos necessários.
     launcher.on("launch_compute_download", () => {
       sendProgress(
         "checking",
@@ -812,7 +800,6 @@ ipcMain.handle("install-and-launch", async (_event, selection) => {
       );
     });
 
-    // Progresso real dos bytes recebidos.
     launcher.on("download_progress", (data) => {
       if (!downloadTracker.active) return;
 
