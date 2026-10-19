@@ -10,13 +10,13 @@ contextBridge.exposeInMainWorld("cobble", {
   installAndLaunch: (selection) =>
     ipcRenderer.invoke("install-and-launch", selection),
 
-  getProfiles: () => ipcRenderer.invoke("get-profiles"),
+    getProfiles: () => ipcRenderer.invoke("get-profiles"),
 
-getLoaderVersions: (minecraftVersion, loader) =>
-  ipcRenderer.invoke("get-loader-versions", {
-    minecraftVersion,
-    loader
-  }),
+  getLoaderVersions: (minecraftVersion, loader) =>
+    ipcRenderer.invoke("get-loader-versions", {
+      minecraftVersion,
+      loader
+    }),
 
   saveProfile: (profile) =>
     ipcRenderer.invoke("save-profile", profile),
