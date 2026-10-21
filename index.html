@@ -19,8 +19,9 @@
     <p class="label">MENU PRINCIPAL</p>
 
     <button class="nav active" data-page="home">⌂ &nbsp; Início</button>
-    <button class="nav" data-page="versions">▦ &nbsp; Versões</button>
+    <button class="nav" data-page="versions">▦ &nbsp; Versões</button>   
     <button class="nav" data-page="mods">⬡ &nbsp; Mods e modpacks</button>
+    <button class="nav" data-page="skins">◈ &nbsp; Skins</button>
     <button class="nav" data-page="settings">⚙ &nbsp; Configurações</button>
 
     <div class="bottom">● &nbsp; Launcher em desenvolvimento</div>
@@ -181,31 +182,145 @@
       <!-- MODS -->
       <section class="page" id="page-mods" hidden>
         <div class="page-heading">
-          <span class="tag">PERSONALIZAÇÃO</span>
+          <span class="tag">MODRINTH</span>
           <h1>Mods e modpacks</h1>
-          <p>Gerencia os mods separadamente para cada instalação.</p>
+          <p>Encontra mods compatíveis com as tuas instalações.</p>
         </div>
 
         <section class="panel">
-          <h2>Seleciona uma instalação</h2>
-          <label for="mods-profile">Instalação</label>
+          <h2>Instalação selecionada</h2>
+
+          <label for="mods-profile">Minecraft</label>
           <select id="mods-profile">
             <option value="">Nenhuma instalação disponível</option>
           </select>
 
           <div id="mods-info" class="info-box">
-            Cria uma instalação com Fabric, Forge, NeoForge ou Quilt para preparar um ambiente com mods.
+            Seleciona uma instalação com Fabric, Forge, NeoForge ou Quilt para pesquisar mods.
           </div>
-
-          <p class="hint">
-            A gestão e a importação de arquivos de mods ainda serão implementadas.
-            Os arquivos de cada instalação serão mantidos separados.
-          </p>
         </section>
-      </section>
 
-      <!-- CONFIGURAÇÕES -->
-      <section class="page" id="page-settings" hidden>
+      
+<section class="panel">
+  <h2>Explorar conteúdo</h2>
+
+  <div class="mods-categories" id="mods-categories">
+    <button class="mods-category active" data-category="mod" type="button">Mods</button>
+    <button class="mods-category" data-category="resourcepack" type="button">Resource packs</button>
+    <button class="mods-category" data-category="datapack" type="button">Data packs</button>
+    <button class="mods-category" data-category="modpack" type="button">Modpacks</button>
+    <button class="mods-category" data-category="shader" type="button">Shaders</button>
+  </div>
+
+  <div class="mods-search-box">
+    <label for="mods-search-query">Pesquisar</label>
+    <input
+      id="mods-search-query"
+      type="search"
+      placeholder="Buscar conteúdo..."
+      maxlength="100"
+      autocomplete="off"
+    >
+  </div>
+
+  <p class="hint">
+    Os resultados respeitam a versão do Minecraft selecionada sempre que aplicável.
+  </p>
+
+  <div id="mods-search-status" class="hint" role="status" aria-live="polite"></div>
+
+  <div id="mods-results" class="mods-results">
+    <p class="hint">Escolhe uma categoria e pesquisa o que procuras.</p>
+  </div>
+
+  <nav id="mods-pagination" class="mods-pagination"
+    aria-label="Páginas dos resultados" hidden>
+    
+   </nav>
+</section>
+</section>
+
+<!-- SKINS -->
+<section class="page" id="page-skins" hidden>
+  <div class="page-heading">
+    <span class="tag">PERSONALIZAÇÃO</span>
+    <h1>Skins</h1>
+    <p>Personalize a aparência do seu personagem no Minecraft.</p>
+  </div>
+
+<section class="panel">
+  <div class="section-heading">
+    <div>
+      <h2>Skins padrão</h2>
+      <p class="hint">Escolha uma aparência clássica do Minecraft.</p>
+    </div>
+
+    <button class="secondary-button" id="importSkinButton">
+      Adicionar arquivo
+    </button>
+  </div>
+
+  <input
+    type="file"
+    id="skinFileInput"
+    accept="image/png"
+    hidden
+  />
+
+  <div class="skin-grid">
+    <article class="skin-card">
+      <div class="skin-preview" id="stevePreview">
+        <img src="https://minecraft.wiki/images/Steve.png" alt="Skin do Steve" />
+      </div>
+      <h3>Steve</h3>
+      <p class="hint">Modelo clássico</p>
+      <button class="secondary-button skin-select" data-skin="steve">
+        Selecionar
+      </button>
+    </article>
+
+    <article class="skin-card">
+      <div class="skin-preview" id="alexPreview">
+        <img src="https://minecraft.wiki/images/Alex.png" alt="Skin da Alex" />
+      </div>
+      <h3>Alex</h3>
+      <p class="hint">Modelo de braços finos</p>
+      <button class="secondary-button skin-select" data-skin="alex">
+        Selecionar
+      </button>
+    </article>
+  </div>
+
+  <p class="hint" id="skinStatus">
+    Escolha uma skin ou importe um arquivo PNG.
+  </p>
+</section>
+
+<section class="panel">
+  <div class="section-heading">
+    <div>
+      <h2>Minhas skins</h2>
+      <p class="hint">Skins importadas do seu computador.</p>
+    </div>
+  </div>
+
+  <div class="skin-grid" id="importedSkinsGrid">
+    <p class="hint" id="emptySkinsMessage">
+      Você ainda não importou nenhuma skin.
+    </p>
+  </div>
+</section>
+
+  <section class="panel">
+    <h2>Capas</h2>
+    <p class="hint">
+      As capas disponíveis na sua conta Microsoft aparecerão aqui quando conectada.
+    </p>
+  </section>
+</section>
+
+<!-- CONFIGURAÇÕES -->
+<section class="page" id="page-settings" hidden>
         <div class="page-heading">
           <span class="tag">PERSONALIZAÇÃO</span>
           <h1>Configurações</h1>
