@@ -3,7 +3,23 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("cobble", {
+  getLanguage: () =>
+    ipcRenderer.invoke("get-language"),
+  setLanguage: (language) =>
+    ipcRenderer.send("set-language", language),
+  
   loginMicrosoft: () => ipcRenderer.invoke("login-microsoft"),
+  getAccountSkin: () => ipcRenderer.invoke("get-account-skin"),
+  getAccountCapes: () =>
+    ipcRenderer.invoke("get-account-capes"),
+
+switchAccountCape: (capeId) =>
+  ipcRenderer.invoke("switch-account-cape", capeId),
+
+hideAccountCape: () =>
+  ipcRenderer.invoke("hide-account-cape"),
+  updateAccountSkin: (input) =>
+  ipcRenderer.invoke("update-account-skin", input),
   restoreSession: () => ipcRenderer.invoke("restore-session"),
   logoutMicrosoft: () => ipcRenderer.invoke("logout-microsoft"),
 
@@ -20,6 +36,9 @@ contextBridge.exposeInMainWorld("cobble", {
     ipcRenderer.invoke("install-and-launch", selection),
 
   getProfiles: () => ipcRenderer.invoke("get-profiles"),
+
+  getMinecraftVersions: () =>
+    ipcRenderer.invoke("get-minecraft-versions"),
 
   getLoaderVersions: (minecraftVersion, loader) =>
     ipcRenderer.invoke("get-loader-versions", {
@@ -42,6 +61,9 @@ contextBridge.exposeInMainWorld("cobble", {
   deleteProfile: (id) =>
     ipcRenderer.invoke("delete-profile", id),
 
+  openGameFolder: () =>
+  ipcRenderer.invoke("open-game-folder"),
+
   validateJava: (javaPath) =>
     ipcRenderer.invoke("validate-java", javaPath),
 
@@ -50,6 +72,14 @@ contextBridge.exposeInMainWorld("cobble", {
 
   getSavedSkins: () =>
     ipcRenderer.invoke("get-saved-skins"),
+
+  setSkinModel: (input) =>
+    ipcRenderer.invoke("set-skin-model", input),
+
+  deleteSkin: (name) =>
+    ipcRenderer.invoke("delete-skin", name),
+
+  renameSkin: (input) => ipcRenderer.invoke("rename-skin", input),
 
   onLaunchProgress: (callback) => {
     ipcRenderer.on("launch-progress", (_event, message) => {

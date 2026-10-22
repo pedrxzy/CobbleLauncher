@@ -1,14 +1,25 @@
 "use strict";
 
-const { app, BrowserWindow, ipcMain, safeStorage } = require("electron");
+const { app, BrowserWindow, ipcMain, safeStorage, shell } = require("electron");
 const path = require("node:path");
 const fs = require("node:fs");
 const crypto = require("node:crypto");
-const { MicrosoftAuth, Launcher } = require("eml-lib");
+const { MicrosoftAuth, Launcher, Skin } = require("eml-lib");
 const AdmZip = require("adm-zip");
 
 let mainWindow = null;
 let currentAccount = null;
+let currentLanguage = "pt-BR";
+
+ipcMain.handle("get-language", () => currentLanguage);
+
+ipcMain.on("set-language", (_event, language) => {
+  const supportedLanguages = ["pt-BR", "en-US", "es-ES"];
+
+  if (supportedLanguages.includes(language)) {
+    currentLanguage = language;
+  }
+});
 let isLaunching = false;
 
 const ROOT_NAME = "CobbleLauncher";
@@ -16,7 +27,50 @@ const LOADERS = ["vanilla", "fabric", "forge", "neoforge", "quilt"];
 const MIN_RAM = 512;
 const DEFAULT_RAM = 4096;
 const MAX_RAM_LIMIT = 65536;
-const SUPPORTED_VERSIONS = ["1.21.1", "1.20.1"];
+const MINECRAFT_VERSION_MANIFEST =
+  "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
+  
+let minecraftVersionsCache = null;
+
+async function getMinecraftVersions() {
+  if (minecraftVersionsCache) {
+    return minecraftVersionsCache;
+  }
+
+  const response = await fetch(MINECRAFT_VERSION_MANIFEST);
+
+  if (!response.ok) {
+    throw new Error("Não foi possível consultar as versões do Minecraft.");
+  }
+
+  const manifest = await response.json();
+
+  if (!Array.isArray(manifest.versions)) {
+    throw new Error("O catálogo de versões recebido é inválido.");
+  }
+
+  minecraftVersionsCache = manifest.versions
+    .filter((version) =>
+      typeof version.id === "string" &&
+      ["release", "snapshot", "old_beta", "old_alpha"].includes(version.type)
+    )
+    .map((version) => ({
+      id: version.id,
+      type: version.type
+    }));
+
+  return minecraftVersionsCache;
+}
+
+async function isMinecraftVersionAvailable(versionId) {
+  if (typeof versionId !== "string") {
+    return false;
+  }
+
+  const versions = await getMinecraftVersions();
+
+  return versions.some((version) => version.id === versionId);
+}
 
 // ==================================================
 // CAMINHOS E CONTAS
@@ -89,7 +143,7 @@ function makeSlug(value) {
   return slug || "perfil";
 }
 
-function normalizeProfile(input, existingProfiles = []) {
+async function normalizeProfile(input, existingProfiles = []) {
   if (!input || typeof input !== "object") {
     throw new Error("Dados do perfil inválidos.");
   }
@@ -100,11 +154,13 @@ function normalizeProfile(input, existingProfiles = []) {
     throw new Error("O nome do perfil deve ter entre 1 e 60 caracteres.");
   }
 
-  const minecraftVersion = String(input.minecraftVersion || "");
+ const minecraftVersion = String(input.minecraftVersion || "");
 
-  if (!SUPPORTED_VERSIONS.includes(minecraftVersion)) {
-    throw new Error("A versão do Minecraft selecionada não é suportada.");
-  }
+if (!(await isMinecraftVersionAvailable(minecraftVersion))) {
+  throw new Error(
+    "A versão do Minecraft selecionada não existe no catálogo oficial."
+  );
+}
 
   const loader = String(input.loader || "vanilla").toLowerCase();
 
@@ -422,6 +478,160 @@ function createWindow() {
 // LOGIN MICROSOFT
 // ==================================================
 
+ipcMain.handle("get-account-skin", async () => {
+  if (!currentAccount) {
+    throw new Error("Entre na sua conta Microsoft primeiro.");
+  }
+
+  const skinManager = new Skin(currentAccount);
+  const skins = await skinManager.getSkins(true);
+
+  return skins;
+});
+
+
+ipcMain.handle("update-account-skin", async (_event, input) => {
+  if (!currentAccount) {
+    throw new Error("Entre na sua conta Microsoft primeiro.");
+  }
+
+  if (!input || typeof input.name !== "string") {
+    throw new Error("Dados da skin inválidos.");
+  }
+
+  const model = input.model === "alex" ? "slim" : "classic";
+  let resolvedPath;
+
+  if (input.isDefault === true) {
+    if (input.model !== "steve" && input.model !== "alex") {
+      throw new Error("Skin padrão inválida.");
+    }
+
+    resolvedPath = path.join(
+      __dirname,
+      "assets",
+      "skins",
+      `${input.model}.png`
+    );
+  } else {
+    if (!/^[\w -]+\.png$/i.test(input.name)) {
+      throw new Error("Nome de arquivo de skin inválido.");
+    }
+
+    const skinsDirectory = path.resolve(
+      app.getPath("userData"),
+      "skins"
+    );
+
+    resolvedPath = path.resolve(skinsDirectory, input.name);
+
+    if (!resolvedPath.startsWith(skinsDirectory + path.sep)) {
+      throw new Error("Caminho de skin inválido.");
+    }
+  }
+
+  if (!fs.existsSync(resolvedPath)) {
+    throw new Error("O arquivo da skin não foi encontrado.");
+  }
+
+  const skinManager = new Skin(currentAccount);
+
+  try {
+    const skinBuffer = fs.readFileSync(resolvedPath);
+    const skinBlob = new Blob([skinBuffer], {
+      type: "image/png"
+    });
+
+    await skinManager.updateSkin(skinBlob, model);
+
+    return {
+      success: true,
+      message: "Skin atualizada no perfil Minecraft."
+    };
+  } catch (error) {
+    console.error("[Skin] Falha ao atualizar:", error);
+    console.error("[Skin] Causa original:", error.cause);
+
+    throw new Error(
+      error.cause?.message ||
+      error.message ||
+      "Não foi possível atualizar a skin."
+    );
+  }
+});
+
+ipcMain.handle("get-account-capes", async () => {
+  if (!currentAccount) {
+    throw new Error("Entre na sua conta Microsoft primeiro.");
+  }
+
+  try {
+    const skinManager = new Skin(currentAccount);
+    const capes = await skinManager.getCapes();
+
+return {
+  capes,
+  count: Array.isArray(capes) ? capes.length : 0
+};
+  } catch (error) {
+    console.error("[Capas] Falha ao consultar:", error);
+
+    throw new Error(
+      error.message || "Não foi possível carregar suas capas."
+    );
+  }
+});
+
+ipcMain.handle("switch-account-cape", async (_event, capeId) => {
+  if (!currentAccount) {
+    throw new Error("Entre na sua conta Microsoft primeiro.");
+  }
+
+  if (typeof capeId !== "string" || !capeId.trim()) {
+    throw new Error("Identificador da capa inválido.");
+  }
+
+  try {
+    const skinManager = new Skin(currentAccount);
+
+    await skinManager.switchCape(capeId);
+
+    return {
+      success: true,
+      message: "Capa atualizada na sua conta Minecraft."
+    };
+  } catch (error) {
+    console.error("[Capas] Falha ao trocar:", error);
+
+    throw new Error(
+      error.message || "Não foi possível trocar a capa."
+    );
+  }
+});
+
+ipcMain.handle("hide-account-cape", async () => {
+  if (!currentAccount) {
+    throw new Error("Entre na sua conta Microsoft primeiro.");
+  }
+
+  try {
+    const skinManager = new Skin(currentAccount);
+
+    await skinManager.hideCape();
+
+    return {
+      success: true,
+      message: "Capa ocultada na sua conta Minecraft."
+    };
+  } catch (error) {
+    console.error("[Capas] Falha ao ocultar:", error);
+
+    throw new Error(
+      error.message || "Não foi possível ocultar a capa."
+    );
+  }
+});
+
 ipcMain.handle("login-microsoft", async () => {
   if (!mainWindow || mainWindow.isDestroyed()) {
     throw new Error("A janela do launcher não está aberta.");
@@ -534,9 +744,11 @@ ipcMain.handle("get-loader-versions", async (_event, input) => {
   const minecraftVersion = String(input?.minecraftVersion || "");
   const loader = String(input?.loader || "").toLowerCase();
 
-  if (!SUPPORTED_VERSIONS.includes(minecraftVersion)) {
-    throw new Error("Seleciona uma versão de Minecraft suportada.");
-  }
+  if (!(await isMinecraftVersionAvailable(minecraftVersion))) {
+  throw new Error(
+    "A versão selecionada não existe no catálogo oficial do Minecraft."
+  );
+}
 
   if (!LOADERS.includes(loader) || loader === "vanilla") {
     return [];
@@ -629,9 +841,11 @@ ipcMain.handle("modrinth-search", async (_event, input) => {
     throw new Error("Categoria de conteúdo inválida.");
   }
 
-  if (!SUPPORTED_VERSIONS.includes(minecraftVersion)) {
-    throw new Error("Seleciona uma versão de Minecraft suportada.");
-  }
+  if (!(await isMinecraftVersionAvailable(minecraftVersion))) {
+  throw new Error(
+    "A versão selecionada não existe no catálogo oficial do Minecraft."
+  );
+}
 
   if (query.length === 1 || query.length > 100) {
   throw new Error(
@@ -696,9 +910,11 @@ ipcMain.handle("modrinth-versions", async (_event, input) => {
     throw new Error("Identificador de mod inválido.");
   }
 
-  if (!SUPPORTED_VERSIONS.includes(minecraftVersion)) {
-    throw new Error("Seleciona uma versão de Minecraft suportada.");
-  }
+  if (!(await isMinecraftVersionAvailable(minecraftVersion))) {
+  throw new Error(
+    "A versão selecionada não existe no catálogo oficial do Minecraft."
+  );
+}
 
   if (!MODRINTH_LOADERS.includes(loader)) {
     throw new Error("Seleciona um mod loader compatível.");
@@ -1025,11 +1241,11 @@ async function installModrinthModpack(input) {
     const dependencies = manifest.dependencies;
     const minecraftVersion = String(dependencies.minecraft || "");
 
-    if (!SUPPORTED_VERSIONS.includes(minecraftVersion)) {
-      throw new Error(
-        `Este modpack exige Minecraft ${minecraftVersion || "desconhecido"}, que ainda não é suportado pelo CobbleLauncher.`
-      );
-    }
+    if (!(await isMinecraftVersionAvailable(minecraftVersion))) {
+  throw new Error(
+    `Este modpack exige Minecraft ${minecraftVersion || "desconhecido"}, que não foi encontrado no catálogo oficial.`
+  );
+}
 
     const loaderDependencies = [
       ["fabric-loader", "fabric"],
@@ -1395,9 +1611,13 @@ ipcMain.handle("remove-installed-mod", (_event, input) => {
   return { success: true };
 });
 
-ipcMain.handle("save-profile", (_event, input) => {
+ipcMain.handle("get-minecraft-versions", async () => {
+  return await getMinecraftVersions();
+});
+
+ipcMain.handle("save-profile", async (_event, input) => {
   const settings = loadSettings();
-  const profile = normalizeProfile(input, settings.profiles);
+  const profile = await normalizeProfile(input, settings.profiles);
 
   const index = settings.profiles.findIndex(
     (item) => item.id === profile.id
@@ -1419,22 +1639,24 @@ ipcMain.handle("save-skin", async (_event, input) => {
     throw new Error("Dados da skin inválidos.");
   }
 
-  const { name, data } = input;
-
-  if (
-    typeof name !== "string" ||
-    !/^[\w -]+\.png$/i.test(name) ||
-    typeof data !== "string" ||
-    !data.startsWith("data:image/png;base64,")
-  ) {
-    throw new Error("Arquivo de skin inválido.");
-  }
+  const { name, data, model = "steve" } = input;
+  
+if (
+  typeof name !== "string" ||
+  !/^[\w -]+\.png$/i.test(name) ||
+  typeof data !== "string" ||
+  !data.startsWith("data:image/png;base64,") ||
+  typeof model !== "string" ||
+  !["steve", "alex"].includes(model)
+) {
+  throw new Error("Arquivo de skin inválido.");
+}
 
   const base64 = data.slice("data:image/png;base64,".length);
 
   if (
     !base64 ||
-    !/^[A-Za-z0-9+/]*={0,2}$/.test(base64) ||
+    !/^[A-Za-z0-9+/]+={0,2}$/.test(base64) ||
     base64.length % 4 !== 0
   ) {
     throw new Error("Conteúdo PNG inválido.");
@@ -1462,13 +1684,102 @@ ipcMain.handle("save-skin", async (_event, input) => {
   return { success: true, name };
 });
 
+
+ipcMain.handle("rename-skin", async (_event, input) => {
+  if (!input || typeof input !== "object") {
+    throw new Error("Dados para renomear a skin inválidos.");
+  }
+
+  const { oldName, newName } = input;
+
+  const validName = (name) =>
+    typeof name === "string" &&
+    /^[\w -]+\.png$/i.test(name) &&
+    name.length <= 100;
+
+  if (!validName(oldName) || !validName(newName)) {
+    throw new Error("Nome da skin inválido.");
+  }
+
+  if (oldName === newName) {
+    return { success: true, name: newName };
+  }
+
+  const skinsDirectory = path.join(app.getPath("userData"), "skins");
+  const metadataPath = path.join(skinsDirectory, "skins.json");
+  const oldPath = path.join(skinsDirectory, oldName);
+  const newPath = path.join(skinsDirectory, newName);
+
+  try {
+    await fs.promises.access(oldPath);
+  } catch {
+    throw new Error("A skin original não foi encontrada.");
+  }
+
+  try {
+    await fs.promises.access(newPath);
+    throw new Error("Já existe uma skin com esse nome.");
+  } catch (error) {
+    if (error.code !== "ENOENT") {
+      throw error;
+    }
+  }
+
+  let metadata = {};
+
+  try {
+    const content = await fs.promises.readFile(metadataPath, "utf8");
+    metadata = JSON.parse(content);
+  } catch (error) {
+    if (error.code !== "ENOENT") {
+      throw new Error("Não foi possível ler os dados das skins.");
+    }
+  }
+
+  await fs.promises.rename(oldPath, newPath);
+
+  try {
+    if (Object.hasOwn(metadata, oldName)) {
+      metadata[newName] = metadata[oldName];
+      delete metadata[oldName];
+
+      await fs.promises.writeFile(
+        metadataPath,
+        JSON.stringify(metadata, null, 2),
+        "utf8"
+      );
+    }
+  } catch (error) {
+    await fs.promises.rename(newPath, oldPath).catch(() => {});
+    throw new Error("Não foi possível atualizar os dados da skin.");
+  }
+
+  return { success: true, name: newName };
+});
+
+
 ipcMain.handle("get-saved-skins", async () => {
   const skinsDirectory = path.join(app.getPath("userData"), "skins");
+  const metadataPath = path.join(skinsDirectory, "skins.json");
 
   await fs.promises.mkdir(skinsDirectory, { recursive: true });
 
-  const files = await fs.promises.readdir(skinsDirectory);
+  let metadata = {};
 
+  try {
+    const content = await fs.promises.readFile(metadataPath, "utf8");
+    const parsed = JSON.parse(content);
+
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      metadata = parsed;
+    }
+  } catch (error) {
+    if (error.code !== "ENOENT" && !(error instanceof SyntaxError)) {
+      console.error("Erro ao ler os metadados das skins:", error.message);
+    }
+  }
+
+  const files = await fs.promises.readdir(skinsDirectory);
   const skins = [];
 
   for (const name of files) {
@@ -1492,9 +1803,14 @@ ipcMain.handle("get-saved-skins", async () => {
         continue;
       }
 
+      const savedModel = metadata[name]?.model;
+
       skins.push({
         name,
-        data: `data:image/png;base64,${buffer.toString("base64")}`
+        data: `data:image/png;base64,${buffer.toString("base64")}`,
+        model: ["steve", "alex"].includes(savedModel)
+          ? savedModel
+          : "steve"
       });
     } catch (error) {
       console.error(`Erro ao ler a skin ${name}:`, error.message);
@@ -1504,18 +1820,165 @@ ipcMain.handle("get-saved-skins", async () => {
   return skins;
 });
 
-ipcMain.handle("delete-profile", (_event, id) => {
-  const settings = loadSettings();
+ipcMain.handle("set-skin-model", async (_event, input) => {
+  if (!input || typeof input !== "object") {
+    throw new Error("Dados do modelo inválidos.");
+  }
 
-  const remaining = settings.profiles.filter(
-    (profile) => profile.id !== id
+  const { name, model } = input;
+
+  if (
+    typeof name !== "string" ||
+    !/^[\w -]+\.png$/i.test(name) ||
+    typeof model !== "string" ||
+    !["steve", "alex"].includes(model)
+  ) {
+    throw new Error("Nome da skin ou modelo inválido.");
+  }
+
+  const skinsDirectory = path.join(app.getPath("userData"), "skins");
+  const metadataPath = path.join(skinsDirectory, "skins.json");
+  const skinPath = path.join(skinsDirectory, name);
+
+  await fs.promises.mkdir(skinsDirectory, { recursive: true });
+
+  try {
+    await fs.promises.access(skinPath);
+  } catch {
+    throw new Error("A skin selecionada não existe.");
+  }
+
+  let metadata = {};
+
+  try {
+    const content = await fs.promises.readFile(metadataPath, "utf8");
+    const parsed = JSON.parse(content);
+
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
+      metadata = parsed;
+    }
+  } catch (error) {
+    if (error.code !== "ENOENT" && !(error instanceof SyntaxError)) {
+      throw error;
+    }
+  }
+
+  metadata[name] = { model };
+
+  await fs.promises.writeFile(
+    metadataPath,
+    JSON.stringify(metadata, null, 2),
+    "utf8"
   );
 
-  if (remaining.length === settings.profiles.length) {
+  return { success: true, name, model };
+});
+
+ipcMain.handle("delete-skin", async (_event, name) => {
+  if (
+  typeof name !== "string" ||
+  !/^[\w -]+\.png$/i.test(name)
+) {
+    throw new Error("Nome da skin inválido.");
+  }
+
+  const skinsDirectory = path.join(app.getPath("userData"), "skins");
+  const metadataPath = path.join(skinsDirectory, "skins.json");
+  const skinPath = path.join(skinsDirectory, name);
+
+  try {
+    await fs.promises.unlink(skinPath);
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      throw new Error("A skin não foi encontrada.");
+    }
+
+    throw error;
+  }
+
+  try {
+    const content = await fs.promises.readFile(metadataPath, "utf8");
+    const metadata = JSON.parse(content);
+
+    if (
+      metadata &&
+      typeof metadata === "object" &&
+      !Array.isArray(metadata) &&
+      Object.hasOwn(metadata, name)
+    ) {
+      delete metadata[name];
+
+      await fs.promises.writeFile(
+        metadataPath,
+        JSON.stringify(metadata, null, 2),
+        "utf8"
+      );
+    }
+  } catch (error) {
+    console.error("Erro ao atualizar os metadados das skins:", error.message);
+  }
+
+  return { success: true, name };
+});
+
+ipcMain.handle("delete-profile", async (_event, id) => {
+  const settings = loadSettings();
+
+  const profile = settings.profiles.find(
+    (item) => item.id === id
+  );
+
+  if (!profile) {
     throw new Error("Perfil não encontrado.");
   }
 
+  if (!profile.slug) {
+    throw new Error("A instalação não possui uma pasta identificada.");
+  }
+
+  const gameRoot = path.resolve(
+    app.getPath("appData"),
+    ".cobblelauncher"
+  );
+
+  const folderName = String(profile.slug)
+    .replace(/[^a-z0-9_-]/gi, "_")
+    .toLowerCase();
+
+  const profileFolder = path.resolve(gameRoot, folderName);
+
+  if (path.dirname(profileFolder) !== gameRoot) {
+    throw new Error("Caminho da instalação inválido.");
+  }
+
+  await fs.promises.rm(profileFolder, {
+    recursive: true,
+    force: true
+  });
+
+  const remaining = settings.profiles.filter(
+    (item) => item.id !== id
+  );
+
   saveSettings({ profiles: remaining });
+
+  return { success: true };
+});
+
+ipcMain.handle("open-game-folder", async () => {
+  const gameFolder = path.join(
+    app.getPath("appData"),
+    ".cobblelauncher"
+  );
+
+  await fs.promises.mkdir(gameFolder, { recursive: true });
+
+  const error = await shell.openPath(gameFolder);
+
+  if (error) {
+    throw new Error(`Não foi possível abrir a pasta: ${error}`);
+  }
+
   return { success: true };
 });
 
@@ -1559,9 +2022,9 @@ ipcMain.handle("install-and-launch", async (_event, selection) => {
   let profile;
 
   if (typeof selection === "string") {
-    if (!SUPPORTED_VERSIONS.includes(selection)) {
-      throw new Error("A versão selecionada não é válida.");
-    }
+    if (!(await isMinecraftVersionAvailable(selection))) {
+  throw new Error("A versão selecionada não é válida.");
+}
 
     profile = {
       id: `legacy-${selection}`,
@@ -1584,9 +2047,9 @@ ipcMain.handle("install-and-launch", async (_event, selection) => {
     }
   }
 
-  if (!SUPPORTED_VERSIONS.includes(profile.minecraftVersion)) {
-    throw new Error("A versão deste perfil não é suportada.");
-  }
+  if (!(await isMinecraftVersionAvailable(profile.minecraftVersion))) {
+  throw new Error("A versão deste perfil não existe no catálogo oficial.");
+}
 
   if (!LOADERS.includes(profile.loader)) {
     throw new Error("O loader deste perfil não é válido.");
@@ -1620,7 +2083,7 @@ ipcMain.handle("install-and-launch", async (_event, selection) => {
   const downloadTracker = createDownloadTracker();
 
   try {
-    sendProgress("preparing", `Preparando ${profile.name}...`);
+    sendProgress("preparing", "preparing");
 
     const loaderConfig = profile.loader === "vanilla"
       ? { loader: "vanilla" }
@@ -1689,9 +2152,8 @@ ipcMain.handle("install-and-launch", async (_event, selection) => {
       sendProgress(
         "downloading",
         downloadTracker.totalFiles > 0
-          ? `Preparando download: ${downloadTracker.totalFiles} arquivos...`
-          : "Preparando o download do Minecraft...",
-        progress
+  ? `preparing-download:${downloadTracker.totalFiles}`
+  : "preparing-download",
       );
     });
 
@@ -1707,9 +2169,12 @@ ipcMain.handle("install-and-launch", async (_event, selection) => {
 
       sendProgress(
         "downloading",
-        `Baixando arquivos: ${progress.percent}% (${progress.downloadedText} de ${progress.totalText})${speedText}`,
-        progress
-      );
+        "download-progress",
+  {
+    ...progress,
+    speedText
+  }
+);
     });
 
     // Cada download_end marca o fim de um grupo.

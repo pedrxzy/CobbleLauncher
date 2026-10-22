@@ -16,20 +16,56 @@
       </div>
     </div>
 
-    <p class="label">MENU PRINCIPAL</p>
+ <p class="label" data-i18n="mainMenuLabel">MENU PRINCIPAL</p>   
 
-    <button class="nav active" data-page="home">⌂ &nbsp; Início</button>
-    <button class="nav" data-page="versions">▦ &nbsp; Versões</button>   
-    <button class="nav" data-page="mods">⬡ &nbsp; Mods e modpacks</button>
-    <button class="nav" data-page="skins">◈ &nbsp; Skins</button>
-    <button class="nav" data-page="settings">⚙ &nbsp; Configurações</button>
+    
+<button class="nav active" data-page="home">
+  <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>
+  </svg>
+  <span data-i18n="navHome">Início</span>
+</button>
 
-    <div class="bottom">● &nbsp; Launcher em desenvolvimento</div>
+<button class="nav" data-page="versions">
+  <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <rect x="3" y="3" width="7" height="7" rx="1"/>
+    <rect x="14" y="3" width="7" height="7" rx="1"/>
+    <rect x="3" y="14" width="7" height="7" rx="1"/>
+    <rect x="14" y="14" width="7" height="7" rx="1"/>
+  </svg>
+  <span data-i18n="navVersions">Versões</span>
+</button>
+
+<button class="nav" data-page="mods">
+  <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/>
+    <path d="m4.5 7.8 7.5 4.4 7.5-4.4M12 12.2V21"/>
+  </svg>
+  <span data-i18n="navMods">Mods</span>
+</button>
+
+<button class="nav" data-page="skins">
+  <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <circle cx="12" cy="8" r="4"/>
+    <path d="M4 21a8 8 0 0 1 16 0"/>
+  </svg>
+  <span data-i18n="navSkins">Skins</span>
+</button>
+
+<button class="nav" data-page="settings">
+<svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M9.5 2.5h5l.6 2.3a7.8 7.8 0 0 1 1.5.9l2.3-.8 2.5 4.3-1.7 1.7a7.8 7.8 0 0 1 0 1.8l1.7 1.7-2.5 4.3-2.3-.8a7.8 7.8 0 0 1-1.5.9l-.6 2.3h-5l-.6-2.3a7.8 7.8 0 0 1-1.5-.9l-2.3.8-2.5-4.3 1.7-1.7a7.8 7.8 0 0 1 0-1.8L2 9.2l2.5-4.3 2.3.8a7.8 7.8 0 0 1 1.5-.9z" transform="translate(1 1) scale(.92)"/>
+  <circle cx="12" cy="12" r="3.2"/>
+</svg>
+  <span data-i18n="navSettings">Configurações</span>
+</button>
+
+    <div class="bottom">● &nbsp; <span data-i18n="developmentStatus">Launcher em desenvolvimento</span></div>
   </aside>
 
   <main>
     <header>
-      <span>SEU MINECRAFT, DO SEU JEITO</span>
+      <span data-i18n="headerTagline">SEU MINECRAFT, DO SEU JEITO</span>
 
       <div class="account-area">
         <button class="account" id="account-button">
@@ -58,35 +94,40 @@
       <section class="page active" id="page-home">
         <section class="hero">
           <div class="content">
-            <span class="tag">MINECRAFT JAVA EDITION</span>
-            <h1>Seu mundo.<br>Suas regras.</h1>
-            <p>Prepara sua próxima aventura.</p>
+            <span class="tag" data-i18n="homeEdition">MINECRAFT JAVA EDITION</span>
+            <h1>
+  <span data-i18n="homeTitleLine1">Seu mundo.</span><br>
+  <span data-i18n="homeTitleLine2">Suas regras.</span>
+</h1>
+            <p data-i18n="homeDescription">Prepare sua próxima aventura.</p>
 
-            <label for="home-profile">INSTALAÇÃO</label>
+            <label for="home-profile" data-i18n="homeInstallation">INSTALAÇÃO</label>
             <select id="home-profile">
-              <option value="">Carregando instalações...</option>
+              <option value="" data-i18n="loadingInstallations">Carregando instalações...</option>
             </select>
 
-            <button id="play">▶ &nbsp; JOGAR</button>
-            <p id="status">O CobbleLauncher está pronto para começar.</p>
+            <button id="play"><span data-i18n="playButton">▶ JOGAR</span></button>
+            <p id="status" data-i18n="launcherReady">O CobbleLauncher está pronto para começar.</p>
 <div id="launch-progress" class="launch-progress" hidden
   role="status" aria-live="polite">
   <div class="progress-info">
-    <span id="progress-label">Preparando Minecraft...</span>
+    <span id="progress-label" data-i18n="preparingMinecraft">Preparando Minecraft...</span>
     <span id="progress-percent"></span>
   </div>
 
   <div
-    id="progress-track"
-    class="progress-track"
-    role="progressbar"
-    aria-label="Progresso da inicialização"
-    aria-valuemin="0"
-    aria-valuemax="100"
-    aria-valuetext="Preparando Minecraft"
-  >
-    <div id="progress-fill" class="progress-fill"></div>
-  </div>
+  id="progress-track"
+  class="progress-track"
+  role="progressbar"
+  aria-label="Progresso da inicialização"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  aria-valuetext="Preparando Minecraft"
+  data-i18n-aria-label="launchProgressLabel"
+  data-i18n-aria-valuetext="preparingMinecraft"
+>
+  <div id="progress-fill" class="progress-fill"></div>
+</div>
 </div>
           </div>
 
@@ -96,167 +137,192 @@
           </div>
         </section>
 
-        <section class="section">
-          <span class="label">SEU AMBIENTE</span>
-          <h2>Central de controle</h2>
+       
 
-          <div class="cards">
-            <article>
-              <h3>▦ Versões</h3>
-              <p>Cria instalações independentes do Minecraft.</p>
-              <button class="secondary-button" data-goto="versions">Gerenciar versões</button>
-            </article>
+<section class="section">
+  <span class="label" data-i18n="environmentLabel">SEU AMBIENTE</span>
+  <h2 data-i18n="environmentTitle">Central de controle</h2>
 
-            <article>
-              <h3>⬡ Mods e modpacks</h3>
-              <p>Organiza os mods de cada instalação.</p>
-              <button class="secondary-button" data-goto="mods">Ver mods</button>
-            </article>
+  <div class="cards">
+    <article>
+      <h3>
+        <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+        <span data-i18n="homeVersionsTitle">Versões</span>
+      </h3>
+      <p data-i18n="homeVersionsDescription">Crie instalações independentes do Minecraft.</p>
+      <button class="secondary-button" data-goto="versions" data-i18n="homeManageVersions">Gerenciar versões</button>
+    </article>
 
-            <article>
-              <h3>⚙ Configurações</h3>
-              <p>Personaliza a memória e o Java.</p>
-              <button class="secondary-button" data-goto="settings">Configurar</button>
-            </article>
-          </div>
-        </section>
-      </section>
+    <article>
+      <h3>
+        <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z"/>
+          <path d="m4.5 7.8 7.5 4.4 7.5-4.4M12 12.2V21"/>
+        </svg>
+        <span data-i18n="homeModsTitle">Mods e modpacks</span>
+      </h3>
+      <p data-i18n="homeModsDescription">Organize os mods de cada instalação.</p>
+      <button class="secondary-button" data-goto="mods" data-i18n="homeViewMods">Ver mods</button>
+    </article>
 
-      <!-- VERSÕES -->
-      <section class="page" id="page-versions" hidden>
-        <div class="page-heading">
-          <span class="tag">INSTALAÇÕES</span>
-          <h1>Suas versões</h1>
-          <p>Cada perfil tem sua própria pasta e configuração.</p>
-        </div>
-
-        <section class="panel">
-          <h2>Criar instalação</h2>
-
-          <form id="profile-form">
-            <input type="hidden" id="profile-id">
-
-            <label for="profile-name">Nome da instalação</label>
-            <input id="profile-name" type="text"
-              placeholder="Ex.: Meu Minecraft com mods"
-              maxlength="60" required>
-
-            <label for="profile-version">Versão do Minecraft</label>
-            <select id="profile-version" required>
-              <option value="1.21.1">Minecraft 1.21.1</option>
-              <option value="1.20.1">Minecraft 1.20.1</option>
-            </select>
-
-            <label for="profile-loader">Mod loader</label>
-            <select id="profile-loader">
-              <option value="vanilla">Vanilla (sem mods)</option>
-              <option value="fabric">Fabric</option>
-              <option value="forge">Forge</option>
-              <option value="neoforge">NeoForge</option>
-              <option value="quilt">Quilt</option>
-            </select>
-
-            <div id="loader-version-group" hidden>
-  <label for="profile-loader-version">Versão do loader</label>
-  <select id="profile-loader-version" required>
-    <option value="">Carregando versões...</option>
-  </select>
-  <p class="hint">Seleciona uma versão compatível com o Minecraft escolhido.</p>
-</div>
-
-            <div class="form-actions">
-              <button type="submit" id="save-profile">Criar instalação</button>
-              <button type="button" id="cancel-profile" class="secondary-button" hidden>Cancelar edição</button>
-            </div>
-          </form>
-        </section>
-
-        <section class="section">
-          <h2>Instalações existentes</h2>
-          <div id="profiles-list" class="profile-list">
-            <p class="hint">Carregando instalações...</p>
-          </div>
-        </section>
-      </section>
-
-      <!-- MODS -->
-      <section class="page" id="page-mods" hidden>
-        <div class="page-heading">
-          <span class="tag">MODRINTH</span>
-          <h1>Mods e modpacks</h1>
-          <p>Encontra mods compatíveis com as tuas instalações.</p>
-        </div>
-
-        <section class="panel">
-          <h2>Instalação selecionada</h2>
-
-          <label for="mods-profile">Minecraft</label>
-          <select id="mods-profile">
-            <option value="">Nenhuma instalação disponível</option>
-          </select>
-
-          <div id="mods-info" class="info-box">
-            Seleciona uma instalação com Fabric, Forge, NeoForge ou Quilt para pesquisar mods.
-          </div>
-        </section>
-
-      
-<section class="panel">
-  <h2>Explorar conteúdo</h2>
-
-  <div class="mods-categories" id="mods-categories">
-    <button class="mods-category active" data-category="mod" type="button">Mods</button>
-    <button class="mods-category" data-category="resourcepack" type="button">Resource packs</button>
-    <button class="mods-category" data-category="datapack" type="button">Data packs</button>
-    <button class="mods-category" data-category="modpack" type="button">Modpacks</button>
-    <button class="mods-category" data-category="shader" type="button">Shaders</button>
+    <article>
+      <h3>
+        <svg class="control-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9.5 2.5h5l.6 2.3a7.8 7.8 0 0 1 1.5.9l2.3-.8 2.5 4.3-1.7 1.7a7.8 7.8 0 0 1 0 1.8l1.7 1.7-2.5 4.3-2.3-.8a7.8 7.8 0 0 1-1.5.9l-.6 2.3h-5l-.6-2.3a7.8 7.8 0 0 1-1.5-.9l-2.3.8-2.5-4.3 1.7-1.7a7.8 7.8 0 0 1 0-1.8L2 9.2l2.5-4.3 2.3.8a7.8 7.8 0 0 1 1.5-.9z"/>
+          <circle cx="12" cy="12" r="3.2"/>
+        </svg>
+        <span data-i18n="homeSettingsTitle">Configurações</span>
+      </h3>
+      <p data-i18n="homeSettingsDescription">Personalize a memória e o Java.</p>
+      <button class="secondary-button" data-goto="settings" data-i18n="homeConfigure">Configurar</button>
+    </article>
   </div>
-
-  <div class="mods-search-box">
-    <label for="mods-search-query">Pesquisar</label>
-    <input
-      id="mods-search-query"
-      type="search"
-      placeholder="Buscar conteúdo..."
-      maxlength="100"
-      autocomplete="off"
-    >
-  </div>
-
-  <p class="hint">
-    Os resultados respeitam a versão do Minecraft selecionada sempre que aplicável.
-  </p>
-
-  <div id="mods-search-status" class="hint" role="status" aria-live="polite"></div>
-
-  <div id="mods-results" class="mods-results">
-    <p class="hint">Escolhe uma categoria e pesquisa o que procuras.</p>
-  </div>
-
-  <nav id="mods-pagination" class="mods-pagination"
-    aria-label="Páginas dos resultados" hidden>
-    
-   </nav>
 </section>
+</section>
+      
+<!-- VERSÕES -->
+<section class="page" id="page-versions" hidden>
+  <div class="page-heading">
+    <span class="tag" data-i18n="installationsLabel">INSTALAÇÕES</span>
+    <h1 data-i18n="versionsHeading">Suas versões</h1>
+    <p data-i18n="versionsDescription">Cada perfil tem sua própria pasta e configuração.</p>
+  </div>
+
+  <section class="panel">
+    <h2 data-i18n="createInstallation">Criar instalação</h2>
+
+    <form id="profile-form">
+      <input type="hidden" id="profile-id">
+
+      <label for="profile-name" data-i18n="installationName">Nome da instalação</label>
+      <input id="profile-name" type="text"
+        placeholder="Ex.: Meu Minecraft com mods"
+        data-i18n-placeholder="installationNamePlaceholder"
+        maxlength="60" required>
+
+      <label for="profile-version" data-i18n="minecraftVersion">Versão do Minecraft</label>
+      <select id="profile-version" required>
+        <option value="1.21.1">Minecraft 1.21.1</option>
+        <option value="1.20.1">Minecraft 1.20.1</option>
+      </select>
+
+      <label for="profile-loader" data-i18n="modLoader">Mod loader</label>
+      <select id="profile-loader">
+        <option value="vanilla" data-i18n="vanillaNoMods">Vanilla (sem mods)</option>
+        <option value="fabric">Fabric</option>
+        <option value="forge">Forge</option>
+        <option value="neoforge">NeoForge</option>
+        <option value="quilt">Quilt</option>
+      </select>
+
+      <div id="loader-version-group" hidden>
+        <label for="profile-loader-version" data-i18n="loaderVersion">Versão do loader</label>
+        <select id="profile-loader-version" required>
+          <option value="" data-i18n="loadingVersions">Carregando versões...</option>
+        </select>
+        <p class="hint" data-i18n="compatibleLoaderHint">Seleciona uma versão compatível com o Minecraft escolhido.</p>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" id="save-profile" data-i18n="createInstallation">Criar instalação</button>
+        <button type="button" id="cancel-profile" class="secondary-button" data-i18n="cancelEdit" hidden>Cancelar edição</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="section">
+    <h2 data-i18n="existingInstallations">Instalações existentes</h2>
+    <div id="profiles-list" class="profile-list">
+      <p class="hint" data-i18n="loadingInstallations">Carregando instalações...</p>
+    </div>
+  </section>
+</section>
+
+<!-- MODS -->
+<section class="page" id="page-mods" hidden>
+  <div class="page-heading">
+    <span class="tag">MODRINTH</span>
+    <h1 data-i18n="navMods">Mods</h1>
+    <p data-i18n="modsPageDescription">Encontre mods compatíveis com suas instalações.</p>
+  </div>
+
+  <section class="panel">
+    <h2 data-i18n="modsSelectedInstallation">Instalação selecionada</h2>
+
+    <label for="mods-profile" data-i18n="minecraftVersion">Minecraft</label>
+    <select id="mods-profile">
+      <option value="" data-i18n="noInstallation">Nenhuma instalação disponível</option>
+    </select>
+
+    <div id="mods-info" class="info-box" data-i18n="modsSelectLoaderHint">
+      Selecione uma instalação com Fabric, Forge, NeoForge ou Quilt para pesquisar mods.
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 data-i18n="modsExploreContent">Explorar conteúdo</h2>
+
+    <div class="mods-categories" id="mods-categories">
+      <button class="mods-category active" data-category="mod" type="button" data-i18n="modsCategoryMods">Mods</button>
+      <button class="mods-category" data-category="resourcepack" type="button" data-i18n="modsCategoryResourcePacks">Pacotes de recursos</button>
+      <button class="mods-category" data-category="datapack" type="button" data-i18n="modsCategoryDataPacks">Pacotes de dados</button>
+      <button class="mods-category" data-category="modpack" type="button" data-i18n="modsCategoryModpacks">Modpacks</button>
+      <button class="mods-category" data-category="shader" type="button" data-i18n="modsCategoryShaders">Shaders</button>
+    </div>
+
+    <div class="mods-search-box">
+      <label for="mods-search-query" data-i18n="modsSearchLabel">Pesquisar</label>
+      <input
+        id="mods-search-query"
+        type="search"
+        data-i18n-placeholder="modsSearchPlaceholder"
+        placeholder="Buscar conteúdo..."
+        maxlength="100"
+        autocomplete="off"
+      >
+    </div>
+
+    <p class="hint" data-i18n="modsSearchHint">
+      Os resultados respeitam a versão do Minecraft selecionada sempre que aplicável.
+    </p>
+
+    <div id="mods-search-status" class="hint" role="status" aria-live="polite"></div>
+
+    <div id="mods-results" class="mods-results">
+      <p class="hint" data-i18n="modsSearchInitialMessage">Escolha uma categoria e pesquise o que procura.</p>
+    </div>
+
+    <nav
+      id="mods-pagination"
+      class="mods-pagination"
+      aria-label="Páginas dos resultados"
+      hidden
+    ></nav>
+  </section>
 </section>
 
 <!-- SKINS -->
 <section class="page" id="page-skins" hidden>
   <div class="page-heading">
-    <span class="tag">PERSONALIZAÇÃO</span>
-    <h1>Skins</h1>
-    <p>Personalize a aparência do seu personagem no Minecraft.</p>
-  </div>
+  <span class="tag" data-i18n="customization">PERSONALIZAÇÃO</span>
+  <h1>Skins</h1>
+  <p data-i18n="skinsDescription">Personalize a aparência do seu personagem no Minecraft.</p>
+</div>
 
 <section class="panel">
   <div class="section-heading">
     <div>
-      <h2>Skins padrão</h2>
-      <p class="hint">Escolha uma aparência clássica do Minecraft.</p>
+      <h2 data-i18n="defaultSkins">Skins padrão</h2>
+<p class="hint" data-i18n="defaultSkinsDescription">Escolha uma aparência clássica do Minecraft.</p>
     </div>
 
     <button class="secondary-button" id="importSkinButton">
-      Adicionar arquivo
+      <span data-i18n="importSkin">Adicionar arquivo</span>
     </button>
   </div>
 
@@ -267,104 +333,208 @@
     hidden
   />
 
-  <div class="skin-grid">
-    <article class="skin-card">
-      <div class="skin-preview" id="stevePreview">
-        <img src="https://minecraft.wiki/images/Steve.png" alt="Skin do Steve" />
-      </div>
-      <h3>Steve</h3>
-      <p class="hint">Modelo clássico</p>
-      <button class="secondary-button skin-select" data-skin="steve">
-        Selecionar
-      </button>
-    </article>
+  
+<div class="skin-grid">
+  <article class="skin-card">
+    <div class="skin-preview" id="stevePreview">
+      <img
+  class="skin-portrait"
+  id="stevePortrait"
+  alt="Skin padrão do Steve"
+  data-i18n-alt="steveSkinAlt"
+/>
+    </div>
+    <h3>Steve</h3>
+    <p class="hint" data-i18n="steveModelDescription">Modelo clássico</p>
+    <button class="secondary-button skin-select" data-skin="steve">
+      <span data-i18n="select">Selecionar</span>
+    </button>
+  </article>
 
-    <article class="skin-card">
-      <div class="skin-preview" id="alexPreview">
-        <img src="https://minecraft.wiki/images/Alex.png" alt="Skin da Alex" />
-      </div>
-      <h3>Alex</h3>
-      <p class="hint">Modelo de braços finos</p>
-      <button class="secondary-button skin-select" data-skin="alex">
-        Selecionar
-      </button>
-    </article>
-  </div>
+  <article class="skin-card">
+    <div class="skin-preview" id="alexPreview">
+      <img
+  class="skin-portrait"
+  id="alexPortrait"
+  alt="Skin padrão da Alex"
+  data-i18n-alt="alexSkinAlt"
+/>
+    </div>
+    <h3>Alex</h3>
+    <p class="hint" data-i18n="alexModelDescription">Modelo de braços finos</p>
+    <button class="secondary-button skin-select" data-skin="alex">
+      <span data-i18n="select">Selecionar</span>
+    </button>
+  </article>
+</div>
+
 
   <p class="hint" id="skinStatus">
     Escolha uma skin ou importe um arquivo PNG.
   </p>
 </section>
 
+
+<div class="skin-name-modal" id="skinNameModal" hidden>
+  <div class="skin-name-dialog">
+    <h3>Nome da skin</h3>
+    <p>Escolha um nome para identificar sua skin.</p>
+
+    <input
+      type="text"
+      id="skinNameInput"
+      maxlength="40"
+      placeholder="Ex.: Minha skin"
+      autocomplete="off"
+    />
+
+    <div class="skin-name-actions">
+      <button
+        type="button"
+        class="secondary-button"
+        id="cancelSkinNameButton"
+      >
+        <span data-i18n="cancel">Cancelar</span>
+      </button>
+
+      <button
+        type="button"
+        class="primary-button"
+        id="confirmSkinNameButton"
+      >
+        <span data-i18n="importSkin">Importar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <section class="panel">
   <div class="section-heading">
     <div>
-      <h2>Minhas skins</h2>
-      <p class="hint">Skins importadas do seu computador.</p>
+      <h2 data-i18n="mySkins">Minhas skins</h2>
+<p class="hint" data-i18n="mySkinsDescription">Skins importadas do seu computador.</p>
     </div>
   </div>
 
   <div class="skin-grid" id="importedSkinsGrid">
-    <p class="hint" id="emptySkinsMessage">
-      Você ainda não importou nenhuma skin.
-    </p>
+    <p class="hint" id="emptySkinsMessage" data-i18n="emptySkinsMessage">
+  Você ainda não importou nenhuma skin.
+</p>
   </div>
+  <button
+  class="primary-button"
+  id="updateAccountSkinButton"
+  data-i18n="updateAccountSkin"
+>
+  Atualizar skin no Minecraft
+</button>
+
+<p class="hint" id="accountSkinUpdateStatus" data-i18n="accountSkinUpdateHint">
+  Selecione uma skin importada para enviá-la à sua conta Minecraft.
+</p>
+
 </section>
 
-  <section class="panel">
-    <h2>Capas</h2>
-    <p class="hint">
-      As capas disponíveis na sua conta Microsoft aparecerão aqui quando conectada.
-    </p>
-  </section>
+<section class="panel">
+  <h2 data-i18n="capesTitle">Capas</h2>
+
+  <p class="hint" id="capeStatus" data-i18n="capeLoginHint">
+  Entre na sua conta Microsoft para consultar suas capas.
+</p>
+
+  <div class="cape-toolbar">
+    <button
+  type="button"
+  class="secondary-button"
+  id="refreshCapesButton"
+  data-i18n="refreshCapes"
+>
+  Atualizar capas
+</button>
+  </div>
+
+  <div id="capeGrid" class="skin-grid"></div>
+
+  <div class="cape-footer">
+    <button
+  type="button"
+  class="cape-hide-button"
+  id="hideCapeButton"
+  data-i18n="hideCape"
+>
+  Ocultar capa
+</button>
+  </div>
+</section>
 </section>
 
 <!-- CONFIGURAÇÕES -->
 <section class="page" id="page-settings" hidden>
-        <div class="page-heading">
-          <span class="tag">PERSONALIZAÇÃO</span>
-          <h1>Configurações</h1>
-          <p>Ajusta o ambiente do Minecraft para o teu computador.</p>
-        </div>
+  <div class="page-heading">
+    <span class="tag" data-i18n="customization">PERSONALIZAÇÃO</span>
+    <h1 data-i18n="settings">Configurações</h1>
+    <p data-i18n="settingsDescription">Ajuste o ambiente do Minecraft para o seu computador.</p>
+  </div>
 
-        <section class="panel">
-          <h2>Configurações da instalação</h2>
+  <section class="panel">
+    <h2 data-i18n="language">Idioma</h2>
+    <p data-i18n="languageDescription">Escolha o idioma da interface do CobbleLauncher.</p>
 
-          <label for="settings-profile">Instalação</label>
-          <select id="settings-profile">
-            <option value="">Nenhuma instalação disponível</option>
-          </select>
+    <label for="language-select" data-i18n="applicationLanguage">Idioma do aplicativo</label>   
+<select id="language-select">
+  <option value="system" data-i18n="systemDefault">Padrão do sistema</option>
+  <option value="pt-BR">Português (Brasil)</option>
+  <option value="en-US">English (United States)</option>
+  <option value="es-ES">Español (España)</option>
+</select>
 
-          <form id="settings-form">
-            <label for="max-ram">Memória RAM máxima (MB)</label>
-            <input id="max-ram" type="number" min="1024"
-              max="65536" step="512" value="4096" required>
-            <p class="hint">O mínimo será configurado automaticamente em 512 MB. Não reserves toda a RAM do computador para o jogo.</p>
+    <p class="hint" data-i18n="languageHint">As alterações serão aplicadas ao aplicativo inteiro.</p>
+  </section>
 
-            <label for="java-mode">Java</label>
-            <select id="java-mode">
-              <option value="auto">Detectar e instalar automaticamente</option>
-              <option value="manual">Escolher Java manualmente</option>
-            </select>
+  <section class="panel">
+    <h2 data-i18n="installationSettings">Configurações da instalação</h2>
 
-            <div id="java-path-group" hidden>
-              <label for="java-path">Caminho do executável Java</label>
-              <input id="java-path" type="text"
-                placeholder="Ex.: C:\Program Files\Java\bin\java.exe">
-              <button type="button" id="validate-java" class="secondary-button">Validar caminho</button>
-              <p id="java-status" class="hint"></p>
-            </div>
+    <label for="settings-profile" data-i18n="installation">Instalação</label>
+    <select id="settings-profile">
+      <option value="" data-i18n="noInstallation">Nenhuma instalação disponível</option>
+    </select>
 
-            <button type="submit" id="save-settings">Salvar configurações</button>
-          </form>
-        </section>
+    <form id="settings-form">
+      <label for="max-ram" data-i18n="maxRam">Memória RAM máxima (MB)</label>
+      <input id="max-ram" type="number" min="1024" max="65536" step="512" value="4096" required>
 
-        <section class="panel">
-          <h2>Pasta dos jogos</h2>
-          <p>As instalações serão armazenadas separadamente dentro da pasta de dados do CobbleLauncher no Windows.</p>
-          <p class="hint">A escolha de uma pasta personalizada será adicionada posteriormente.</p>
-        </section>
-      </section>
+      <p class="hint" data-i18n="maxRamHint">O mínimo será configurado automaticamente em 512 MB. Não reserve toda a RAM do computador para o jogo.</p>
+
+      <label for="java-mode">Java</label>
+      <select id="java-mode">
+        <option value="auto" data-i18n="javaAuto">Detectar e instalar automaticamente</option>
+        <option value="manual" data-i18n="javaManual">Escolher Java manualmente</option>
+      </select>
+
+      <div id="java-path-group" hidden>
+        <label for="java-path" data-i18n="javaPath">Caminho do executável Java</label>
+        <input id="java-path" type="text" placeholder="Ex.: C:\Program Files\Java\bin\java.exe">
+        <button type="button" id="validate-java" class="secondary-button" data-i18n="validateJava">Validar caminho</button>
+        <p id="java-status" class="hint"></p>
+      </div>
+
+      <button type="submit" id="save-settings" data-i18n="saveSettings">
+        Salvar configurações
+      </button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2 data-i18n="gameFolder">Pasta dos jogos</h2>
+    <p data-i18n="gameFolderDescription">As instalações do Minecraft e seus arquivos ficam na pasta de dados do CobbleLauncher.</p>
+
+    <button id="open-game-folder" class="secondary-button" type="button" data-i18n="openGameFolder">
+      Abrir pasta dos jogos
+    </button>
+
+    <p class="hint" data-i18n="gameFolderHint">Abre a pasta utilizada pelo CobbleLauncher no Windows.</p>
+  </section>
+</section>
 
     
     </div>
@@ -374,6 +544,27 @@
     </footer>
   </main>
 
+  <script src="node_modules/skinview3d/bundles/skinview3d.bundle.js"></script>
   <script src="renderer.js"></script>
+
+<div class="modal-overlay" id="deleteSkinModal" hidden>
+  <section class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="deleteSkinTitle">
+    <div class="confirm-modal-icon">!</div>
+
+    <h2 id="deleteSkinTitle" data-i18n="deleteSkinTitle">Excluir skin?</h2>
+
+    <p id="deleteSkinMessage">
+      Esta skin será removida permanentemente do CobbleLauncher.
+    </p>
+
+    <div class="confirm-modal-actions">
+      <button type="button" id="cancelDeleteSkin" data-i18n="cancel">Cancelar</button>
+      <button type="button" id="confirmDeleteSkin" class="button-danger">
+        <span data-i18n="deleteSkinButton">Excluir skin</span>
+      </button>
+    </div>
+  </section>
+</div>
+
 </body>
 </html>

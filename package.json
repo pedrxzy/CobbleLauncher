@@ -17,7 +17,9 @@
   },
   "dependencies": {
     "adm-zip": "^0.6.1",
-    "eml-lib": "^2.7.4"
+    "eml-lib": "^2.7.4",
+    "skinview3d": "^3.4.2",
+    "three": "^0.186.1"
   },
   "build": {
     "appId": "com.cobblelauncher.app",

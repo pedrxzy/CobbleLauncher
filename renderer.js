@@ -5,6 +5,821 @@
 // ==================================================
 
 const $ = (id) => document.getElementById(id);
+const translations = {
+  "pt-BR": {
+    settings: "Configurações",
+    customization: "PERSONALIZAÇÃO",
+    settingsDescription: "Ajuste o ambiente do Minecraft para o seu computador.",
+    language: "Idioma",
+    languageDescription: "Escolha o idioma da interface do CobbleLauncher.",
+    applicationLanguage: "Idioma do aplicativo",
+    languageHint: "As alterações serão aplicadas ao aplicativo inteiro.",
+    installationSettings: "Configurações da instalação",
+    installation: "Instalação",
+    noInstallation: "Nenhuma instalação disponível",
+    maxRam: "Memória RAM máxima (MB)",
+    java: "Java",
+    saveSettings: "Salvar configurações",
+    gameFolder: "Pasta dos jogos",
+    openGameFolder: "Abrir pasta dos jogos",
+    cancel: "Cancelar",
+    deleteSkin: "Excluir skin?",
+    maxRamHint: "O mínimo será configurado automaticamente em 512 MB. Não reserve toda a RAM do computador para o jogo.",
+    javaAuto: "Detectar e instalar automaticamente",
+    javaManual: "Escolher Java manualmente",
+    javaPath: "Caminho do executável Java",
+    validateJava: "Validar caminho",
+    saveSettingsHint: "Configurações salvas com sucesso.",
+    gameFolderDescription: "As instalações do Minecraft e seus arquivos ficam na pasta de dados do CobbleLauncher.",
+    gameFolderHint: "Abre a pasta utilizada pelo CobbleLauncher no Windows.",
+    javaValidationUnavailable: "Validação de Java indisponível.",
+    javaCheckingPath: "Verificando caminho...",
+    javaExecutableFound: "Executável Java encontrado.",
+    selectInstallationFirst: "Crie ou selecione uma instalação primeiro.",
+    ramRangeError: "A RAM máxima deve ficar entre 1024 e 65536 MB.",
+    validateJavaBeforeSaving: "Valide o caminho do Java antes de salvar.",
+    settingsSaved: "Configurações salvas para esta instalação.",
+    saveSettingsError: "Não foi possível salvar: ",
+    loginCommunicationError: "Erro: comunicação com o launcher indisponível.",
+    openingMicrosoftLogin: "Abrindo o login Microsoft...",
+    microsoftLogin: "Entrar com Microsoft",
+    accountConnected: "Conta conectada! Pode jogar.",
+    invalidMicrosoftAccount: "A conta Microsoft não retornou um nome válido.",
+    unexpectedError: "Ocorreu um erro inesperado.",
+    preparingMinecraft: "Preparando Minecraft...",
+    percentCompleted: "% concluído",
+    completed: "Concluído",
+    failed: "Falhou",
+    initializationCompleted: "Inicialização concluída",
+    launchError: "Erro ao iniciar o Minecraft",
+    checkingFiles: "Verificando os arquivos do Minecraft...",
+    preparingDownload: "Preparando o download do Minecraft...",
+    downloadsCompleted: "Downloads concluídos!",
+    checkingJava: "Verificando e preparando o Java...",
+    minecraftStarted: "Minecraft iniciado! Bom jogo!",
+    minecraftClosed: "O Minecraft foi fechado.",
+    minecraftClosedWithCode: "O Minecraft foi fechado com código",
+    minecraftCrashed: "O Minecraft fechou inesperadamente.",
+    preparingDownloadFiles: "Preparando download: {count} arquivos...",
+    downloadProgress: "Baixando arquivos: {percent}% ({downloaded} de {total}){speed}",
+    downloadGroupCompleted: "Grupo de downloads concluído: {percent}%",
+    createInstallationFirst:
+      "Crie uma instalação na tela Versões primeiro.",
+    launcherUnavailable:
+      "A função de inicialização não está disponível. Verifique o preload.js.",
+    signedOutMicrosoft: "Você saiu da conta Microsoft.",
+    signInMicrosoftToPlay: "Entre com sua conta Microsoft para jogar.",
+    checkingSavedAccount: "Verificando conta salva...",
+    signInMicrosoftFirst: "Entre com sua conta Microsoft primeiro.",  
+    edit: "Editar",
+    select: "Selecionar",
+    manageMods: "Gerenciar mods",
+    delete: "Excluir",
+    installationSelected: "Instalação selecionada: {name}",
+    createInstallation: "Criar instalação",
+    saveChanges: "Salvar alterações",
+    installationDeleted: 'Instalação "{name}" excluída.',
+    deleteInstallationTitle: "Excluir instalação?",
+    deleteInstallationMessage:
+    'A instalação "{name}" e todos os arquivos dentro da pasta dela serão apagados permanentemente.',
+    confirmDeleteInstallation: "Excluir instalação",
+    installationSaved: 'Instalação "{name}" salva.',
+    selectInstallationForMods: "Selecione uma instalação primeiro.",
+    noInstallationSelected: "Nenhuma instalação selecionada.",
+    modsNeedLoader: "Mods precisam de uma instalação com mod loader.",
+    selectModLoader: "Selecione uma instalação com Fabric, Forge, NeoForge ou Quilt.",
+    searchMinCharacters: "Digite pelo menos 2 caracteres ou deixe a pesquisa vazia.",
+    searchUnavailable: "Pesquisa indisponível.",
+    checkMainProcess: "Verifique a comunicação com o processo principal.",
+    loadingResults: "Carregando resultados...",
+    searchingModrinth: "Pesquisando no Modrinth...",
+    noResultsFound: "Nenhum resultado encontrado.",
+    tryAnotherSearch: "Tente outra pesquisa ou categoria.",
+    searchFailed: "Falha ao carregar os resultados.",
+    checkConnectionRetry: "Verifique a conexão e tente novamente.",
+    remove: "Remover",
+    removeModTitle: "Remover mod?",
+    removeModMessage: 'O mod "{name}" será removido desta instalação.',
+    confirmRemoveMod: "Remover mod",
+    removeModError: "Não foi possível remover o mod: {error}",
+    loadModsError: "Não foi possível carregar os mods: {error}",
+    modsCreateInstallation: "Crie uma instalação na tela Versões para começar.",
+    modsVanillaInfo: '"{name}" usa Minecraft Vanilla. Selecione Fabric, Forge, NeoForge ou Quilt para usar mods.',
+    modsLoaderInfo: '"{name}" usa {loader} no Minecraft {version}.',
+    downloadsUnavailable: "Downloads indisponíveis",
+    downloadCount: "{count} downloads",
+    unnamedMod: "Sem nome",
+    noModDescription: "Sem descrição disponível.",
+    unknownAuthor: "Autor desconhecido",
+    downloaded: "Baixado",
+    install: "Instalar",
+    download: "Baixar",
+    modInstallationUnavailable: "A função de instalação não está disponível. Verifique o preload.js.",
+    createInstallationFirst: "Crie uma instalação na tela Versões primeiro.",
+    preparingModpack: 'Preparando o modpack "{name}"...',
+    downloadingMod: 'Baixando "{name}"...',
+    modpackInstalledNewProfile: 'Modpack "{name}" instalado em um perfil novo.',
+    modInstalledProfile: 'Mod "{filename}" instalado no perfil "{profile}".',
+    installationFailed: "Falha na instalação: {error}",
+    installationNotFound: "Não foi possível encontrar essa instalação.",
+    loadingMods: "Carregando mods...",
+    noInstalledMods: "Nenhum mod instalado nesta instalação.",
+    activated: "Ativado",
+    deactivated: "Desativado",
+    enable: "Ativar",
+    disable: "Desativar",
+    toggleModError: "Não foi possível alterar o mod: {error}",
+    invalidSkinPng: "Selecione um arquivo PNG válido.",
+    skinTooLarge: "A skin deve ter no máximo 2 MB.",
+    importSkin: "Importar",
+    noSkinsImported: "Você ainda não importou nenhuma skin.",
+    skinModel: "Modelo da skin",
+    steveModel: "Steve (braços largos)",
+    alexModel: "Alex (braços finos)",
+    saveSkinName: "Salvar nome",
+    deleteSkinButton: "Excluir skin",
+    deleteSkinTitle: "Excluir skin?",
+    confirmDeleteSkin: "Excluir skin",
+    skinNameRequired: "Digite um nome para a skin.",
+    skinSaved: "Skin salva: {name}",
+    skinSelectedAccount: 'Skin selecionada: {name}. Clique em "Atualizar skin" para enviá-la à sua conta Minecraft.',
+    selectSkinFirst: "Selecione uma skin em Minhas skins primeiro.",
+    uploadingAccountSkin: "Enviando skin para sua conta Minecraft...",
+    skinUpdatedSuccess: "Skin atualizada com sucesso!",
+    skinUpdateFailed: "Não foi possível atualizar a skin.",
+    loadingCapes: "Carregando suas capas...",
+    noCapesFound: "Nenhuma capa encontrada na sua conta.",
+    capesFound: "{count} capa(s) encontrada(s).",
+    loadCapesFailed: "Não foi possível carregar suas capas.",
+    hidingCape: "Ocultando sua capa...",
+    capeHiddenSuccess: "Capa ocultada com sucesso.",
+    hideCapeFailed: "Não foi possível ocultar a capa.",
+    skinModelSaved: 'Modelo da skin "{name}" salvo.',
+    saveSkinModelFailed: "Erro ao salvar o modelo da skin.",
+    mainMenuLabel: "MENU PRINCIPAL",
+    navHome: "Início",
+    navVersions: "Versões",
+    navMods: "Mods",
+    navSkins: "Skins",
+    navSettings: "Configurações",
+    developmentStatus: "Launcher em desenvolvimento",
+    headerTagline: "SEU MINECRAFT, DO SEU JEITO",
+    installationsLabel: "INSTALAÇÕES",
+    versionsHeading: "Suas versões",
+    versionsDescription: "Cada perfil tem sua própria pasta e configuração.",
+    installationName: "Nome da instalação",
+    installationNamePlaceholder: "Ex.: Meu Minecraft com mods",
+    minecraftVersion: "Versão do Minecraft",
+    modLoader: "Mod loader",
+    vanillaNoMods: "Vanilla (sem mods)",
+    loaderVersion: "Versão do loader",
+    loadingVersions: "Carregando versões...",
+    compatibleLoaderHint: "Selecione uma versão compatível com o Minecraft escolhido.",
+    existingInstallations: "Instalações existentes",
+    loadingInstallations: "Carregando instalações...",
+    cancelEdit: "Cancelar edição",
+    homeEdition: "MINECRAFT JAVA EDITION",
+    homeTitleLine1: "Seu mundo.",
+    homeTitleLine2: "Suas regras.",
+    homeDescription: "Prepare sua próxima aventura.",
+    homeInstallation: "INSTALAÇÃO",
+    playButton: "▶ JOGAR",
+    environmentLabel: "SEU AMBIENTE",
+    environmentTitle: "Central de controle",
+    homeVersionsTitle: "Versões",
+    homeVersionsDescription: "Crie instalações independentes do Minecraft.",
+    homeManageVersions: "Gerenciar versões",
+    homeModsTitle: "Mods e modpacks",
+    homeModsDescription: "Organize os mods de cada instalação.",
+    homeViewMods: "Ver mods",
+    homeSettingsTitle: "Configurações",
+    homeSettingsDescription: "Personalize a memória e o Java.",
+    homeConfigure: "Configurar",
+    launcherReady: "O CobbleLauncher está pronto para começar.",
+    launchProgressLabel: "Progresso da inicialização",
+    close: "Fechar",
+    skinsDescription: "Personalize a aparência do seu personagem no Minecraft.",
+    defaultSkins: "Skins padrão",
+    defaultSkinsDescription: "Escolha uma aparência clássica do Minecraft.",
+    steveModelDescription: "Modelo clássico",
+    alexModelDescription: "Modelo de braços finos",
+    steveSkinAlt: "Skin padrão do Steve",
+    alexSkinAlt: "Skin padrão da Alex",
+    mySkins: "Minhas skins",
+    mySkinsDescription: "Skins importadas do seu computador.",
+    emptySkinsMessage: "Você ainda não importou nenhuma skin.",
+    updateAccountSkin: "Atualizar skin no Minecraft",
+    accountSkinUpdateHint: "Selecione uma skin importada para enviá-la à sua conta Minecraft.",
+    capesTitle: "Capas",
+    capeLoginHint: "Entre na sua conta Microsoft para consultar suas capas.",
+    refreshCapes: "Atualizar capas",
+    hideCape: "Ocultar capa",
+    activeCape: "Capa ativa",
+    availableCape: "Capa disponível",
+    useCape: "Usar capa",
+    updatingCape: "Atualizando sua capa...",
+    capeUpdatedSuccess: "Capa atualizada com sucesso.",
+    switchCapeFailed: "Não foi possível trocar a capa.",
+    capeHiddenSuccess: "Capa ocultada com sucesso.",
+    hideCapeFailed: "Não foi possível ocultar a capa.",
+    hidingCape: "Ocultando capa...",
+    renameSkin: "Renomear",
+    modsPageDescription: "Encontre mods compatíveis com suas instalações.",
+    modsSelectedInstallation: "Instalação selecionada",
+    modsSelectLoaderHint: "Selecione uma instalação com Fabric, Forge, NeoForge ou Quilt para pesquisar mods.",
+    modsExploreContent: "Explorar conteúdo",
+    modsCategoryMods: "Mods",
+    modsCategoryResourcePacks: "Pacotes de recursos",
+    modsCategoryDataPacks: "Pacotes de dados",
+    modsCategoryModpacks: "Modpacks",
+    modsCategoryShaders: "Shaders",
+    modsSearchLabel: "Pesquisar",
+    modsSearchPlaceholder: "Buscar conteúdo...",
+    modsSearchHint: "Os resultados respeitam a versão do Minecraft selecionada sempre que aplicável.",
+    modsSearchInitialMessage: "Escolha uma categoria e pesquise o que procura.",
+    searchResultsStatus: "{count} resultado(s) · Página {current} de {total}",
+    systemDefault: "Padrão do sistema",
+  },
+
+  "en-US": {
+    settings: "Settings",
+    customization: "CUSTOMIZATION",
+    settingsDescription: "Adjust the Minecraft environment for your computer.",
+    language: "Language",
+    languageDescription: "Choose the CobbleLauncher interface language.",
+    applicationLanguage: "Application language",
+    languageHint: "Changes will apply throughout the application.",
+    installationSettings: "Installation settings",
+    installation: "Installation",
+    noInstallation: "No installations available",
+    maxRam: "Maximum RAM (MB)",
+    java: "Java",
+    saveSettings: "Save settings",
+    gameFolder: "Game folder",
+    openGameFolder: "Open game folder",
+    cancel: "Cancel",
+    deleteSkin: "Delete skin?",
+    maxRamHint: "The minimum will be set automatically to 512 MB. Do not allocate all your computer's RAM to the game.",
+    javaAuto: "Detect and install automatically",
+    javaManual: "Choose Java manually",
+    javaPath: "Java executable path",
+    validateJava: "Validate path",
+    saveSettingsHint: "Settings saved successfully.",
+    gameFolderDescription: "Minecraft installations and their files are stored in the CobbleLauncher data folder.",
+    gameFolderHint: "Opens the folder used by CobbleLauncher on Windows.",
+    javaValidationUnavailable: "Java validation is unavailable.",
+    javaCheckingPath: "Checking path...",
+    javaExecutableFound: "Java executable found.",
+    selectInstallationFirst: "Create or select an installation first.",
+    ramRangeError: "Maximum RAM must be between 1024 and 65536 MB.",
+    validateJavaBeforeSaving: "Validate the Java path before saving.",
+    settingsSaved: "Settings saved for this installation.",
+    saveSettingsError: "Unable to save: ",
+    loginCommunicationError: "Error: communication with the launcher is unavailable.",
+    openingMicrosoftLogin: "Opening Microsoft sign-in...",
+    microsoftLogin: "Sign in with Microsoft",
+    accountConnected: "Account connected! Ready to play.",
+    invalidMicrosoftAccount: "The Microsoft account did not return a valid name.",
+    unexpectedError: "An unexpected error occurred.",
+    preparingMinecraft: "Preparing Minecraft...",
+    percentCompleted: "% completed",
+    completed: "Completed",
+    failed: "Failed",
+    initializationCompleted: "Initialization completed",
+    launchError: "Error launching Minecraft",
+    checkingFiles: "Checking Minecraft files...",
+    preparingDownload: "Preparing Minecraft download...",
+    downloadsCompleted: "Downloads completed!",
+    checkingJava: "Checking and preparing Java...",
+    minecraftStarted: "Minecraft started! Have fun!",
+    minecraftClosed: "Minecraft was closed.",
+    minecraftClosedWithCode: "Minecraft was closed with exit code",
+    minecraftCrashed: "Minecraft closed unexpectedly.",
+    preparingDownloadFiles: "Preparing download: {count} files...",
+    downloadProgress: "Downloading files: {percent}% ({downloaded} of {total}){speed}",
+    downloadGroupCompleted: "Download group completed: {percent}%",
+    createInstallationFirst:
+      "Create an installation on the Versions screen first.",
+    launcherUnavailable:
+      "The launch function is unavailable. Check preload.js.",
+    signedOutMicrosoft: "You signed out of your Microsoft account.",
+    signInMicrosoftToPlay: "Sign in with your Microsoft account to play.",
+    checkingSavedAccount: "Checking saved account...",
+    signInMicrosoftFirst: "Sign in with your Microsoft account first.",
+    edit: "Edit",
+    select: "Select",
+    manageMods: "Manage Mods",
+    delete: "Delete",
+    remove: "Remove",
+    installationSelected: "Installation selected: {name}",
+    createInstallation: "Create Installation",
+    saveChanges: "Save Changes",
+    installationDeleted: 'Installation "{name}" deleted.',
+    deleteInstallationTitle: "Delete installation?",
+    deleteInstallationMessage:
+    'The installation "{name}" and all files inside its folder will be permanently deleted.',
+    confirmDeleteInstallation: "Delete installation",
+    installationSaved: 'Installation "{name}" saved.',
+    selectInstallationForMods: "Select an installation first.",
+    noInstallationSelected: "No installation selected.",
+    modsNeedLoader: "Mods require an installation with a mod loader.",
+    selectModLoader: "Select an installation with Fabric, Forge, NeoForge, or Quilt.",
+    searchMinCharacters: "Enter at least 2 characters or leave the search empty.",
+    searchUnavailable: "Search unavailable.",
+    checkMainProcess: "Check communication with the main process.",
+    loadingResults: "Loading results...",
+    searchingModrinth: "Searching Modrinth...",
+    noResultsFound: "No results found.",
+    tryAnotherSearch: "Try another search or category.",
+    searchFailed: "Failed to load results.",
+    checkConnectionRetry: "Check your connection and try again.",
+    removeModTitle: "Remove Mod?",
+    removeModMessage: 'The mod "{name}" will be removed from this installation.',
+    confirmRemoveMod: "Remove Mod",
+    removeModError: "Could not remove the mod: {error}",
+    loadModsError: "Could not load mods: {error}",
+    modsCreateInstallation: "Create an installation on the Versions screen to get started.",
+    modsVanillaInfo: '"{name}" uses Minecraft Vanilla. Select Fabric, Forge, NeoForge, or Quilt to use mods.',
+    modsLoaderInfo: '"{name}" uses {loader} on Minecraft {version}.',
+    downloadsUnavailable: "Downloads unavailable",
+    downloadCount: "{count} downloads",
+    unnamedMod: "Unnamed",
+    noModDescription: "No description available.",
+    unknownAuthor: "Unknown author",
+    downloaded: "Downloaded",
+    install: "Install",
+    download: "Download",
+    modInstallationUnavailable: "The installation function is unavailable. Check preload.js.",
+    createInstallationFirst: "Create an installation on the Versions screen first.",
+    preparingModpack: 'Preparing modpack "{name}"...',
+    downloadingMod: 'Downloading "{name}"...',
+    modpackInstalledNewProfile: 'Modpack "{name}" installed in a new profile.',
+    modInstalledProfile: 'Mod "{filename}" installed in profile "{profile}".',
+    installationFailed: "Installation failed: {error}",
+    installationNotFound: "Could not find this installation.",
+    loadingMods: "Loading mods...",
+    noInstalledMods: "No mods installed in this installation.",
+    activated: "Enabled",
+    deactivated: "Disabled",
+    enable: "Enable",
+    disable: "Disable",
+    toggleModError: "Could not change the mod: {error}",
+    invalidSkinPng: "Select a valid PNG file.",
+    skinTooLarge: "The skin must be no larger than 2 MB.",
+    importSkin: "Import",
+    noSkinsImported: "You haven't imported any skins yet.",
+    skinModel: "Skin model",
+    steveModel: "Steve (wide arms)",
+    alexModel: "Alex (slim arms)",
+    saveSkinName: "Save name",
+    deleteSkinButton: "Delete skin",
+    deleteSkinTitle: "Delete skin?",
+    confirmDeleteSkin: "Delete skin",
+    skinNameRequired: "Enter a name for the skin.",
+    skinSaved: "Skin saved: {name}",
+    skinSelectedAccount: 'Skin selected: {name}. Click "Update Skin" to upload it to your Minecraft account.',
+    selectSkinFirst: "Select a skin in My Skins first.",
+    uploadingAccountSkin: "Uploading skin to your Minecraft account...",
+    skinUpdatedSuccess: "Skin updated successfully!",
+    skinUpdateFailed: "Could not update the skin.",
+    loadingCapes: "Loading your capes...",
+    noCapesFound: "No capes found on your account.",
+    capesFound: "{count} cape(s) found.",
+    loadCapesFailed: "Could not load your capes.",
+    hidingCape: "Hiding your cape...",
+    capeHiddenSuccess: "Cape hidden successfully.",
+    hideCapeFailed: "Could not hide the cape.",
+    skinModelSaved: 'Skin model "{name}" saved.',
+    saveSkinModelFailed: "Error saving the skin model.",
+    mainMenuLabel: "MAIN MENU",
+    navHome: "Home",
+    navVersions: "Versions",
+    navMods: "Mods",
+    navSkins: "Skins",
+    navSettings: "Settings",
+    developmentStatus: "Launcher in development",
+    headerTagline: "YOUR MINECRAFT, YOUR WAY",
+    installationsLabel: "INSTALLATIONS",
+    versionsHeading: "Your versions",
+    versionsDescription: "Each profile has its own folder and configuration.",
+    installationName: "Installation name",
+    installationNamePlaceholder: "E.g., My Minecraft with mods",
+    minecraftVersion: "Minecraft version",
+    modLoader: "Mod loader",
+    vanillaNoMods: "Vanilla (no mods)",
+    loaderVersion: "Loader version",
+    loadingVersions: "Loading versions...",
+    compatibleLoaderHint: "Select a version compatible with the chosen Minecraft version.",
+    existingInstallations: "Existing installations",
+    loadingInstallations: "Loading installations...",
+    cancelEdit: "Cancel editing",  
+    homeEdition: "MINECRAFT JAVA EDITION",
+    homeTitleLine1: "Your world.",
+    homeTitleLine2: "Your rules.",
+    homeDescription: "Prepare for your next adventure.",
+    homeInstallation: "INSTALLATION",
+    playButton: "▶ PLAY",
+    environmentLabel: "YOUR ENVIRONMENT",
+    environmentTitle: "Control center",
+    homeVersionsTitle: "Versions",
+    homeVersionsDescription: "Create independent Minecraft installations.",
+    homeManageVersions: "Manage versions",
+    homeModsTitle: "Mods and modpacks",
+    homeModsDescription: "Organize mods for each installation.",
+    homeViewMods: "View mods",
+    homeSettingsTitle: "Settings",
+    homeSettingsDescription: "Customize memory and Java.",
+    homeConfigure: "Configure",
+    launcherReady: "CobbleLauncher is ready to get started.",
+    launchProgressLabel: "Launch progress",
+    close: "Close",
+    skinsDescription: "Customize your character's appearance in Minecraft.",
+    defaultSkins: "Default skins",
+    defaultSkinsDescription: "Choose a classic Minecraft appearance.",
+    steveModelDescription: "Classic model",
+    alexModelDescription: "Slim-arm model",
+    steveSkinAlt: "Steve default skin",
+    alexSkinAlt: "Alex default skin",
+    mySkins: "My skins",
+    mySkinsDescription: "Skins imported from your computer.",
+    emptySkinsMessage: "You haven't imported any skins yet.",
+    updateAccountSkin: "Update Minecraft skin",
+    accountSkinUpdateHint: "Select an imported skin to upload it to your Minecraft account.",
+    capesTitle: "Capes",
+    capeLoginHint: "Sign in to your Microsoft account to view your capes.",
+    refreshCapes: "Refresh capes",
+    hideCape: "Hide cape",
+    activeCape: "Active cape",
+    availableCape: "Available cape",
+    useCape: "Use cape",  
+    updatingCape: "Updating your cape...",
+    capeUpdatedSuccess: "Cape updated successfully.",
+    switchCapeFailed: "Could not change the cape.",
+    capeHiddenSuccess: "Cape hidden successfully.",
+    hideCapeFailed: "Could not hide the cape.",
+    hidingCape: "Hiding cape...",
+    renameSkin: "Rename",
+    modsPageDescription: "Find mods compatible with your installations.",
+    modsSelectedInstallation: "Selected installation",
+    modsSelectLoaderHint: "Select an installation with Fabric, Forge, NeoForge, or Quilt to search for mods.",
+    modsExploreContent: "Explore content",
+    modsCategoryMods: "Mods",
+    modsCategoryResourcePacks: "Resource packs",
+    modsCategoryDataPacks: "Data packs",
+    modsCategoryModpacks: "Modpacks",
+    modsCategoryShaders: "Shaders",
+    modsSearchLabel: "Search",
+    modsSearchPlaceholder: "Search content...",
+    modsSearchHint: "Results respect the selected Minecraft version whenever applicable.",
+    modsSearchInitialMessage: "Choose a category and search for what you're looking for.",
+    searchResultsStatus: "{count} result(s) · Page {current} of {total}", 
+    systemDefault: "System default",
+  },
+
+  "es-ES": {
+    settings: "Configuración",
+    customization: "PERSONALIZACIÓN",
+    settingsDescription: "Ajusta el entorno de Minecraft para tu ordenador.",
+    language: "Idioma",
+    languageDescription: "Elige el idioma de la interfaz de CobbleLauncher.",
+    applicationLanguage: "Idioma de la aplicación",
+    languageHint: "Los cambios se aplicarán a toda la aplicación.",
+    installationSettings: "Configuración de la instalación",
+    installation: "Instalación",
+    noInstallation: "No hay instalaciones disponibles",
+    maxRam: "Memoria RAM máxima (MB)",
+    java: "Java",
+    saveSettings: "Guardar configuración",
+    gameFolder: "Carpeta de juegos",
+    openGameFolder: "Abrir carpeta de juegos",
+    cancel: "Cancelar",
+    deleteSkin: "¿Eliminar skin?",
+    maxRamHint: "El mínimo se configurará automáticamente en 512 MB. No asignes toda la RAM del ordenador al juego.",
+    javaAuto: "Detectar e instalar automáticamente",
+    javaManual: "Elegir Java manualmente",
+    javaPath: "Ruta del ejecutable de Java",
+    validateJava: "Validar ruta",
+    saveSettingsHint: "Configuración guardada correctamente.",
+    gameFolderDescription: "Las instalaciones de Minecraft y sus archivos se guardan en la carpeta de datos de CobbleLauncher.",
+    gameFolderHint: "Abre la carpeta que CobbleLauncher utiliza en Windows.",
+    javaValidationUnavailable: "La validación de Java no está disponible.",
+    javaCheckingPath: "Comprobando la ruta...",
+    javaExecutableFound: "Se ha encontrado el ejecutable de Java.",
+    selectInstallationFirst: "Crea o selecciona una instalación primero.",
+    ramRangeError: "La memoria RAM máxima debe estar entre 1024 y 65536 MB.",
+    validateJavaBeforeSaving: "Valida la ruta de Java antes de guardar.",
+    settingsSaved: "Configuración guardada para esta instalación.",
+    saveSettingsError: "No se pudo guardar: ",
+    loginCommunicationError: "Error: la comunicación con el launcher no está disponible.",
+    openingMicrosoftLogin: "Abriendo el inicio de sesión de Microsoft...",
+    microsoftLogin: "Iniciar sesión con Microsoft",
+    accountConnected: "¡Cuenta conectada! Ya puedes jugar.",
+    invalidMicrosoftAccount: "La cuenta de Microsoft no devolvió un nombre válido.",
+    unexpectedError: "Se produjo un error inesperado.",
+    preparingMinecraft: "Preparando Minecraft...",
+    percentCompleted: "% completado",
+    completed: "Completado",
+    failed: "Falló",
+    initializationCompleted: "Inicialización completada",
+    launchError: "Error al iniciar Minecraft",
+    checkingFiles: "Verificando los archivos de Minecraft...",
+    preparingDownload: "Preparando la descarga de Minecraft...",
+    downloadsCompleted: "¡Descargas completadas!",
+    checkingJava: "Verificando y preparando Java...",
+    minecraftStarted: "¡Minecraft iniciado! ¡Que te diviertas!",
+    minecraftClosed: "Minecraft se ha cerrado.",
+    minecraftClosedWithCode: "Minecraft se ha cerrado con el código",
+    minecraftCrashed: "Minecraft se cerró inesperadamente.",
+    preparingDownloadFiles: "Preparando descarga: {count} archivos...",
+    downloadProgress: "Descargando archivos: {percent}% ({downloaded} de {total}){speed}",
+    downloadGroupCompleted: "Grupo de descargas completado: {percent}%",
+    createInstallationFirst:
+      "Crea una instalación primero en la pantalla Versiones.",
+    launcherUnavailable:
+      "La función de inicio no está disponible. Comprueba preload.js.",
+    signedOutMicrosoft: "Has cerrado sesión de tu cuenta de Microsoft.",
+    signInMicrosoftToPlay: "Inicia sesión con tu cuenta de Microsoft para jugar.",
+    checkingSavedAccount: "Verificando la cuenta guardada...",
+    signInMicrosoftFirst: "Inicia sesión con tu cuenta de Microsoft primero.",
+    edit: "Editar",
+    select: "Seleccionar",
+    manageMods: "Gestionar mods",
+    delete: "Eliminar",
+    installationSelected: "Instalación seleccionada: {name}",
+    createInstallation: "Crear instalación",
+    saveChanges: "Guardar cambios",
+    installationDeleted: 'Instalación "{name}" eliminada.',
+    deleteInstallationTitle: "¿Eliminar instalación?",
+    deleteInstallationMessage:
+    'La instalación "{name}" y todos los archivos dentro de su carpeta se eliminarán permanentemente.',
+    confirmDeleteInstallation: "Eliminar instalación",
+    installationSaved: 'Instalación "{name}" guardada.',
+    selectInstallationForMods: "Selecciona una instalación primero.",
+    noInstallationSelected: "No hay ninguna instalación seleccionada.",
+    modsNeedLoader: "Los mods necesitan una instalación con un cargador de mods.",
+    selectModLoader: "Selecciona una instalación con Fabric, Forge, NeoForge o Quilt.",
+    searchMinCharacters: "Escribe al menos 2 caracteres o deja la búsqueda vacía.",
+    searchUnavailable: "Búsqueda no disponible.",
+    checkMainProcess: "Comprueba la comunicación con el proceso principal.",
+    loadingResults: "Cargando resultados...",
+    searchingModrinth: "Buscando en Modrinth...",
+    noResultsFound: "No se encontraron resultados.",
+    tryAnotherSearch: "Prueba otra búsqueda o categoría.",
+    searchFailed: "No se pudieron cargar los resultados.",
+    checkConnectionRetry: "Comprueba la conexión e inténtalo de nuevo.",
+    remove: "Eliminar",
+    removeModTitle: "¿Eliminar mod?",
+    removeModMessage: 'El mod "{name}" se eliminará de esta instalación.',
+    confirmRemoveMod: "Eliminar mod",  
+    removeModError: "No se pudo eliminar el mod: {error}",
+    loadModsError: "No se pudieron cargar los mods: {error}",
+    modsCreateInstallation: "Crea una instalación en la pantalla Versiones para empezar.",
+    modsVanillaInfo: '"{name}" usa Minecraft Vanilla. Selecciona Fabric, Forge, NeoForge o Quilt para usar mods.',
+    modsLoaderInfo: '"{name}" usa {loader} en Minecraft {version}.',
+    downloadsUnavailable: "Descargas no disponibles",
+    downloadCount: "{count} descargas",
+    unnamedMod: "Sin nombre",
+    noModDescription: "No hay descripción disponible.",
+    unknownAuthor: "Autor desconocido",
+    downloaded: "Descargado",
+    install: "Instalar",  
+    download: "Descargar",
+    modInstallationUnavailable: "La función de instalación no está disponible. Comprueba preload.js.",
+    createInstallationFirst: "Crea una instalación primero en la pantalla Versiones.",
+    preparingModpack: 'Preparando el modpack "{name}"...',
+    downloadingMod: 'Descargando "{name}"...',
+    modpackInstalledNewProfile: 'Modpack "{name}" instalado en un perfil nuevo.',
+    modInstalledProfile: 'Mod "{filename}" instalado en el perfil "{profile}".',
+    installationFailed: "Error de instalación: {error}",
+    installationNotFound: "No se pudo encontrar esta instalación.",
+    loadingMods: "Cargando mods...",
+    noInstalledMods: "No hay mods instalados en esta instalación.",
+    activated: "Activado",
+    deactivated: "Desactivado",
+    enable: "Activar",
+    disable: "Desactivar",
+    toggleModError: "No se pudo cambiar el mod: {error}",
+    invalidSkinPng: "Selecciona un archivo PNG válido.",
+    skinTooLarge: "La skin no debe superar los 2 MB.",
+    importSkin: "Importar",
+    noSkinsImported: "Todavía no has importado ninguna skin.",
+    skinModel: "Modelo de skin",
+    steveModel: "Steve (brazos anchos)",
+    alexModel: "Alex (brazos finos)",
+    saveSkinName: "Guardar nombre",
+    deleteSkinButton: "Eliminar skin",
+    deleteSkinTitle: "¿Eliminar skin?",
+    confirmDeleteSkin: "Eliminar skin",
+    skinNameRequired: "Escribe un nombre para la skin.",
+    skinSaved: "Skin guardada: {name}",
+    skinSelectedAccount: 'Skin seleccionada: {name}. Haz clic en "Actualizar skin" para subirla a tu cuenta de Minecraft.',
+    selectSkinFirst: "Selecciona una skin en Mis skins primero.",
+    uploadingAccountSkin: "Enviando la skin a tu cuenta de Minecraft...",
+    skinUpdatedSuccess: "¡Skin actualizada correctamente!",
+    skinUpdateFailed: "No se pudo actualizar la skin.",
+    loadingCapes: "Cargando tus capas...",
+    noCapesFound: "No se encontraron capas en tu cuenta.",
+    capesFound: "Se encontraron {count} capa(s).",
+    loadCapesFailed: "No se pudieron cargar tus capas.",
+    hidingCape: "Ocultando tu capa...",
+    capeHiddenSuccess: "Capa ocultada correctamente.",
+    hideCapeFailed: "No se pudo ocultar la capa.",
+    skinModelSaved: 'Modelo de skin "{name}" guardado.',
+    saveSkinModelFailed: "Error al guardar el modelo de la skin.",
+    mainMenuLabel: "MENÚ PRINCIPAL",
+    navHome: "Inicio",
+    navVersions: "Versiones",
+    navMods: "Mods",
+    navSkins: "Skins",
+    navSettings: "Configuración",
+    developmentStatus: "Launcher en desarrollo",
+    headerTagline: "TU MINECRAFT, A TU MANERA",
+    installationsLabel: "INSTALACIONES",
+    versionsHeading: "Tus versiones",
+    versionsDescription: "Cada perfil tiene su propia carpeta y configuración.",
+    installationName: "Nombre de la instalación",
+    installationNamePlaceholder: "Ej.: Mi Minecraft con mods",
+    minecraftVersion: "Versión de Minecraft",
+    modLoader: "Cargador de mods",
+    vanillaNoMods: "Vanilla (sin mods)",
+    loaderVersion: "Versión del cargador",
+    loadingVersions: "Cargando versiones...",
+    compatibleLoaderHint: "Selecciona una versión compatible con la versión de Minecraft elegida.",
+    existingInstallations: "Instalaciones existentes",
+    loadingInstallations: "Cargando instalaciones...",
+    cancelEdit: "Cancelar edición",
+    homeEdition: "MINECRAFT JAVA EDITION",
+    homeTitleLine1: "Tu mundo.",
+    homeTitleLine2: "Tus reglas.",
+    homeDescription: "Prepara tu próxima aventura.",
+    homeInstallation: "INSTALACIÓN",
+    playButton: "▶ JUGAR",
+    environmentLabel: "TU ENTORNO",
+    environmentTitle: "Centro de control",
+    homeVersionsTitle: "Versiones",
+    homeVersionsDescription: "Crea instalaciones independientes de Minecraft.",
+    homeManageVersions: "Gestionar versiones",
+    homeModsTitle: "Mods y modpacks",
+    homeModsDescription: "Organiza los mods de cada instalación.",
+    homeViewMods: "Ver mods",
+    homeSettingsTitle: "Configuración",
+    homeSettingsDescription: "Personaliza la memoria y Java.",
+    homeConfigure: "Configurar", 
+    launcherReady: "CobbleLauncher está listo para comenzar.",
+    launchProgressLabel: "Progreso del inicio",
+    close: "Cerrar",
+    skinsDescription: "Personaliza la apariencia de tu personaje en Minecraft.",
+    defaultSkins: "Skins predeterminadas",
+    defaultSkinsDescription: "Elige una apariencia clásica de Minecraft.",
+    steveModelDescription: "Modelo clásico",
+    alexModelDescription: "Modelo de brazos delgados",
+    steveSkinAlt: "Skin predeterminada de Steve",
+    alexSkinAlt: "Skin predeterminada de Alex",
+    mySkins: "Mis skins",
+    mySkinsDescription: "Skins importadas desde tu ordenador.",
+    emptySkinsMessage: "Todavía no has importado ninguna skin.",
+    updateAccountSkin: "Actualizar skin de Minecraft",
+    accountSkinUpdateHint: "Selecciona una skin importada para subirla a tu cuenta de Minecraft.",
+    capesTitle: "Capas",
+    capeLoginHint: "Inicia sesión en tu cuenta de Microsoft para consultar tus capas.",
+    refreshCapes: "Actualizar capas",
+    hideCape: "Ocultar capa",
+    activeCape: "Capa activa",
+    availableCape: "Capa disponible",
+    useCape: "Usar capa",
+    updatingCape: "Actualizando tu capa...",
+    capeUpdatedSuccess: "Capa actualizada correctamente.",
+    switchCapeFailed: "No se pudo cambiar la capa.",
+    capeHiddenSuccess: "Capa ocultada correctamente.",
+    hideCapeFailed: "No se pudo ocultar la capa.",
+    hidingCape: "Ocultando capa...",
+    renameSkin: "Renombrar",
+    modsPageDescription: "Encuentra mods compatibles con tus instalaciones.",
+    modsSelectedInstallation: "Instalación seleccionada",
+    modsSelectLoaderHint: "Selecciona una instalación con Fabric, Forge, NeoForge o Quilt para buscar mods.",
+    modsExploreContent: "Explorar contenido",
+    modsCategoryMods: "Mods",
+    modsCategoryResourcePacks: "Paquetes de recursos",
+    modsCategoryDataPacks: "Paquetes de datos",
+    modsCategoryModpacks: "Modpacks",
+    modsCategoryShaders: "Shaders",
+    modsSearchLabel: "Buscar",
+    modsSearchPlaceholder: "Buscar contenido...",
+    modsSearchHint: "Los resultados respetan la versión de Minecraft seleccionada cuando corresponde.",
+    modsSearchInitialMessage: "Elige una categoría y busca lo que necesitas.",
+    searchResultsStatus: "{count} resultado(s) · Página {current} de {total}",
+    systemDefault: "Predeterminado del sistema",
+  }
+};
+
+
+function getCurrentLanguage() {
+  const savedLanguage = localStorage.getItem("cobblelauncher-language");
+
+  if (
+    savedLanguage &&
+    savedLanguage !== "system" &&
+    Object.hasOwn(translations, savedLanguage)
+  ) {
+    return savedLanguage;
+  }
+
+  if (savedLanguage === "system") {
+    const systemLanguage = navigator.language.toLowerCase();
+
+    if (systemLanguage.startsWith("pt")) {
+      return "pt-BR";
+    }
+
+    if (systemLanguage.startsWith("es")) {
+      return "es-ES";
+    }
+
+    if (systemLanguage.startsWith("en")) {
+      return "en-US";
+    }
+
+    return "en-US";
+  }
+
+  return "pt-BR";
+}
+
+function translate(key) {
+  const language = getCurrentLanguage();
+
+  return translations[language][key] ??
+    translations["pt-BR"][key] ??
+    key;
+}
+
+
+function applyTranslations() {
+  const language = getCurrentLanguage();
+
+  document.documentElement.lang = language;
+
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    const key = element.dataset.i18n;
+    const translatedText = translate(key);
+
+    if (translatedText !== key) {
+      element.textContent = translatedText;
+    }
+  });
+
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => {
+    const key = element.dataset.i18nPlaceholder;
+    const translatedText = translate(key);
+
+    if (translatedText !== key) {
+      element.placeholder = translatedText;
+    }
+  });
+
+    document.querySelectorAll("[data-i18n-alt]").forEach((element) => {
+    const key = element.dataset.i18nAlt;
+    const translatedText = translate(key);
+
+    if (translatedText !== key) {
+      element.setAttribute("alt", translatedText);
+    }
+  });
+
+    document.querySelectorAll("[data-i18n-aria-label]").forEach((element) => {
+    const key = element.dataset.i18nAriaLabel;
+    const translatedText = translate(key);
+
+    if (translatedText !== key) {
+      element.setAttribute("aria-label", translatedText);
+    }
+  });
+
+  document.querySelectorAll("[data-i18n-aria-valuetext]").forEach((element) => {
+    const key = element.dataset.i18nAriaValuetext;
+    const translatedText = translate(key);
+
+    if (translatedText !== key) {
+      element.setAttribute("aria-valuetext", translatedText);
+    }
+  });
+
+  document.querySelectorAll("[data-i18n-title]").forEach((element) => {
+    const key = element.dataset.i18nTitle;
+    const translatedText = translate(key);
+
+    if (translatedText !== key) {
+      element.title = translatedText;
+    }
+  });
+
+  const languageSelect = document.getElementById("language-select");
+
+  if (languageSelect) {
+    languageSelect.value =
+  localStorage.getItem("cobblelauncher-language") || "pt-BR";
+  }
+}
 
 // Inicialização e progresso
 const playButton = $("play");
@@ -14,6 +829,19 @@ const progressLabel = $("progress-label");
 const progressPercent = $("progress-percent");
 const progressTrack = $("progress-track");
 const progressFill = $("progress-fill");
+const openGameFolderButton = $("open-game-folder");
+if (openGameFolderButton) {
+  openGameFolderButton.addEventListener("click", async () => {
+    try {
+      await window.cobble.openGameFolder();
+    } catch (error) {
+      console.error(
+        "[CobbleLauncher] Erro ao abrir a pasta dos jogos:",
+        error
+      );
+    }
+  });
+}
 
 // Conta Microsoft
 const accountButton =
@@ -31,6 +859,59 @@ const profileForm = $("profile-form");
 const profileId = $("profile-id");
 const profileName = $("profile-name");
 const profileVersion = $("profile-version");
+
+async function loadMinecraftVersions() {
+  if (!profileVersion) return;
+
+  profileVersion.replaceChildren(
+    new Option("Carregando versões...", "")
+  );
+  profileVersion.disabled = true;
+
+  try {
+    const versions = await window.cobble.getMinecraftVersions();
+
+    profileVersion.replaceChildren();
+
+    for (const version of versions) {
+      const option = new Option(
+        `Minecraft ${version.id}`,
+        version.id
+      );
+
+      profileVersion.add(option);
+    }
+
+    const latestRelease = versions.find(
+  (version) => version.type === "release"
+);
+
+    if (latestRelease) {
+      profileVersion.value = latestRelease.id;
+}   else if (versions.length > 0) {
+      profileVersion.selectedIndex = 0;
+}
+
+    if (versions.length === 0) {
+      profileVersion.add(
+        new Option("Nenhuma versão encontrada", "")
+      );
+    }
+  } catch (error) {
+    console.error(
+      "[CobbleLauncher] Erro ao carregar versões:",
+      error
+    );
+
+    profileVersion.replaceChildren(
+      new Option("Erro ao carregar versões", "")
+    );
+  } finally {
+    profileVersion.disabled = false;
+  }
+}
+loadMinecraftVersions();
+
 const profileLoader = $("profile-loader");
 const profileLoaderVersion = $("profile-loader-version");
 const loaderVersionGroup = $("loader-version-group");
@@ -75,7 +956,7 @@ function showMessage(message, type = "info") {
 }
 
 function friendlyError(error) {
-  return error?.message || "Ocorreu um erro inesperado.";
+  return error?.message || translate("unexpectedError");
 }
 
 function getProfile(id) {
@@ -99,9 +980,7 @@ function setLaunchButtonState(disabled, text) {
 function setLoggedOut() {
   loggedIn = false;
 
-  if (accountName) {
-    accountName.textContent = "Entrar com Microsoft";
-  }
+  accountName.textContent = translate("microsoftLogin");
 
   if (accountAvatar) {
     accountAvatar.hidden = true;
@@ -115,7 +994,7 @@ function setLoggedOut() {
 
 function setAccount(account) {
   if (!account?.name) {
-    throw new Error("A conta Microsoft não retornou um nome válido.");
+    throw new Error(translate("invalidMicrosoftAccount"));
   }
 
   loggedIn = true;
@@ -148,7 +1027,7 @@ function setAccount(account) {
     }
   }
 
-  setStatus("Conta conectada! Pode jogar.");
+  setStatus(translate("accountConnected"));
 }
 
 // ==================================================
@@ -160,14 +1039,64 @@ function updateLaunchProgress(message, options = {}) {
 
   const isObject = typeof message === "object" && message !== null;
 
-  const text = isObject
-    ? String(message.message || "Preparando Minecraft...")
-    : String(message ?? "Preparando Minecraft...");
+  const rawText = isObject
+  ? String(message.message || "")
+  : String(message ?? "");
 
-  const stage = isObject
-    ? String(message.stage || "")
-    : String(options.stage || "");
+const stage = isObject
+  ? String(message.stage || "")
+  : String(options.stage || "");
 
+const stageTranslations = {
+  checking: "checkingFiles",
+  java: "checkingJava",
+  started: "minecraftStarted",
+  closed: "minecraftClosed",
+  crashed: "minecraftCrashed"
+};
+
+const messageTranslations = {
+  "Verificando os arquivos do Minecraft...": "checkingFiles",
+  "Verificando e preparando o Java...": "checkingJava",
+  "Minecraft iniciado! Bom jogo!": "minecraftStarted",
+  "O Minecraft foi fechado.": "minecraftClosed",
+  "O Minecraft fechou inesperadamente.": "minecraftCrashed"
+};
+
+const stageKey = stageTranslations[stage];
+
+let translatedText;
+
+if (rawText === "download-progress") {
+  translatedText = translate("downloadProgress")
+    .replace("{percent}", String(message.percent ?? 0))
+    .replace("{downloaded}", String(message.downloadedText ?? ""))
+    .replace("{total}", String(message.totalText ?? ""))
+    .replace("{speed}", message.speedText || "");
+} else if (rawText.startsWith("preparing-download:")) {
+  const count = rawText.split(":")[1];
+
+  translatedText = translate("preparingDownloadFiles")
+    .replace("{count}", count);
+} else if (rawText === "preparing") {
+  translatedText = translate("preparingMinecraft");
+} else if (rawText === "preparing-download") {
+  translatedText = translate("preparingDownload");
+} else if (rawText === "downloads-completed") {
+  translatedText = translate("downloadsCompleted");
+  } else if (rawText.startsWith("Grupo de downloads concluído:")) {
+  const percent = rawText.match(/\d+(?:[.,]\d+)?/);
+  translatedText = translate("downloadGroupCompleted")
+    .replace("{percent}", percent ? percent[0] : "0");
+} else if (stageKey || messageTranslations[rawText]) {
+  translatedText = translate(
+    stageKey || messageTranslations[rawText]
+  );
+} else {
+  translatedText = rawText || translate("preparingMinecraft");
+}
+
+const text = translatedText;
   const rawPercent = isObject
     ? message.percent
     : options.percent;
@@ -183,14 +1112,16 @@ function updateLaunchProgress(message, options = {}) {
     percent <= 100;
 
   const isComplete =
-    stage === "started" ||
-    text.startsWith("Minecraft iniciado!") ||
-    text === "Minecraft iniciado com sucesso!";
+  stage === "started" ||
+  stage === "closed" ||
+  text === translate("minecraftStarted") ||
+  text === translate("minecraftClosed");
 
-  const isError =
-    stage === "error" ||
-    /^erro\b/i.test(text) ||
-    text.startsWith("O Minecraft fechou inesperadamente.");
+const isError =
+  stage === "error" ||
+  stage === "crashed" ||
+  /^erro\b/i.test(text) ||
+  text === translate("minecraftCrashed");
 
   launchProgress.hidden = false;
 
@@ -201,7 +1132,7 @@ function updateLaunchProgress(message, options = {}) {
   );
 
   if (progressLabel) {
-    progressLabel.textContent = text;
+    progressLabel.textContent = translatedText;
   }
 
   if (hasPercent) {
@@ -221,7 +1152,7 @@ function updateLaunchProgress(message, options = {}) {
 
       progressTrack.setAttribute(
         "aria-valuetext",
-        `${Math.round(percent)}% concluído`
+        `${Math.round(percent)}${translate("percentCompleted")}`
       );
     }
   } else {
@@ -252,14 +1183,14 @@ function updateLaunchProgress(message, options = {}) {
     }
 
     if (progressPercent) {
-      progressPercent.textContent = "Concluído";
+      progressPercent.textContent = translate("completed");
     }
 
     if (progressTrack) {
       progressTrack.setAttribute("aria-valuenow", "100");
       progressTrack.setAttribute(
         "aria-valuetext",
-        "Inicialização concluída"
+        translate("initializationCompleted")
       );
     }
   } else if (isError) {
@@ -267,7 +1198,7 @@ function updateLaunchProgress(message, options = {}) {
     launchProgress.classList.add("error");
 
     if (progressPercent) {
-      progressPercent.textContent = "Falhou";
+      progressPercent.textContent = translate("failed");
     }
 
     if (progressTrack) {
@@ -276,6 +1207,7 @@ function updateLaunchProgress(message, options = {}) {
     }
   }
 }
+
 
 function resetLaunchProgress() {
   if (!launchProgress) return;
@@ -289,7 +1221,7 @@ function resetLaunchProgress() {
   );
 
   if (progressLabel) {
-    progressLabel.textContent = "Preparando Minecraft...";
+    progressLabel.textContent = translate("preparingMinecraft");
   }
 
   if (progressPercent) {
@@ -304,9 +1236,11 @@ function resetLaunchProgress() {
     progressTrack.removeAttribute("aria-valuenow");
     progressTrack.setAttribute(
       "aria-valuetext",
-      "Preparando Minecraft"
+      translate("preparingMinecraft")
     );
   }
+
+  setStatus(translate("launcherReady"));
 }
 
 // ==================================================
@@ -454,8 +1388,7 @@ function renderProfiles() {
     const editButton = document.createElement("button");
     editButton.type = "button";
     editButton.className = "secondary-button";
-    editButton.textContent = "Editar";
-
+    editButton.textContent = translate("edit");
     editButton.addEventListener("click", () => {
       editProfile(profile.id);
     });
@@ -463,7 +1396,7 @@ function renderProfiles() {
     const selectButton = document.createElement("button");
     selectButton.type = "button";
     selectButton.className = "secondary-button";
-    selectButton.textContent = "Selecionar";
+    selectButton.textContent = translate("select");
 
     selectButton.addEventListener("click", () => {
       if (homeProfile) homeProfile.value = profile.id;
@@ -474,13 +1407,15 @@ function renderProfiles() {
       loadProfileSettings();
       navigateTo("home");
 
-      setStatus(`Instalação selecionada: ${profile.name}`);
+      setStatus(
+  translate("installationSelected").replace("{name}", profile.name)
+);
     });
 
     const manageModsButton = document.createElement("button");
     manageModsButton.type = "button";
     manageModsButton.className = "secondary-button";
-    manageModsButton.textContent = "Gerenciar mods";
+    manageModsButton.textContent = translate("manageMods");
 
     manageModsButton.addEventListener("click", () => {
       openModManager(profile.id);
@@ -490,7 +1425,7 @@ function renderProfiles() {
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
     deleteButton.className = "secondary-button";
-    deleteButton.textContent = "Excluir";
+    deleteButton.textContent = translate("delete");
 
     deleteButton.addEventListener("click", () => {
       deleteProfile(profile.id);
@@ -552,7 +1487,7 @@ function resetProfileForm() {
   if (profileVersion) profileVersion.value = "1.21.1";
 
   if (saveProfileButton) {
-    saveProfileButton.textContent = "Criar instalação";
+    saveProfileButton.textContent = translate("createInstallation");
   }
 
   if (cancelProfileButton) {
@@ -576,21 +1511,71 @@ function editProfile(id) {
   updateLoaderFields();
   loadLoaderVersions(profile.loaderVersion || "");
 
-  saveProfileButton.textContent = "Salvar alterações";
+  saveProfileButton.textContent = translate("saveChanges");
   cancelProfileButton.hidden = false;
 
   navigateTo("versions");
   profileName.focus();
 }
 
+function showConfirmModal({
+  title,
+  message,
+  confirmText = "Confirmar"
+}) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("deleteSkinModal");
+    const titleElement = document.getElementById("deleteSkinTitle");
+    const messageElement = document.getElementById("deleteSkinMessage");
+    const cancelButton = document.getElementById("cancelDeleteSkin");
+    const confirmButton = document.getElementById("confirmDeleteSkin");
+
+    if (
+      !modal ||
+      !titleElement ||
+      !messageElement ||
+      !cancelButton ||
+      !confirmButton
+    ) {
+      console.error("[CobbleLauncher] Painel de confirmação não encontrado.");
+      resolve(false);
+      return;
+    }
+
+    titleElement.textContent = title;
+    messageElement.textContent = message;
+    confirmButton.textContent = confirmText;
+
+    const finish = (confirmed) => {
+      modal.hidden = true;
+      cancelButton.removeEventListener("click", onCancel);
+      confirmButton.removeEventListener("click", onConfirm);
+      resolve(confirmed);
+    };
+
+    const onCancel = () => finish(false);
+    const onConfirm = () => finish(true);
+
+    cancelButton.addEventListener("click", onCancel);
+    confirmButton.addEventListener("click", onConfirm);
+
+    modal.hidden = false;
+    cancelButton.focus();
+  });
+}
+
 async function deleteProfile(id) {
   const profile = getProfile(id);
   if (!profile) return;
 
-  const confirmed = window.confirm(
-    `Excluir a instalação "${profile.name}" da lista? ` +
-    "Os arquivos do jogo não serão apagados automaticamente."
-  );
+  const confirmed = await showConfirmModal({
+  title: translate("deleteInstallationTitle"),
+  message: translate("deleteInstallationMessage").replace(
+    "{name}",
+    profile.name
+  ),
+  confirmText: translate("confirmDeleteInstallation")
+});
 
   if (!confirmed) return;
 
@@ -603,7 +1588,9 @@ async function deleteProfile(id) {
 
     await loadProfiles();
 
-    setStatus(`Instalação "${profile.name}" removida da lista.`);
+    setStatus(
+  translate("installationDeleted").replace("{name}", profile.name)
+);
   } catch (error) {
     console.error("[Perfis] Erro ao excluir:", error);
 
@@ -750,7 +1737,9 @@ profileForm?.addEventListener("submit", async (event) => {
 
     resetProfileForm();
 
-    setStatus(`Instalação "${saved.name}" salva.`);
+    setStatus(
+  translate("installationSaved").replace("{name}", saved.name)
+);
   } catch (error) {
     console.error("[Perfis] Erro ao salvar:", error);
 
@@ -810,7 +1799,7 @@ javaMode?.addEventListener("change", updateJavaFields);
 validateJavaButton?.addEventListener("click", async () => {
   if (!window.cobble?.validateJava) {
     if (javaStatus) {
-      javaStatus.textContent = "Validação de Java indisponível.";
+      javaStatus.textContent = translate("javaValidationUnavailable");
     }
 
     return;
@@ -821,7 +1810,7 @@ validateJavaButton?.addEventListener("click", async () => {
   validateJavaButton.disabled = true;
 
   if (javaStatus) {
-    javaStatus.textContent = "Verificando caminho...";
+    javaStatus.textContent = translate("javaCheckingPath");
   }
 
   try {
@@ -830,7 +1819,7 @@ validateJavaButton?.addEventListener("click", async () => {
     validatedJavaPath = result.path;
 
     if (javaStatus) {
-      javaStatus.textContent = "Executável Java encontrado.";
+      javaStatus.textContent = translate("javaExecutableFound");
     }
   } catch (error) {
     validatedJavaPath = "";
@@ -849,7 +1838,7 @@ settingsForm?.addEventListener("submit", async (event) => {
   const profile = getProfile(settingsProfile?.value);
 
   if (!profile) {
-    setStatus("Cria ou seleciona uma instalação primeiro.");
+    setStatus(translate("selectInstallationFirst"));
     return;
   }
 
@@ -860,7 +1849,7 @@ settingsForm?.addEventListener("submit", async (event) => {
     maxRam < 1024 ||
     maxRam > 65536
   ) {
-    setStatus("A RAM máxima deve ficar entre 1024 e 65536 MB.");
+    setStatus(translate("ramRangeError"));
     return;
   }
 
@@ -871,7 +1860,7 @@ settingsForm?.addEventListener("submit", async (event) => {
     mode === "manual" &&
     (!chosenPath || chosenPath !== validatedJavaPath)
   ) {
-    setStatus("Valida o caminho do Java antes de salvar.");
+    setStatus(translate("validateJavaBeforeSaving"));
     return;
   }
 
@@ -903,13 +1892,13 @@ settingsForm?.addEventListener("submit", async (event) => {
 
     loadProfileSettings();
 
-    setStatus("Configurações salvas para esta instalação.");
+    setStatus(translate("settingsSaved"));
   } catch (error) {
     console.error("[Configurações] Erro ao salvar:", error);
 
     setStatus(
-      `Não foi possível salvar: ${friendlyError(error)}`
-    );
+      `${translate("saveSettingsError")}${friendlyError(error)}`
+);
   } finally {
     if (button) {
       button.disabled = false;
@@ -928,19 +1917,19 @@ function updateModsInfo() {
   const profile = getProfile(modsProfile?.value);
 
   if (!profile) {
-    modsInfo.textContent =
-      "Cria uma instalação na tela Versões para começar.";
+    modsInfo.textContent = translate("modsCreateInstallation");
+      
     return;
   }
 
   if (profile.loader === "vanilla") {
-    modsInfo.textContent =
-      `"${profile.name}" usa Minecraft Vanilla. ` +
-      "Seleciona Fabric, Forge, NeoForge ou Quilt para usar mods.";
+    modsInfo.textContent = translate("modsVanillaInfo")
+  .replace("{name}", profile.name);
   } else {
-    modsInfo.textContent =
-      `"${profile.name}" usa ${profile.loader} no Minecraft ` +
-      `${profile.minecraftVersion}.`;
+    modsInfo.textContent = translate("modsLoaderInfo")
+  .replace("{name}", profile.name)
+  .replace("{loader}", profile.loader)
+  .replace("{version}", profile.minecraftVersion);
   }
 }
 
@@ -969,10 +1958,15 @@ function formatModDownloads(downloads) {
   const count = Number(downloads);
 
   if (!Number.isFinite(count) || count < 0) {
-    return "Downloads indisponíveis";
+    return translate("downloadsUnavailable");
   }
 
-  return `${count.toLocaleString("pt-BR")} downloads`;
+  return translate("downloadCount").replace(
+  "{count}",
+  count.toLocaleString(
+    getCurrentLanguage() === "en-US" ? "en-US" : "pt-BR"
+  )
+);
 }
 
 function showModsMessage(message) {
@@ -1054,18 +2048,18 @@ async function renderModResults(mods) {
     details.className = "mod-details";
 
     const title = document.createElement("h3");
-    title.textContent = mod.title || mod.slug || "Sem nome";
+    title.textContent = mod.title || mod.slug || translate("unnamedMod");
 
     const description = document.createElement("p");
     description.className = "mod-description";
     description.textContent =
-      mod.description || "Sem descrição disponível.";
+      mod.description || translate("noModDescription");
 
     const author = document.createElement("p");
     author.className = "mod-meta";
     author.textContent =
-      `${mod.author || "Autor desconhecido"} · ` +
-      formatModDownloads(mod.downloads);
+      `${mod.author || translate("unknownAuthor")} · ` +
+formatModDownloads(mod.downloads);
 
     details.append(title, description, author);
     main.append(icon, details);
@@ -1078,7 +2072,7 @@ async function renderModResults(mods) {
     const isInstalled = !isModpack && installedIds.has(mod.id);
 
     function setDownloadedState() {
-      addButton.textContent = "Baixado";
+      addButton.textContent = translate("downloaded");
       addButton.classList.add("downloaded");
       addButton.disabled = true;
       addButton.setAttribute("aria-label", `${mod.title} — Baixado`);
@@ -1087,23 +2081,23 @@ async function renderModResults(mods) {
     if (isInstalled) {
       setDownloadedState();
     } else {
-      addButton.textContent = isModpack ? "Instalar" : "Baixar";
+      addButton.textContent = isModpack
+  ? translate("install")
+  : translate("download");
     }
 
     addButton.addEventListener("click", async () => {
       if (addButton.disabled) return;
 
       if (!window.cobble?.installModrinthContent) {
-        modsSearchStatus.textContent =
-          "A função de instalação não está disponível. Confere o preload.js.";
+        modsSearchStatus.textContent = translate("modInstallationUnavailable");
         return;
       }
 
       const profile = getProfile(modsProfile?.value);
 
       if (!profile) {
-        modsSearchStatus.textContent =
-          "Cria uma instalação na tela Versões primeiro.";
+        modsSearchStatus.textContent = translate("createInstallationFirst");
         return;
       }
 
@@ -1113,9 +2107,8 @@ async function renderModResults(mods) {
       addButton.disabled = true;
 
       modsSearchStatus.textContent = isModpack
-        ? `Preparando o modpack "${mod.title}"...`
-        : `Baixando "${mod.title}"...`;
-
+  ? translate("preparingModpack").replace("{name}", mod.title)
+  : translate("downloadingMod").replace("{name}", mod.title);
       try {
         const result = await window.cobble.installModrinthContent({
           projectId: mod.id,
@@ -1135,15 +2128,16 @@ async function renderModResults(mods) {
           updateModsInfo();
           loadProfileSettings();
 
-          modsSearchStatus.textContent =
-            `Modpack "${newProfile.name}" instalado em um perfil novo.`;
+          modsSearchStatus.textContent = translate("modpackInstalledNewProfile")
+  .replace("{name}", newProfile.name);
 
           scheduleModsSearch(true);
           return;
         }
 
-        modsSearchStatus.textContent =
-          `Mod "${result.filename}" instalado no perfil "${profile.name}".`;
+        modsSearchStatus.textContent = translate("modInstalledProfile")
+  .replace("{filename}", result.filename)
+  .replace("{profile}", profile.name);
 
         // Só marca como baixado se ainda estivermos no mesmo perfil
         // e na mesma categoria em que a instalação começou.
@@ -1158,8 +2152,8 @@ async function renderModResults(mods) {
       } catch (error) {
         console.error("[Instalação Modrinth]", error);
 
-        modsSearchStatus.textContent =
-          `Falha na instalação: ${friendlyError(error)}`;
+        modsSearchStatus.textContent = translate("installationFailed")
+  .replace("{error}", friendlyError(error));
 
         addButton.disabled = false;
       }
@@ -1281,19 +2275,24 @@ async function searchModsNow() {
   }
 
   if (!profile) {
-    modsSearchStatus.textContent =
-      "Seleciona uma instalação primeiro.";
-    modsPagination.hidden = true;
-    showModsMessage("Nenhuma instalação selecionada.");
-    return;
-  }
+  modsSearchStatus.textContent =
+    translate("selectInstallationForMods");
+
+  modsPagination.hidden = true;
+
+  showModsMessage(
+    translate("noInstallationSelected")
+  );
+
+  return;
+}
 
   if (modsCategory === "mod" && profile.loader === "vanilla") {
     modsSearchStatus.textContent =
-      "Mods precisam de uma instalação com mod loader.";
+      translate("modsNeedLoader");
     modsPagination.hidden = true;
     showModsMessage(
-      "Seleciona uma instalação com Fabric, Forge, NeoForge ou Quilt."
+      translate("selectModLoader")
     );
     return;
   }
@@ -1301,18 +2300,18 @@ async function searchModsNow() {
   if (query.length === 1) {
     modsSearchStatus.textContent = "";
     modsPagination.hidden = true;
-    showModsMessage("Digita pelo menos 2 caracteres ou deixa a pesquisa vazia.");
+    showModsMessage(translate("searchMinCharacters"));
     return;
   }
 
   if (!window.cobble?.searchMods) {
-    modsSearchStatus.textContent = "Pesquisa indisponível.";
-    showModsMessage("Confere a comunicação com o processo principal.");
+    modsSearchStatus.textContent = translate("searchUnavailable");
+    showModsMessage(translate("checkMainProcess"));
     return;
   }
 
-  modsSearchStatus.textContent = "Carregando resultados...";
-  showModsMessage("Pesquisando no Modrinth...");
+  modsSearchStatus.textContent = translate("loadingResults");
+  showModsMessage(translate("searchingModrinth"));
 
   try {
     const result = await window.cobble.searchMods({
@@ -1340,16 +2339,20 @@ async function searchModsNow() {
     if (hits.length === 0) {
       modsTotalPages = 0;
       modsPagination.hidden = true;
-      modsSearchStatus.textContent = "Nenhum resultado encontrado.";
-      showModsMessage("Tenta outra pesquisa ou categoria.");
+      modsSearchStatus.textContent = translate("noResultsFound");
+      showModsMessage(translate("tryAnotherSearch"));
       return;
     }
 
     const totalHits = Number(result.totalHits) || hits.length;
 
-    modsSearchStatus.textContent =
-      `${totalHits.toLocaleString("pt-BR")} resultado(s) · ` +
-      `Página ${modsCurrentPage} de ${modsTotalPages}`;
+    modsSearchStatus.textContent = translate("searchResultsStatus")
+  .replace(
+    "{count}",
+    totalHits.toLocaleString(getCurrentLanguage())
+  )
+  .replace("{current}", String(modsCurrentPage))
+  .replace("{total}", String(modsTotalPages));
 
     await renderModResults(hits);
 
@@ -1360,9 +2363,9 @@ renderModsPagination();
     if (requestId !== modsSearchRequest) return;
 
     console.error("[Modrinth] Erro:", error);
-    modsSearchStatus.textContent = "Falha ao carregar os resultados.";
+    modsSearchStatus.textContent = translate("searchFailed");
     modsPagination.hidden = true;
-    showModsMessage("Verifica a conexão e tenta novamente.");
+    showModsMessage(translate("checkConnectionRetry"));
   }
 }
 
@@ -1417,14 +2420,14 @@ accountButton?.addEventListener("click", async () => {
   if (loggedIn || loginInProgress) return;
 
   if (!window.cobble?.loginMicrosoft) {
-    setStatus("Erro: comunicação com o launcher indisponível.");
+    setStatus(translate("loginCommunicationError"));
     return;
   }
 
   loginInProgress = true;
   accountButton.disabled = true;
 
-  setStatus("Abrindo o login Microsoft...");
+  setStatus(translate("openingMicrosoftLogin"));
 
   try {
     const account = await window.cobble.loginMicrosoft();
@@ -1442,7 +2445,7 @@ accountButton?.addEventListener("click", async () => {
 
 logoutButton?.addEventListener("click", async () => {
   if (!window.cobble?.logoutMicrosoft) {
-    setStatus("Não foi possível comunicar com o launcher.");
+    setStatus(translate("loginCommunicationError"));
     return;
   }
 
@@ -1452,7 +2455,7 @@ logoutButton?.addEventListener("click", async () => {
     await window.cobble.logoutMicrosoft();
 
     setLoggedOut();
-    setStatus("Você saiu da conta Microsoft.");
+    setStatus(translate("signedOutMicrosoft"));
   } catch (error) {
     console.error("[Logout] Erro:", error);
 
@@ -1464,7 +2467,7 @@ logoutButton?.addEventListener("click", async () => {
 
 async function restoreSession() {
   if (!window.cobble?.restoreSession) {
-    setStatus("Entre com sua conta Microsoft para jogar.");
+    setStatus(translate("signInMicrosoftToPlay"));
     return;
   }
 
@@ -1472,22 +2475,26 @@ async function restoreSession() {
     accountButton.disabled = true;
   }
 
-  setStatus("Verificando conta salva...");
+  setStatus(translate("checkingSavedAccount"));
 
   try {
     const account = await window.cobble.restoreSession();
 
     if (account) {
-      setAccount(account);
-    } else {
+  setAccount(account);
+
+  if (typeof loadAccountCapes === "function") {
+    await loadAccountCapes();
+  }
+} else {
       setLoggedOut();
-      setStatus("Entre com sua conta Microsoft para jogar.");
+      setStatus(translate("signInMicrosoftToPlay"));
     }
   } catch (error) {
     console.error("[Sessão] Erro ao restaurar:", error);
 
     setLoggedOut();
-    setStatus("Entre com sua conta Microsoft para jogar.");
+    setStatus(translate("signInMicrosoftToPlay"));
   } finally {
     if (accountButton) {
       accountButton.disabled = false;
@@ -1501,7 +2508,7 @@ async function restoreSession() {
 
 playButton?.addEventListener("click", async () => {
   if (!loggedIn) {
-    setStatus("Entre com sua conta Microsoft primeiro.");
+    setStatus(translate("signInMicrosoftFirst"));
     return;
   }
 
@@ -1510,15 +2517,13 @@ playButton?.addEventListener("click", async () => {
   const profile = getSelectedProfile();
 
   if (!profile) {
-    setStatus("Cria uma instalação na tela Versões primeiro.");
+    setStatus(translate("createInstallationFirst"));
     navigateTo("versions");
     return;
   }
 
   if (!window.cobble?.installAndLaunch) {
-    setStatus(
-      "A função de inicialização não está disponível. Confere o preload.js."
-    );
+    setStatus(translate("launcherUnavailable"));
 
     return;
   }
@@ -1530,12 +2535,14 @@ playButton?.addEventListener("click", async () => {
 
   playButton.disabled = true;
 
-  setStatus(`Preparando ${profile.name}...`);
+  const preparingMessage = `${translate("preparingMinecraft")} (${profile.name})`;
+
+  setStatus(preparingMessage);
 
   updateLaunchProgress({
     stage: "preparing",
-    message: `Preparando ${profile.name}...`
-  });
+    message: preparingMessage
+});
 
   try {
     await window.cobble.installAndLaunch({
@@ -1545,7 +2552,7 @@ playButton?.addEventListener("click", async () => {
     console.error("[Minecraft] Erro ao iniciar:", error);
 
     const message = friendlyError(error);
-    const progressMessage = `Erro ao iniciar o Minecraft: ${message}`;
+    const progressMessage = `${translate("launchError")}: ${message}`;
 
     setStatus(progressMessage);
 
@@ -1572,15 +2579,19 @@ if (window.cobble?.onLaunchProgress) {
       typeof message === "object" && message !== null;
 
     const text = isObject
-      ? String(message.message || "Preparando Minecraft...")
-      : String(message || "Preparando Minecraft...");
+  ? String(message.message || translate("preparingMinecraft"))
+  : String(message || translate("preparingMinecraft"));
 
     const stage = isObject
       ? String(message.stage || "")
       : "";
 
-    setStatus(text);
     updateLaunchProgress(message);
+
+const statusText =
+  document.getElementById("progress-label")?.textContent || text;
+
+setStatus(statusText);
 
     if (
       stage === "started" ||
@@ -1644,19 +2655,20 @@ function createModManager() {
     >
       <header class="mod-manager-header">
         <div>
-          <h2 id="mod-manager-title">Gerenciar mods</h2>
+          <h2 id="mod-manager-title" data-i18n="manageMods">Gerenciar mods</h2>
           <p id="mod-manager-profile"></p>
         </div>
         <button
-          type="button"
-          class="secondary-button"
-          data-close-mod-manager
-        >
-          Fechar
-        </button>
+  type="button"
+  class="secondary-button"
+  data-close-mod-manager
+  data-i18n="close"
+>
+  Fechar
+</button>
       </header>
       <div class="mod-manager-list" id="mod-manager-list">
-        <p class="mod-manager-empty">Carregando mods...</p>
+        <p class="mod-manager-empty" data-i18n="loadingMods">Carregando mods...</p>
       </div>
     </section>
   `;
@@ -1688,7 +2700,7 @@ async function openModManager(profileId) {
   const profile = getProfile(profileId);
 
   if (!profile) {
-    setStatus("Não foi possível encontrar essa instalação.");
+    setStatus(translate("installationNotFound"));
     return;
   }
 
@@ -1715,7 +2727,7 @@ async function renderManagedMods(profileId) {
 
   const loading = document.createElement("p");
   loading.className = "mod-manager-empty";
-  loading.textContent = "Carregando mods...";
+  loading.textContent = translate("loadingMods");
   list.append(loading);
 
   try {
@@ -1726,7 +2738,7 @@ async function renderManagedMods(profileId) {
     if (!Array.isArray(mods) || mods.length === 0) {
       const empty = document.createElement("p");
       empty.className = "mod-manager-empty";
-      empty.textContent = "Nenhum mod instalado nesta instalação.";
+      empty.textContent = translate("noInstalledMods");
       list.append(empty);
       return;
     }
@@ -1766,14 +2778,16 @@ async function renderManagedMods(profileId) {
       info.className = "mod-manager-info";
 
       const title = document.createElement("h3");
-      title.textContent = mod.name || "Mod sem nome";
+      title.textContent = mod.name || translate("unnamedMod");
 
       const description = document.createElement("p");
-      description.textContent =
-        mod.description || "Sem descrição disponível.";
+description.textContent =
+  mod.description || translate("noModDescription");
 
       const state = document.createElement("p");
-      state.textContent = mod.enabled ? "Ativado" : "Desativado";
+      state.textContent = mod.enabled
+  ? translate("activated")
+  : translate("deactivated");
 
       info.append(title, description, state);
 
@@ -1783,7 +2797,9 @@ async function renderManagedMods(profileId) {
       const toggleButton = document.createElement("button");
       toggleButton.type = "button";
       toggleButton.className = "secondary-button";
-      toggleButton.textContent = mod.enabled ? "Desativar" : "Ativar";
+      toggleButton.textContent = mod.enabled
+  ? translate("disable")
+  : translate("enable");
 
       toggleButton.addEventListener("click", async () => {
         toggleButton.disabled = true;
@@ -1797,24 +2813,35 @@ async function renderManagedMods(profileId) {
 
           await renderManagedMods(profileId);
         } catch (error) {
-          setStatus(
-            `Não foi possível alterar o mod: ${friendlyError(error)}`
-          );
+         setStatus(
+  translate("toggleModError").replace(
+    "{error}",
+    friendlyError(error)
+  )
+); 
           toggleButton.disabled = false;
         }
       });
 
+      
       const removeButton = document.createElement("button");
-      removeButton.type = "button";
-      removeButton.className = "secondary-button";
-      removeButton.textContent = "Remover";
+removeButton.type = "button";
+removeButton.className = "secondary-button";
+removeButton.textContent = translate("remove");
 
-      removeButton.addEventListener("click", async () => {
-        const confirmed = window.confirm(
-          `Deseja remover o mod "${mod.name || mod.filename}"?`
-        );
+removeButton.addEventListener("click", async () => {
+  const modName = mod.name || mod.filename;
 
-        if (!confirmed) return;
+  const confirmed = await showConfirmModal({
+    title: translate("removeModTitle"),
+    message: translate("removeModMessage").replace(
+      "{name}",
+      modName
+    ),
+    confirmText: translate("confirmRemoveMod")
+  });
+
+  if (!confirmed) return;
 
         removeButton.disabled = true;
 
@@ -1827,8 +2854,11 @@ async function renderManagedMods(profileId) {
           await renderManagedMods(profileId);
         } catch (error) {
           setStatus(
-            `Não foi possível remover o mod: ${friendlyError(error)}`
-          );
+  translate("removeModError").replace(
+    "{error}",
+    friendlyError(error)
+  )
+);
           removeButton.disabled = false;
         }
       });
@@ -1844,8 +2874,10 @@ async function renderManagedMods(profileId) {
 
     const message = document.createElement("p");
     message.className = "mod-manager-empty";
-    message.textContent =
-      `Não foi possível carregar os mods: ${friendlyError(error)}`;
+    message.textContent = translate("loadModsError").replace(
+  "{error}",
+  friendlyError(error)
+);
 
     list.append(message);
   }
@@ -1864,12 +2896,168 @@ async function initialize() {
     restoreSession()
   ]);
 
+  loadDefaultSkinPortraits().catch((error) => {
+  console.error("Erro ao carregar as skins padrão:", error);
+});
+
   loadProfileSettings();
   updateModsInfo();
   scheduleModsSearch(true);
 }
 
 initialize();
+
+
+
+async function generateSkinPortrait(skin) {
+  const canvas = document.createElement("canvas");
+
+  const viewer = new window.skinview3d.SkinViewer({
+    canvas,
+    width: 256,
+    height: 384,
+    backgroundAlpha: 0
+  });
+
+  try {
+    await viewer.loadSkin(skin.data, {
+      model: skin.model === "alex" ? "slim" : "default"
+    });
+
+    viewer.controls.enableRotate = false;
+    viewer.controls.enableZoom = false;
+
+    viewer.playerObject.rotation.set(0, 0, 0);
+
+    viewer.camera.position.set(0, 0, 40);
+    viewer.camera.lookAt(0, 0, 0);
+    viewer.render();
+
+    return canvas.toDataURL("image/png");
+  } finally {
+    viewer.dispose();
+  }
+}
+
+async function loadDefaultSkinPortraits() {
+  const defaultSkins = [
+    {
+      name: "Steve",
+      model: "steve",
+      path: "assets/skins/steve.png",
+      elementId: "stevePortrait"
+    },
+    {
+      name: "Alex",
+      model: "alex",
+      path: "assets/skins/alex.png",
+      elementId: "alexPortrait"
+    }
+  ];
+
+  for (const skin of defaultSkins) {
+    const response = await fetch(skin.path);
+
+    if (!response.ok) {
+      throw new Error(
+        `Não foi possível carregar a skin: ${skin.name}`
+      );
+    }
+
+    const blob = await response.blob();
+
+    const data = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(reader.error);
+
+      reader.readAsDataURL(blob);
+    });
+
+    const portrait = await generateSkinPortrait({
+      data,
+      model: skin.model
+    });
+
+    const image = document.getElementById(skin.elementId);
+
+    if (image) {
+      image.src = portrait;
+    }
+  }
+}
+
+let selectedAccountSkin = null;
+let renamingSkin = null;
+let pendingSkinFile = null;
+
+const importSkinButton = document.getElementById("importSkinButton");
+const skinFileInput = document.getElementById("skinFileInput");
+
+importSkinButton?.addEventListener("click", () => {
+  skinFileInput?.click();
+});
+
+document.querySelectorAll(".skin-select").forEach((button) => {
+  button.addEventListener("click", () => {
+    const model = button.dataset.skin;
+
+    if (model !== "steve" && model !== "alex") {
+      return;
+    }
+
+    selectedAccountSkin = {
+      name: model,
+      model,
+      isDefault: true
+    };
+
+    document.querySelectorAll(".skin-card").forEach((card) => {
+      card.classList.remove("selected");
+    });
+
+    button.closest(".skin-card")?.classList.add("selected");
+
+    const accountSkinUpdateStatus = document.getElementById(
+      "accountSkinUpdateStatus"
+    );
+
+    if (accountSkinUpdateStatus) {
+  const skinName = model === "alex" ? "Alex" : "Steve";
+
+  accountSkinUpdateStatus.textContent = translate("skinSelectedAccount")
+    .replace("{name}", skinName);
+}
+  });
+});
+
+skinFileInput?.addEventListener("change", () => {
+  const file = skinFileInput.files?.[0];
+
+  if (!file) return;
+
+  if (file.type !== "image/png") {
+    skinStatus.textContent = translate("invalidSkinPng");
+    skinFileInput.value = "";
+    return;
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    skinStatus.textContent = translate("skinTooLarge");
+    skinFileInput.value = "";
+    return;
+  }
+
+  pendingSkinFile = file;
+  renamingSkin = null;
+
+  skinNameInput.value = file.name.replace(/\.png$/i, "");
+  confirmSkinNameButton.textContent = translate("importSkin");
+  skinNameModal.hidden = false;
+  skinNameInput.focus();
+  skinNameInput.select();
+});
 
 async function loadSavedSkins() {
   const importedSkinsGrid = document.getElementById("importedSkinsGrid");
@@ -1888,7 +3076,7 @@ async function loadSavedSkins() {
       const message = document.createElement("p");
       message.className = "hint";
       message.id = "emptySkinsMessage";
-      message.textContent = "Você ainda não importou nenhuma skin.";
+      message.textContent = translate("noSkinsImported");
       importedSkinsGrid.appendChild(message);
       return;
     }
@@ -1896,71 +3084,283 @@ async function loadSavedSkins() {
     for (const skin of skins) {
       const skinCard = document.createElement("article");
       skinCard.className = "skin-card";
+      skinCard.addEventListener("click", (event) => {
+  if (event.target.closest("button, select, label")) {
+    return;
+  }
+
+  selectedAccountSkin = {
+    name: skin.name,
+    model: skin.model === "alex" ? "alex" : "steve"
+  };
+
+  document
+  .querySelectorAll(".skin-card")
+  .forEach((card) => card.classList.remove("selected"));
+
+  skinCard.classList.add("selected");
+
+  const updateStatus = document.getElementById("accountSkinUpdateStatus");
+
+  if (updateStatus) {
+    updateStatus.textContent =
+      `Skin selecionada: ${skin.name.replace(/\.png$/i, "")}.`;
+  }
+});
+
 
       const skinPreview = document.createElement("div");
       skinPreview.className = "skin-preview";
 
       const preview = document.createElement("img");
-      preview.src = skin.data;
-      preview.alt = `Prévia da skin ${skin.name}`;
+preview.alt = `Personagem com a skin ${skin.name}`;
+preview.className = "skin-portrait";
+preview.src = "";
 
-      skinPreview.appendChild(preview);
+skinPreview.appendChild(preview);
 
-      const skinName = document.createElement("h3");
-      skinName.textContent = skin.name.replace(/\.png$/i, "");
-
-      skinCard.append(skinPreview, skinName);
-      importedSkinsGrid.appendChild(skinCard);
-    }
-  } catch (error) {
-    console.error("Erro ao carregar skins:", error);
-    if (skinStatus) {
-      skinStatus.textContent = "Não foi possível carregar as skins salvas.";
-    }
-  }
-}
-
-const importSkinButton = document.getElementById("importSkinButton");
-const skinFileInput = document.getElementById("skinFileInput");
-const skinStatus = document.getElementById("skinStatus");
-const importedSkinsGrid = document.getElementById("importedSkinsGrid");
-
-if (importSkinButton && skinFileInput) {
-  importSkinButton.addEventListener("click", () => {
-    skinFileInput.click();
+generateSkinPortrait(skin)
+  .then((image) => {
+    preview.src = image;
+  })
+  .catch((error) => {
+    console.error("Erro ao gerar imagem 2D da skin:", error);
+    console.error(error.stack || error.message || error);
+    preview.alt = "Não foi possível gerar a imagem da skin";
   });
 
-  skinFileInput.addEventListener("change", async () => {
-    const file = skinFileInput.files?.[0];
+const skinName = document.createElement("h3");
+skinName.textContent = skin.name.replace(/\.png$/i, "");
 
-    if (!file) return;
+const modelLabel = document.createElement("label");
+modelLabel.textContent = "Modelo da skin";
 
-    if (
-      file.type !== "image/png" ||
-      file.size === 0 ||
-      file.size > 2 * 1024 * 1024
-    ) {
-      skinStatus.textContent =
-        "Selecione um PNG válido de até 2 MB.";
-      skinFileInput.value = "";
-      return;
+const modelSelect = document.createElement("select");
+modelSelect.className = "skin-model-select";
+
+const steveOption = document.createElement("option");
+steveOption.value = "steve";
+steveOption.textContent = translate("steveModel");
+
+const alexOption = document.createElement("option");
+alexOption.value = "alex";
+alexOption.textContent = translate("alexModel");
+
+modelSelect.append(steveOption, alexOption);
+modelSelect.value = skin.model === "alex" ? "alex" : "steve";
+
+modelSelect.addEventListener("change", async () => {
+  modelSelect.disabled = true;
+
+  try {
+    const result = await window.cobble.setSkinModel({
+      name: skin.name,
+      model: modelSelect.value
+    });
+
+    if (!result?.success) {
+      throw new Error("Não foi possível salvar o modelo.");
     }
 
-    try {
+    skin.model = modelSelect.value;
+
+    if (skinStatus) {
+      skinStatus.textContent = translate("skinModelSaved")
+  .replace("{name}", skin.name.replace(/\.png$/i, ""));
+    }
+  } catch (error) {
+    modelSelect.value = skin.model === "alex" ? "alex" : "steve";
+
+    if (skinStatus) {
+      skinStatus.textContent =
+       error.message || translate("saveSkinModelFailed"); 
+    }
+
+    console.error("Erro ao salvar modelo da skin:", error);
+  } finally {
+    modelSelect.disabled = false;
+  }
+});
+
+const modelControls = document.createElement("div");
+modelControls.className = "skin-model-controls";
+modelControls.append(modelLabel, modelSelect);
+
+const renameButton = document.createElement("button");
+renameButton.type = "button";
+renameButton.className = "skin-rename-button";
+renameButton.innerHTML = `
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="15"
+    height="15"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M12 20h9"/>
+    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/>
+  </svg>
+  <span>${translate("renameSkin")}</span>
+`;
+
+renameButton.addEventListener("click", () => {
+  renamingSkin = skin;
+  pendingSkinFile = null;
+
+  skinNameInput.value = skin.name.replace(/\.png$/i, "");
+  confirmSkinNameButton.textContent = translate("saveSkinName");
+
+  skinNameModal.hidden = false;
+  skinNameInput.focus();
+  skinNameInput.select();
+});
+
+const deleteButton = document.createElement("button");
+deleteButton.type = "button";
+deleteButton.className = "button-danger";
+deleteButton.textContent = translate("deleteSkinButton");
+
+deleteButton.addEventListener("click", async () => {
+  const skinDisplayName = skin.name.replace(/\.png$/i, "");
+
+  const confirmed = await showConfirmModal({
+    title: translate("deleteSkinTitle"),
+    message: `A skin "${skinDisplayName}" será excluída permanentemente do CobbleLauncher.`,
+    confirmText: translate("deleteSkinButton")
+  });
+
+  if (!confirmed) return;
+
+  deleteButton.disabled = true;
+
+  try {
+    const result = await window.cobble.deleteSkin(skin.name);
+
+    if (result?.success === false) {
+      throw new Error("Não foi possível excluir a skin.");
+    }
+
+    if (selectedAccountSkin?.name === skin.name) {
+      selectedAccountSkin = null;
+    }
+
+    await loadSavedSkins();
+
+    if (skinStatus) {
+      skinStatus.textContent =
+        `Skin "${skinDisplayName}" excluída.`;
+    }
+  } catch (error) {
+    console.error("Erro ao excluir skin:", error);
+
+    if (skinStatus) {
+      skinStatus.textContent =
+        error.message || "Não foi possível excluir a skin.";
+    }
+
+    deleteButton.disabled = false;
+  }
+});
+
+skinCard.append(
+  skinPreview,
+  skinName,
+  modelControls,
+  renameButton,
+  deleteButton
+);
+
+importedSkinsGrid.appendChild(skinCard);
+}
+
+} catch (error) {
+  console.error("Erro ao carregar skins salvas:", error);
+
+  if (skinStatus) {
+    skinStatus.textContent =
+      error.message || "Não foi possível carregar as skins salvas.";
+  }
+}
+}
+
+
+cancelSkinNameButton.addEventListener("click", () => {
+  pendingSkinFile = null;
+  renamingSkin = null;
+  skinNameModal.hidden = true;
+  skinNameInput.value = "";
+  skinFileInput.value = "";
+  confirmSkinNameButton.textContent = translate("importSkin");
+});
+
+confirmSkinNameButton.addEventListener("click", async () => {
+  const chosenName = skinNameInput.value.trim();
+
+  if (!chosenName) {
+    skinNameInput.focus();
+    skinStatus.textContent = translate("skinNameRequired");
+    return;
+  }
+
+  const safeName =
+    chosenName
+      .replace(/[^a-zA-Z0-9._ -]/g, "_")
+      .replace(/\.png$/i, "") + ".png";
+
+  confirmSkinNameButton.disabled = true;
+  cancelSkinNameButton.disabled = true;
+
+  try {
+    if (renamingSkin) {
+      const oldName = renamingSkin.name;
+
+      if (safeName === oldName) {
+        skinNameModal.hidden = true;
+        renamingSkin = null;
+        confirmSkinNameButton.textContent = translate("importSkin");
+        return;
+      }
+
+      const wasSelected = selectedAccountSkin?.name === oldName;
+
+      const result = await window.cobble.renameSkin({
+        oldName,
+        newName: safeName
+      });
+
+      if (!result?.success) {
+        throw new Error("Não foi possível renomear a skin.");
+      }
+
+      if (wasSelected) {
+        selectedAccountSkin.name = safeName;
+      }
+
+      renamingSkin = null;
+      confirmSkinNameButton.textContent = translate("importSkin");
+      skinNameModal.hidden = true;
+
+      await loadSavedSkins();
+
+      skinStatus.textContent =
+        `Skin renomeada para ${safeName.replace(/\.png$/i, "")}.`;
+    } else {
+      if (!pendingSkinFile) return;
+
       const data = await new Promise((resolve, reject) => {
         const reader = new FileReader();
 
         reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(
-          new Error("Não foi possível ler o arquivo.")
-        );
+        reader.onerror = () =>
+          reject(new Error("Não foi possível ler o arquivo."));
 
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(pendingSkinFile);
       });
-
-      const safeName = file.name
-        .replace(/[^a-zA-Z0-9._ -]/g, "_")
-        .replace(/\.png$/i, "") + ".png";
 
       const result = await window.cobble.saveSkin({
         name: safeName,
@@ -1971,35 +3371,231 @@ if (importSkinButton && skinFileInput) {
         throw new Error("Não foi possível salvar a skin.");
       }
 
-      if (importedSkinsGrid) {
-        document.getElementById("emptySkinsMessage")?.remove();
+      await loadSavedSkins();
 
-        const skinCard = document.createElement("article");
-        skinCard.className = "skin-card";
+      skinStatus.textContent = translate("skinSaved")
+        .replace("{name}", safeName);
+      skinNameModal.hidden = true;
+      pendingSkinFile = null;
+    }
+  } catch (error) {
+    console.error("Erro ao salvar ou renomear skin:", error);
 
-        const skinPreview = document.createElement("div");
-        skinPreview.className = "skin-preview";
+    skinStatus.textContent =
+      error.message || "Não foi possível salvar a skin.";
+  } finally {
+    confirmSkinNameButton.disabled = false;
+    cancelSkinNameButton.disabled = false;
+    skinFileInput.value = "";
+  }
+});
 
-        const preview = document.createElement("img");
-        preview.src = data;
-        preview.alt = `Prévia da skin ${safeName}`;
 
-        skinPreview.appendChild(preview);
+skinNameInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    confirmSkinNameButton.click();
+  }
 
-        const skinName = document.createElement("h3");
-        skinName.textContent = safeName.replace(/\.png$/i, "");
+  if (event.key === "Escape") {
+    cancelSkinNameButton.click();
+  }
+});
 
-        skinCard.append(skinPreview, skinName);
-        importedSkinsGrid.appendChild(skinCard);
-      }
+const updateAccountSkinButton = document.getElementById(
+  "updateAccountSkinButton"
+);
 
-      skinStatus.textContent = `Skin salva: ${safeName}`;
+const accountSkinUpdateStatus = document.getElementById(
+  "accountSkinUpdateStatus"
+);
+
+if (updateAccountSkinButton) {
+  updateAccountSkinButton.addEventListener("click", async () => {
+    if (!selectedAccountSkin) {
+      accountSkinUpdateStatus.textContent =
+        "Selecione uma skin em Minhas skins primeiro.";
+      return;
+    }
+
+    updateAccountSkinButton.disabled = true;
+    accountSkinUpdateStatus.textContent =
+      "Enviando skin para sua conta Minecraft...";
+
+    try {
+      const result = await window.cobble.updateAccountSkin(
+        selectedAccountSkin
+      );
+
+      accountSkinUpdateStatus.textContent =
+        result.message || "Skin atualizada com sucesso!";
     } catch (error) {
-      console.error("Erro ao importar skin:", error);
-      skinStatus.textContent =
-        error.message || "Não foi possível salvar a skin.";
+      accountSkinUpdateStatus.textContent =
+        error.message || "Não foi possível atualizar a skin.";
     } finally {
-      skinFileInput.value = "";
+      updateAccountSkinButton.disabled = false;
     }
   });
 }
+
+
+const capeGrid = document.getElementById("capeGrid");
+const capeStatus = document.getElementById("capeStatus");
+const refreshCapesButton = document.getElementById("refreshCapesButton");
+const hideCapeButton = document.getElementById("hideCapeButton");
+
+function createCapePreview(textureUrl) {
+  return new Promise((resolve) => {
+    const image = new Image();
+
+    image.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 10;
+      canvas.height = 16;
+
+      const context = canvas.getContext("2d");
+      context.imageSmoothingEnabled = false;
+
+      // Recorta a área frontal da textura da capa.
+      context.drawImage(
+        image,
+        1, 1, 10, 16,
+        0, 0, 10, 16
+      );
+
+      resolve(canvas.toDataURL("image/png"));
+    };
+
+    image.onerror = () => resolve(textureUrl);
+    image.src = textureUrl;
+  });
+}
+
+async function loadAccountCapes() {
+  if (!capeGrid || !capeStatus) return;
+
+  capeGrid.replaceChildren();
+  capeStatus.textContent = translate("loadingCapes");
+
+  try {
+    const result = await window.cobble.getAccountCapes();
+    const capes = Array.isArray(result) ? result : result?.capes;
+
+    if (!Array.isArray(capes) || capes.length === 0) {
+      capeStatus.textContent = translate("noCapesFound");
+      return;
+    }
+
+    for (const cape of capes) {
+      console.log(
+  "[CobbleLauncher] Dados da capa:",
+  JSON.stringify(cape, null, 2)
+);
+      
+      
+      const capeCard = document.createElement("article");
+      capeCard.className = "skin-card";
+
+    
+    const capeImage = document.createElement("img");
+    capeImage.alt = `Capa ${cape.alias || "do Minecraft"}`;
+    capeImage.className = "cape-image";
+    capeImage.loading = "lazy";
+
+    const textureUrl = cape.url.replace(/^http:/i, "https:");
+
+    createCapePreview(textureUrl).then((previewUrl) => {
+      capeImage.src = previewUrl;
+});
+
+
+    const capeName = document.createElement("h3");
+    capeName.textContent = cape.alias || "Capa do Minecraft";
+
+
+      const capeInfo = document.createElement("p");
+capeInfo.className = "hint";
+capeInfo.textContent = translate(
+  cape.state === "active" ? "activeCape" : "availableCape"
+);
+
+const selectButton = document.createElement("button");
+selectButton.type = "button";
+selectButton.className = "secondary-button";
+selectButton.textContent = translate("useCape");
+      selectButton.disabled = !cape.id;
+
+      selectButton.addEventListener("click", async () => {
+        try {
+          capeStatus.textContent = translate("updatingCape");
+selectButton.disabled = true;
+
+await window.cobble.switchAccountCape(cape.id);
+capeStatus.textContent = translate("capeUpdatedSuccess");
+
+          await loadAccountCapes();
+        } catch (error) {
+          capeStatus.textContent = translate("switchCapeFailed");
+        } finally {
+          selectButton.disabled = false;
+        }
+      });
+
+      capeCard.append(capeImage, capeName, capeInfo, selectButton);
+      capeGrid.appendChild(capeCard);
+    }
+
+    capeStatus.textContent = translate("capesFound")
+  .replace("{count}", capes.length);
+  } catch (error) {
+  console.error("[Capas] Falha ao carregar:", error);
+  capeStatus.textContent = translate("loadCapesFailed");
+}
+}
+
+refreshCapesButton?.addEventListener("click", loadAccountCapes);
+document.querySelectorAll(".sidebar button, .sidebar a").forEach((button) => {
+  button.addEventListener("click", () => {
+    const label = button.textContent.trim().toLowerCase();
+
+    if (label === "capas") {
+      loadAccountCapes();
+    }
+  });
+});
+
+hideCapeButton?.addEventListener("click", async () => {
+  try {
+    hideCapeButton.disabled = true;
+    capeStatus.textContent = translate("hidingCape");
+
+    const result = await window.cobble.hideAccountCape();
+
+    capeStatus.textContent = translate("capeHiddenSuccess"); 
+
+    await loadAccountCapes();
+  } catch (error) {
+    capeStatus.textContent = translate("hideCapeFailed");
+  } finally {
+    hideCapeButton.disabled = false;
+  }
+});
+
+
+const languageSelect = document.getElementById("language-select");
+
+if (languageSelect) {
+  languageSelect.addEventListener("change", () => {
+    const language = languageSelect.value;
+
+    localStorage.setItem(
+      "cobblelauncher-language",
+      language
+    );
+
+    window.cobble.setLanguage(getCurrentLanguage());
+    applyTranslations();
+  });
+}
+
+window.cobble.setLanguage(getCurrentLanguage());
+applyTranslations();
