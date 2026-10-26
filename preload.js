@@ -3,6 +3,25 @@
 const { contextBridge, ipcRenderer } = require("electron");
 
 contextBridge.exposeInMainWorld("cobble", {
+  checkForUpdates: () =>
+  ipcRenderer.invoke("check-for-updates"),
+
+downloadUpdate: () =>
+  ipcRenderer.invoke("download-update"),
+
+installUpdate: () =>
+  ipcRenderer.invoke("install-update"),
+
+onUpdateStatus: (callback) => {
+  const listener = (_event, data) => callback(data);
+
+  ipcRenderer.on("update-status", listener);
+
+  return () => {
+    ipcRenderer.removeListener("update-status", listener);
+  };
+},
+
   getLanguage: () =>
     ipcRenderer.invoke("get-language"),
   setLanguage: (language) =>

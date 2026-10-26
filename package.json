@@ -1,6 +1,6 @@
 {
   "name": "cobblelauncher",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "CobbleLauncher - Minecraft Launcher",
   "main": "main.js",
   "scripts": {
@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "adm-zip": "^0.6.1",
+    "electron-updater": "^6.8.11",
     "eml-lib": "^2.7.4",
     "skinview3d": "^3.4.2",
     "three": "^0.186.1"
@@ -49,7 +50,14 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true
-    }
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "pedrxzy",
+        "repo": "CobbleLauncher"
+      }
+    ]
   },
   "allowScripts": {
     "electron-winstaller@5.4.0": true

@@ -202,6 +202,11 @@ const translations = {
     homeModsTitle: "Mods e modpacks",
     homeModsDescription: "Organize os mods de cada instalação.",
     homeViewMods: "Ver mods",
+    checkUpdatesButton: "Verificar atualizações",
+    updateCheckFailed: "Não foi possível verificar atualizações.",
+    noReleaseAvailable: "Ainda não há nenhuma versão publicada.",
+    updateAvailableMessage: "A versão {version} está disponível! Deseja abrir a página de download?",
+    upToDateMessage: "Seu CobbleLauncher está atualizado! Versão {version}.",
     homeSettingsTitle: "Configurações",
     homeSettingsDescription: "Personalize a memória e o Java.",
     homeConfigure: "Configurar",
@@ -252,6 +257,16 @@ const translations = {
     noticeTitle: "Aviso",
     close: "Fechar",
     allRightsReserved: "Todos os direitos reservados.",
+    updateNowButton: "Atualizar agora",
+    updateDownloading: "Baixando atualização: {percent}%",
+    updatePreparing: "Preparando download...",
+    updateInstallRestart: "Reiniciar para instalar",
+    updateConfirmInstall: "A versão {version} foi baixada. Desejas reiniciar o CobbleLauncher para instalar?",
+    updateAvailablePrompt: "A versão {version} está disponível. Desejas baixar a atualização agora?",
+    updateErrorDownload: "Não foi possível baixar a atualização.",
+    updateErrorChecking: "Não foi possível verificar atualizações.",
+    updateAlreadyCurrent: "O CobbleLauncher já está atualizado."
+
   },
 
   "en-US": {
@@ -500,6 +515,15 @@ const translations = {
     noticeTitle: "Notice",
     close: "Close",
     allRightsReserved: "All rights reserved.",
+    updateNowButton: "Update now",
+    updateDownloading: "Downloading update: {percent}%",
+    updatePreparing: "Preparing download...",
+    updateInstallRestart: "Restart to install",
+    updateConfirmInstall: "Version {version} has been downloaded. Would you like to restart CobbleLauncher to install it?",
+    updateAvailablePrompt: "Version {version} is available. Would you like to download it now?",
+    updateErrorDownload: "Could not download the update.",
+    updateErrorChecking: "Could not check for updates.",
+    updateAlreadyCurrent: "CobbleLauncher is up to date."
   },
 
   "es-ES": {
@@ -748,6 +772,15 @@ const translations = {
     noticeTitle: "Aviso",
     close: "Cerrar",
     allRightsReserved: "Todos los derechos reservados.",
+    updateNowButton: "Actualizar ahora",
+    updateDownloading: "Descargando actualización: {percent}%",
+    updatePreparing: "Preparando descarga...",
+    updateInstallRestart: "Reiniciar para instalar",
+    updateConfirmInstall: "Se ha descargado la versión {version}. ¿Quieres reiniciar CobbleLauncher para instalarla?",
+    updateAvailablePrompt: "La versión {version} está disponible. ¿Quieres descargarla ahora?",
+    updateErrorDownload: "No se pudo descargar la actualización.",
+    updateErrorChecking: "No se pudieron buscar actualizaciones.",
+    updateAlreadyCurrent: "CobbleLauncher está actualizado."
   }
 };
 
@@ -3961,6 +3994,147 @@ if (languageSelect) {
     window.cobble.setLanguage(getCurrentLanguage());
     applyTranslations();
   });
+}
+
+const checkUpdatesButton = document.getElementById("check-updates-button");
+const updateButtonLabel = document.getElementById("update-button-label");
+
+let updateReadyToInstall = false;
+let updateDownloading = false;
+
+function setUpdateButtonText(key, replacements = {}) {
+  if (!updateButtonLabel) return;
+
+  let text = translate(key);
+
+  for (const [name, value] of Object.entries(replacements)) {
+    text = text.replace(`{${name}}`, String(value));
+  }
+
+  updateButtonLabel.textContent = text;
+}
+
+if (checkUpdatesButton && updateButtonLabel) {
+  checkUpdatesButton.hidden = true;
+
+  window.cobble.onUpdateStatus((data) => {
+    if (data.status === "checking") {
+      checkUpdatesButton.hidden = true;
+    }
+
+    if (data.status === "available") {
+      checkUpdatesButton.hidden = false;
+      checkUpdatesButton.disabled = false;
+      setUpdateButtonText("updateNowButton");
+    }
+
+    if (data.status === "downloading") {
+      updateDownloading = true;
+      checkUpdatesButton.hidden = false;
+      checkUpdatesButton.disabled = true;
+
+      setUpdateButtonText("updateDownloading", {
+        percent: Math.floor(data.percent)
+      });
+    }
+
+    if (data.status === "downloaded") {
+      updateDownloading = false;
+      updateReadyToInstall = true;
+      checkUpdatesButton.hidden = false;
+      checkUpdatesButton.disabled = false;
+      setUpdateButtonText("updateInstallRestart");
+
+      const confirmed = confirm(
+        translate("updateConfirmInstall")
+          .replace("{version}", data.version)
+      );
+
+      if (confirmed) {
+        window.cobble.installUpdate();
+      }
+    }
+
+    if (data.status === "not-available") {
+      checkUpdatesButton.hidden = true;
+      checkUpdatesButton.disabled = false;
+    }
+
+    if (data.status === "error") {
+      updateDownloading = false;
+      checkUpdatesButton.disabled = false;
+
+      if (!updateReadyToInstall) {
+        checkUpdatesButton.hidden = false;
+        setUpdateButtonText("updateNowButton");
+      }
+
+      console.error("[Updates] Erro:", data.message);
+    }
+  });
+
+  checkUpdatesButton.addEventListener("click", async () => {
+    if (updateReadyToInstall) {
+      await window.cobble.installUpdate();
+      return;
+    }
+
+    if (updateDownloading) return;
+
+    updateDownloading = true;
+    checkUpdatesButton.disabled = true;
+    setUpdateButtonText("updatePreparing");
+
+    try {
+      const result = await window.cobble.downloadUpdate();
+
+      if (!result.success) {
+        throw new Error(
+          result.error || translate("updateErrorDownload")
+        );
+      }
+    } catch (error) {
+      updateDownloading = false;
+      checkUpdatesButton.disabled = false;
+      setUpdateButtonText("updateNowButton");
+
+      console.error("[Updates] Erro no download:", error);
+    }
+  });
+
+  function refreshUpdateButtonLanguage() {
+  if (!checkUpdatesButton || !updateButtonLabel) return;
+
+  if (updateReadyToInstall) {
+    setUpdateButtonText("updateInstallRestart");
+  } else if (updateDownloading) {
+    // O progresso será atualizado pelo evento de download.
+    return;
+  } else {
+    setUpdateButtonText("updateNowButton");
+  }
+}
+
+  // Verificação automática ao abrir o launcher.
+  window.cobble.checkForUpdates()
+    .then((result) => {
+      if (!result.success) {
+        console.error(
+          "[Updates] Erro na verificação:",
+          result.error
+        );
+        return;
+      }
+
+      if (result.updateAvailable) {
+        checkUpdatesButton.hidden = false;
+        checkUpdatesButton.disabled = false;
+        setUpdateButtonText("updateNowButton");
+      }
+    })
+    .catch((error) => {
+      console.error("[Updates] Erro na verificação automática:", error);
+    });
 }
 
 window.cobble.setLanguage(getCurrentLanguage());

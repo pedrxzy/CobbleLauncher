@@ -64,7 +64,41 @@
 
   <main>
     <header>
-      <span data-i18n="headerTagline">SEU MINECRAFT, DO SEU JEITO</span>
+       <span data-i18n="headerTagline">SEU MINECRAFT, DO SEU JEITO</span>
+
+<button
+  id="check-updates-button"
+  class="secondary-button"
+  type="button"
+  hidden
+>
+  <svg
+    class="update-button-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M12 3v12m-5-5 5 5 5-5"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <path
+      d="M5 16v4h14v-4"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+
+  <span
+  id="update-button-label"
+  data-i18n="updateNowButton"
+>Atualizar agora</span>
+</button>
 
       <div class="account-area">
         <button class="account" id="account-button">

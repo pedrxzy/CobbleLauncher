@@ -6,6 +6,7 @@ const fs = require("node:fs");
 const crypto = require("node:crypto");
 const { MicrosoftAuth, Launcher, Skin } = require("eml-lib");
 const AdmZip = require("adm-zip");
+const { autoUpdater } = require("electron-updater");
 
 let mainWindow = null;
 let currentAccount = null;
@@ -20,6 +21,70 @@ ipcMain.on("set-language", (_event, language) => {
     currentLanguage = language;
   }
 });
+
+ipcMain.handle("check-for-updates", async () => {
+  try {
+    if (!app.isPackaged) {
+      return {
+        success: false,
+        error: "As atualizações só funcionam na versão instalada."
+      };
+    }
+
+    const result = await autoUpdater.checkForUpdates();
+
+    return {
+      success: true,
+      updateAvailable: Boolean(result?.isUpdateAvailable),
+      currentVersion: app.getVersion(),
+      latestVersion: result?.updateInfo?.version || app.getVersion()
+    };
+  } catch (error) {
+    console.error("[Updates] Erro ao verificar:", error);
+
+    return {
+      success: false,
+      error: "Não foi possível verificar atualizações."
+    };
+  }
+});
+
+ipcMain.handle("download-update", async () => {
+  try {
+    if (!app.isPackaged) {
+      throw new Error("As atualizações só funcionam na versão instalada.");
+    }
+
+    await autoUpdater.downloadUpdate();
+
+    return { success: true };
+  } catch (error) {
+    console.error("[Updates] Erro ao baixar:", error);
+
+    return {
+      success: false,
+      error: "Não foi possível baixar a atualização."
+    };
+  }
+});
+
+ipcMain.handle("install-update", () => {
+  if (!app.isPackaged) {
+    return { success: false };
+  }
+
+  autoUpdater.quitAndInstall();
+  return { success: true };
+});
+
+ipcMain.handle("open-update-page", async () => {
+  await shell.openExternal(
+    "https://github.com/pedrxzy/CobbleLauncher/releases/latest"
+  );
+
+  return { success: true };
+});
+
 let isLaunching = false;
 
 const ROOT_NAME = "CobbleLauncher";
@@ -2626,7 +2691,58 @@ ipcMain.handle("install-and-launch", async (_event, selection) => {
 // EVENTOS DO ELECTRON
 // ==================================================
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  createWindow();
+
+  // Atualizações automáticas somente na versão instalada.
+  if (app.isPackaged) {
+    autoUpdater.autoDownload = false;
+    autoUpdater.autoInstallOnAppQuit = false;
+
+    autoUpdater.on("checking-for-update", () => {
+      mainWindow?.webContents.send("update-status", {
+        status: "checking"
+      });
+    });
+
+    autoUpdater.on("update-available", (info) => {
+      mainWindow?.webContents.send("update-status", {
+        status: "available",
+        version: info.version
+      });
+    });
+
+    autoUpdater.on("update-not-available", (info) => {
+      mainWindow?.webContents.send("update-status", {
+        status: "not-available",
+        version: info.version
+      });
+    });
+
+    autoUpdater.on("download-progress", (progress) => {
+      mainWindow?.webContents.send("update-status", {
+        status: "downloading",
+        percent: progress.percent
+      });
+    });
+
+    autoUpdater.on("update-downloaded", (info) => {
+      mainWindow?.webContents.send("update-status", {
+        status: "downloaded",
+        version: info.version
+      });
+    });
+
+    autoUpdater.on("error", (error) => {
+      console.error("[Atualizações] Erro:", error);
+
+      mainWindow?.webContents.send("update-status", {
+        status: "error",
+        message: error.message
+      });
+    });
+  }
+});
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
