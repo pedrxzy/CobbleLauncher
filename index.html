@@ -60,7 +60,6 @@
   <span data-i18n="navSettings">Configurações</span>
 </button>
 
-    <div class="bottom">● &nbsp; <span data-i18n="developmentStatus">Launcher em desenvolvimento</span></div>
   </aside>
 
   <main>
@@ -267,13 +266,22 @@
   <section class="panel">
     <h2 data-i18n="modsExploreContent">Explorar conteúdo</h2>
 
-    <div class="mods-categories" id="mods-categories">
-      <button class="mods-category active" data-category="mod" type="button" data-i18n="modsCategoryMods">Mods</button>
-      <button class="mods-category" data-category="resourcepack" type="button" data-i18n="modsCategoryResourcePacks">Pacotes de recursos</button>
-      <button class="mods-category" data-category="datapack" type="button" data-i18n="modsCategoryDataPacks">Pacotes de dados</button>
-      <button class="mods-category" data-category="modpack" type="button" data-i18n="modsCategoryModpacks">Modpacks</button>
-      <button class="mods-category" data-category="shader" type="button" data-i18n="modsCategoryShaders">Shaders</button>
-    </div>
+<div class="mods-platforms" id="mods-platforms">
+  <button class="mods-platform active" data-platform="modrinth" type="button">
+    Modrinth
+  </button>
+  <button class="mods-platform" data-platform="curseforge" type="button">
+    CurseForge
+  </button>
+</div>
+
+<div class="mods-categories" id="mods-categories">
+  <button class="mods-category active" data-category="mod" type="button" data-i18n="modsCategoryMods">Mods</button>
+  <button class="mods-category" data-category="resourcepack" type="button" data-i18n="modsCategoryResourcePacks">Pacotes de recursos</button>
+  <button class="mods-category" data-category="datapack" type="button" data-i18n="modsCategoryDataPacks">Pacotes de dados</button>
+  <button class="mods-category" data-category="modpack" type="button" data-i18n="modsCategoryModpacks">Modpacks</button>
+  <button class="mods-category" data-category="shader" type="button" data-i18n="modsCategoryShaders">Shaders</button>
+</div>
 
     <div class="mods-search-box">
       <label for="mods-search-query" data-i18n="modsSearchLabel">Pesquisar</label>
@@ -539,9 +547,9 @@
     
     </div>
 
-    <footer class="app-footer">
-      CobbleLauncher © 2026 · Todos os direitos reservados.
-    </footer>
+<footer class="app-footer">
+  CobbleLauncher © 2026 · <span data-i18n="allRightsReserved">Todos os direitos reservados.</span>
+</footer>
   </main>
 
   <script src="node_modules/skinview3d/bundles/skinview3d.bundle.js"></script>
@@ -561,6 +569,27 @@
       <button type="button" id="cancelDeleteSkin" data-i18n="cancel">Cancelar</button>
       <button type="button" id="confirmDeleteSkin" class="button-danger">
         <span data-i18n="deleteSkinButton">Excluir skin</span>
+      </button>
+    </div>
+  </section>
+</div>
+
+<div class="modal-overlay" id="modNoticeModal" hidden>
+  <section
+    class="confirm-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modNoticeTitle"
+  >
+    <div class="confirm-modal-icon">!</div>
+
+    <h2 id="modNoticeTitle">Aviso</h2>
+
+    <p id="modNoticeMessage"></p>
+
+    <div class="confirm-modal-actions">
+      <button type="button" id="closeModNotice" class="button-primary">
+        Entendi
       </button>
     </div>
   </section>

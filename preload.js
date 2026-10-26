@@ -49,6 +49,15 @@ hideAccountCape: () =>
   searchMods: (input) =>
     ipcRenderer.invoke("modrinth-search", input),
 
+  searchCurseForgeMods: (input) =>
+    ipcRenderer.invoke("curseforge-search", input),
+
+  getCurseForgeFiles: (input) =>
+    ipcRenderer.invoke("curseforge-files", input),
+
+  installCurseForgeMod: (input) =>
+    ipcRenderer.invoke("install-curseforge-mod", input),
+
   getModVersions: (input) =>
     ipcRenderer.invoke("modrinth-versions", input),
 

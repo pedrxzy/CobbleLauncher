@@ -70,7 +70,7 @@ const translations = {
     signedOutMicrosoft: "Você saiu da conta Microsoft.",
     signInMicrosoftToPlay: "Entre com sua conta Microsoft para jogar.",
     checkingSavedAccount: "Verificando conta salva...",
-    signInMicrosoftFirst: "Entre com sua conta Microsoft primeiro.",  
+    signInMicrosoftFirst: "Entre com sua conta Microsoft primeiro.",
     edit: "Editar",
     select: "Selecionar",
     manageMods: "Gerenciar mods",
@@ -120,6 +120,17 @@ const translations = {
     downloadingMod: 'Baixando "{name}"...',
     modpackInstalledNewProfile: 'Modpack "{name}" instalado em um perfil novo.',
     modInstalledProfile: 'Mod "{filename}" instalado no perfil "{profile}".',
+    curseForgeInstallFailed: "Não foi possível instalar este mod pelo CurseForge. Você pode tentar instalá-lo pelo Modrinth.",
+    installViaModrinth: "Instalar pelo Modrinth",
+    gotIt: "Entendi",
+    searchingModrinthMod: "Procurando o mod no Modrinth...",
+    modrinthModNotFound: "Mod não encontrado no Modrinth. Você pode procurá-lo manualmente.",
+    modrinthInstallSuccess: "Mod instalado pelo Modrinth com sucesso!",
+    modrinthInstallFailed: "Não foi possível instalar pelo Modrinth: {error}",
+    modAlreadyInstalled: "Este mod já está instalado neste perfil.",
+    installFailedTitle: "Falha na instalação",
+    modNotFoundTitle: "Mod não encontrado",
+    modAlreadyInstalledTitle: "Mod já instalado",
     installationFailed: "Falha na instalação: {error}",
     installationNotFound: "Não foi possível encontrar essa instalação.",
     loadingMods: "Carregando mods...",
@@ -162,7 +173,6 @@ const translations = {
     navMods: "Mods",
     navSkins: "Skins",
     navSettings: "Configurações",
-    developmentStatus: "Launcher em desenvolvimento",
     headerTagline: "SEU MINECRAFT, DO SEU JEITO",
     installationsLabel: "INSTALAÇÕES",
     versionsHeading: "Suas versões",
@@ -239,6 +249,9 @@ const translations = {
     modsSearchInitialMessage: "Escolha uma categoria e pesquise o que procura.",
     searchResultsStatus: "{count} resultado(s) · Página {current} de {total}",
     systemDefault: "Padrão do sistema",
+    noticeTitle: "Aviso",
+    close: "Fechar",
+    allRightsReserved: "Todos os direitos reservados.",
   },
 
   "en-US": {
@@ -355,6 +368,17 @@ const translations = {
     downloadingMod: 'Downloading "{name}"...',
     modpackInstalledNewProfile: 'Modpack "{name}" installed in a new profile.',
     modInstalledProfile: 'Mod "{filename}" installed in profile "{profile}".',
+    curseForgeInstallFailed: "Could not install this mod through CurseForge. You can try installing it through Modrinth.",
+    installViaModrinth: "Install via Modrinth",
+    gotIt: "Got it",
+    searchingModrinthMod: "Searching for the mod on Modrinth...",
+    modrinthModNotFound: "Couldn't find this mod on Modrinth. You can search for it manually.",
+    modrinthInstallSuccess: "Mod successfully installed through Modrinth!",
+    modrinthInstallFailed: "Could not install through Modrinth: {error}",
+    modAlreadyInstalled: "This mod is already installed in this profile.",
+    installFailedTitle: "Installation failed",
+    modNotFoundTitle: "Mod not found",
+    modAlreadyInstalledTitle: "Mod already installed",
     installationFailed: "Installation failed: {error}",
     installationNotFound: "Could not find this installation.",
     loadingMods: "Loading mods...",
@@ -397,7 +421,6 @@ const translations = {
     navMods: "Mods",
     navSkins: "Skins",
     navSettings: "Settings",
-    developmentStatus: "Launcher in development",
     headerTagline: "YOUR MINECRAFT, YOUR WAY",
     installationsLabel: "INSTALLATIONS",
     versionsHeading: "Your versions",
@@ -412,7 +435,7 @@ const translations = {
     compatibleLoaderHint: "Select a version compatible with the chosen Minecraft version.",
     existingInstallations: "Existing installations",
     loadingInstallations: "Loading installations...",
-    cancelEdit: "Cancel editing",  
+    cancelEdit: "Cancel editing",
     homeEdition: "MINECRAFT JAVA EDITION",
     homeTitleLine1: "Your world.",
     homeTitleLine2: "Your rules.",
@@ -451,7 +474,7 @@ const translations = {
     hideCape: "Hide cape",
     activeCape: "Active cape",
     availableCape: "Available cape",
-    useCape: "Use cape",  
+    useCape: "Use cape",
     updatingCape: "Updating your cape...",
     capeUpdatedSuccess: "Cape updated successfully.",
     switchCapeFailed: "Could not change the cape.",
@@ -472,8 +495,11 @@ const translations = {
     modsSearchPlaceholder: "Search content...",
     modsSearchHint: "Results respect the selected Minecraft version whenever applicable.",
     modsSearchInitialMessage: "Choose a category and search for what you're looking for.",
-    searchResultsStatus: "{count} result(s) · Page {current} of {total}", 
+    searchResultsStatus: "{count} result(s) · Page {current} of {total}",
     systemDefault: "System default",
+    noticeTitle: "Notice",
+    close: "Close",
+    allRightsReserved: "All rights reserved.",
   },
 
   "es-ES": {
@@ -570,7 +596,7 @@ const translations = {
     remove: "Eliminar",
     removeModTitle: "¿Eliminar mod?",
     removeModMessage: 'El mod "{name}" se eliminará de esta instalación.',
-    confirmRemoveMod: "Eliminar mod",  
+    confirmRemoveMod: "Eliminar mod",
     removeModError: "No se pudo eliminar el mod: {error}",
     loadModsError: "No se pudieron cargar los mods: {error}",
     modsCreateInstallation: "Crea una instalación en la pantalla Versiones para empezar.",
@@ -582,7 +608,7 @@ const translations = {
     noModDescription: "No hay descripción disponible.",
     unknownAuthor: "Autor desconocido",
     downloaded: "Descargado",
-    install: "Instalar",  
+    install: "Instalar",
     download: "Descargar",
     modInstallationUnavailable: "La función de instalación no está disponible. Comprueba preload.js.",
     createInstallationFirst: "Crea una instalación primero en la pantalla Versiones.",
@@ -590,6 +616,17 @@ const translations = {
     downloadingMod: 'Descargando "{name}"...',
     modpackInstalledNewProfile: 'Modpack "{name}" instalado en un perfil nuevo.',
     modInstalledProfile: 'Mod "{filename}" instalado en el perfil "{profile}".',
+    curseForgeInstallFailed: "No se pudo instalar este mod mediante CurseForge. Puedes intentar instalarlo mediante Modrinth.",
+    installViaModrinth: "Instalar mediante Modrinth",
+    gotIt: "Entendido",
+    searchingModrinthMod: "Buscando el mod en Modrinth...",
+    modrinthModNotFound: "No se encontró este mod en Modrinth. Puedes buscarlo manualmente.",
+    modrinthInstallSuccess: "¡Mod instalado correctamente mediante Modrinth!",
+    modrinthInstallFailed: "No se pudo instalar mediante Modrinth: {error}",
+    modAlreadyInstalled: "Este mod ya está instalado en este perfil.",
+    installFailedTitle: "Error de instalación",
+    modNotFoundTitle: "Mod no encontrado",
+    modAlreadyInstalledTitle: "Mod ya instalado",
     installationFailed: "Error de instalación: {error}",
     installationNotFound: "No se pudo encontrar esta instalación.",
     loadingMods: "Cargando mods...",
@@ -632,7 +669,6 @@ const translations = {
     navMods: "Mods",
     navSkins: "Skins",
     navSettings: "Configuración",
-    developmentStatus: "Launcher en desarrollo",
     headerTagline: "TU MINECRAFT, A TU MANERA",
     installationsLabel: "INSTALACIONES",
     versionsHeading: "Tus versiones",
@@ -664,7 +700,7 @@ const translations = {
     homeViewMods: "Ver mods",
     homeSettingsTitle: "Configuración",
     homeSettingsDescription: "Personaliza la memoria y Java.",
-    homeConfigure: "Configurar", 
+    homeConfigure: "Configurar",
     launcherReady: "CobbleLauncher está listo para comenzar.",
     launchProgressLabel: "Progreso del inicio",
     close: "Cerrar",
@@ -709,6 +745,9 @@ const translations = {
     modsSearchInitialMessage: "Elige una categoría y busca lo que necesitas.",
     searchResultsStatus: "{count} resultado(s) · Página {current} de {total}",
     systemDefault: "Predeterminado del sistema",
+    noticeTitle: "Aviso",
+    close: "Cerrar",
+    allRightsReserved: "Todos los derechos reservados.",
   }
 };
 
@@ -956,7 +995,16 @@ function showMessage(message, type = "info") {
 }
 
 function friendlyError(error) {
-  return error?.message || translate("unexpectedError");
+  const message = String(error?.message || error || "");
+
+  if (
+    message.includes("parece já estar instalado") ||
+    message.includes("já está instalado neste perfil")
+  ) {
+    return "Este mod já está instalado neste perfil.";
+  }
+
+  return translate("unexpectedError");
 }
 
 function getProfile(id) {
@@ -992,6 +1040,42 @@ function setLoggedOut() {
   }
 }
 
+async function generateHeadAvatar(skinData) {
+  const image = new Image();
+
+  await new Promise((resolve, reject) => {
+    image.onload = resolve;
+    image.onerror = () =>
+      reject(new Error("Não foi possível carregar a textura da skin."));
+    image.src = skinData;
+  });
+
+  if (image.naturalWidth < 64 || image.naturalHeight < 32) {
+    throw new Error("A textura da skin possui dimensões inválidas.");
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 64;
+  canvas.height = 64;
+
+  const context = canvas.getContext("2d");
+  context.imageSmoothingEnabled = false;
+
+  // Frente da cabeça.
+  context.drawImage(image, 8, 8, 8, 8, 0, 0, 64, 64);
+
+  // Camada externa da cabeça (chapéu/acessórios).
+  context.drawImage(image, 40, 8, 8, 8, 0, 0, 64, 64);
+
+const dataUrl = canvas.toDataURL("image/png");
+
+if (!dataUrl.startsWith("data:image/png;base64,")) {
+  throw new Error("O canvas não gerou uma PNG válida.");
+}
+
+return dataUrl;
+}
+
 function setAccount(account) {
   if (!account?.name) {
     throw new Error(translate("invalidMicrosoftAccount"));
@@ -1011,23 +1095,83 @@ function setAccount(account) {
     accountAvatar.hidden = true;
     accountAvatar.removeAttribute("src");
 
-    if (account.uuid) {
-      const uuid = account.uuid.replace(/-/g, "");
 
-      accountAvatar.onload = () => {
-        accountAvatar.hidden = false;
-      };
+if (account.uuid) {
+  const uuid = account.uuid.replace(/-/g, "");
+  const avatarKey =
+    `cobble-account-avatar-${account.name.toLowerCase()}`;
+  const savedAvatar = localStorage.getItem(avatarKey);
 
-      accountAvatar.onerror = () => {
-        accountAvatar.hidden = true;
-      };
+  accountAvatar.onload = () => {
+    accountAvatar.hidden = false;
+  };
 
-      accountAvatar.src =
-        `https://mc-heads.net/avatar/${encodeURIComponent(uuid)}/64`;
-    }
+  accountAvatar.onerror = () => {
+    accountAvatar.hidden = true;
+  };
+
+  if (savedAvatar) {
+    accountAvatar.src = savedAvatar;
+  } else {
+    accountAvatar.src =
+      `https://mc-heads.net/avatar/${encodeURIComponent(uuid)}/64?refresh=${Date.now()}`;
+  }
+}
   }
 
   setStatus(translate("accountConnected"));
+}
+
+function showModNotice(message, title = translate("noticeTitle"), options = null) {
+  const modal = $("modNoticeModal");
+  const titleElement = $("modNoticeTitle");
+  const messageElement = $("modNoticeMessage");
+  const closeButton = $("closeModNotice");
+
+  if (!modal || !titleElement || !messageElement || !closeButton) {
+    console.error("[CobbleLauncher] Elementos do modal não encontrados.");
+    return;
+  }
+
+  // Remove o botão de ação anterior, se existir.
+  modal.querySelector("#modNoticeActionButton")?.remove();
+
+  titleElement.textContent = title;
+  messageElement.textContent = message;
+  closeButton.textContent = options?.closeLabel || translate("close");
+
+  if (options?.actionLabel && typeof options.onAction === "function") {
+    const actionButton = document.createElement("button");
+
+    actionButton.id = "modNoticeActionButton";
+    actionButton.type = "button";
+    actionButton.className = closeButton.className;
+    actionButton.textContent = options.actionLabel;
+
+    actionButton.addEventListener("click", async () => {
+      modal.hidden = true;
+      actionButton.disabled = true;
+
+      try {
+        await options.onAction();
+      } catch (error) {
+        console.error("[CobbleLauncher] Ação do modal falhou:", error);
+      } finally {
+        actionButton.disabled = false;
+        actionButton.remove();
+      }
+    });
+
+    closeButton.parentElement.insertBefore(actionButton, closeButton);
+  }
+
+  closeButton.onclick = () => {
+    modal.hidden = true;
+    modal.querySelector("#modNoticeActionButton")?.remove();
+    closeButton.textContent = translate("close");
+  };
+
+  modal.hidden = false;
 }
 
 // ==================================================
@@ -1270,8 +1414,12 @@ document.querySelectorAll(".nav[data-page]").forEach((button) => {
     navigateTo(page);
 
     if (page === "skins") {
-      loadSavedSkins();
-    }
+  loadSavedSkins();
+}
+
+if (page === "mods") {
+  scheduleModsSearch();
+}
   });
 });
 
@@ -1431,7 +1579,7 @@ function renderProfiles() {
       deleteProfile(profile.id);
     });
 
-    
+
   actions.append(
     editButton,
     selectButton,
@@ -1918,7 +2066,7 @@ function updateModsInfo() {
 
   if (!profile) {
     modsInfo.textContent = translate("modsCreateInstallation");
-      
+
     return;
   }
 
@@ -1945,6 +2093,22 @@ let modsSearchTimer = null;
 let modsCurrentPage = 1;
 let modsTotalPages = 0;
 let modsCategory = "mod";
+
+let modsPlatform = "modrinth";
+
+const modsPlatforms = $("mods-platforms");
+
+modsPlatforms?.querySelectorAll("[data-platform]").forEach((button) => {
+  button.addEventListener("click", () => {
+    modsPlatform = button.dataset.platform;
+
+    modsPlatforms.querySelectorAll("[data-platform]").forEach((item) => {
+      item.classList.toggle("active", item === button);
+    });
+
+    scheduleModsSearch(true);
+  });
+});
 
 const validModCategories = [
   "mod",
@@ -2068,8 +2232,15 @@ formatModDownloads(mod.downloads);
     addButton.className = "mod-add-button";
     addButton.type = "button";
 
-    const isModpack = selectedCategory === "modpack";
-    const isInstalled = !isModpack && installedIds.has(mod.id);
+const isModpack = selectedCategory === "modpack";
+
+const installedId =
+  modsPlatform === "curseforge"
+    ? `curseforge-${mod.id}`
+    : mod.id;
+
+const isInstalled =
+  !isModpack && installedIds.has(installedId);
 
     function setDownloadedState() {
       addButton.textContent = translate("downloaded");
@@ -2089,10 +2260,15 @@ formatModDownloads(mod.downloads);
     addButton.addEventListener("click", async () => {
       if (addButton.disabled) return;
 
-      if (!window.cobble?.installModrinthContent) {
-        modsSearchStatus.textContent = translate("modInstallationUnavailable");
-        return;
-      }
+    const installFunction =
+      modsPlatform === "curseforge"
+        ? window.cobble?.installCurseForgeMod
+        : window.cobble?.installModrinthContent;
+
+    if (!installFunction) {
+      modsSearchStatus.textContent = translate("modInstallationUnavailable");
+      return;
+    }
 
       const profile = getProfile(modsProfile?.value);
 
@@ -2110,12 +2286,18 @@ formatModDownloads(mod.downloads);
   ? translate("preparingModpack").replace("{name}", mod.title)
   : translate("downloadingMod").replace("{name}", mod.title);
       try {
-        const result = await window.cobble.installModrinthContent({
-          projectId: mod.id,
-          category: categoryAtClick,
-          profileId: profileIdAtClick
-        });
-
+const result = await installFunction(
+  modsPlatform === "curseforge"
+    ? {
+        modId: Number(mod.id),
+        profileId: profileIdAtClick
+      }
+    : {
+        projectId: mod.id,
+        category: categoryAtClick,
+        profileId: profileIdAtClick
+      }
+);
         if (categoryAtClick === "modpack" && result.profile) {
           await loadProfiles();
 
@@ -2149,14 +2331,129 @@ formatModDownloads(mod.downloads);
         } else {
           addButton.disabled = false;
         }
-      } catch (error) {
-        console.error("[Instalação Modrinth]", error);
 
-        modsSearchStatus.textContent = translate("installationFailed")
-  .replace("{error}", friendlyError(error));
+} catch (error) {
+  console.error("[Instalação de mod]", error);
 
-        addButton.disabled = false;
+  const errorMessage = String(error?.message || error || "");
+
+  if (
+    errorMessage.includes("parece já estar instalado") ||
+    errorMessage.includes("já está instalado neste perfil")
+  ) {
+    modsSearchStatus.textContent =
+      "Este mod já está instalado neste perfil.";
+
+    showModNotice(
+  translate("modAlreadyInstalled"),
+  translate("modAlreadyInstalledTitle")
+);
+  } else if (
+    modsPlatform === "curseforge" &&
+    categoryAtClick === "mod"
+  ) {
+    modsSearchStatus.textContent =
+  translate("curseForgeInstallFailed");
+
+showModNotice(
+  translate("curseForgeInstallFailed"),
+  translate("installFailedTitle"),
+  {
+    actionLabel: translate("installViaModrinth"),
+    closeLabel: translate("gotIt"),
+        onAction: async () => {
+          try {
+            modsSearchStatus.textContent =
+              translate("searchingModrinthMod");
+
+            const normalize = (value) =>
+  String(value || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim();
+
+let matchingMod = null;
+
+if (normalize(mod.title).includes("entity culling")) {
+  matchingMod = {
+    id: "NNAgCjsB",
+    title: "Entity Culling"
+  };
+} else {
+  const result = await window.cobble.searchMods({
+    query: mod.title,
+    minecraftVersion: profile.minecraftVersion,
+    loader: profile.loader,
+    category: "mod",
+    offset: 0
+  });
+
+  const hits = result?.hits || [];
+
+  matchingMod = hits.find(
+    (item) => normalize(item.title) === normalize(mod.title)
+  );
+}
+
+if (!matchingMod) {
+  showModNotice(
+  translate("modrinthModNotFound"),
+  translate("modNotFoundTitle")
+);
+  return;
+}
+
+await window.cobble.installModrinthContent({
+  projectId: matchingMod.id,
+  category: "mod",
+  profileId: profileIdAtClick
+});
+
+            modsSearchStatus.textContent =
+              translate("modrinthInstallSuccess");
+
+            if (
+              modsProfile?.value === profileIdAtClick &&
+              modsCategory === categoryAtClick
+            ) {
+              setDownloadedState();
+            }
+
+            scheduleModsSearch(true);
+          } catch (fallbackError) {
+            console.error(
+              "[Instalação pelo Modrinth]",
+              fallbackError
+            );
+
+            const fallbackMessage = friendlyError(fallbackError);
+
+            const translatedFallbackError =
+              /este mod já está instalado neste perfil|this mod is already installed in this profile|este mod ya está instalado en este perfil/i.test(
+                fallbackMessage
+        )
+                ? translate("modAlreadyInstalled")
+                : fallbackMessage;
+
+showModNotice(
+  translate("modrinthInstallFailed").replace(
+    "{error}",
+    translatedFallbackError
+  ),
+  translate("installFailedTitle")
+);
+          }
+        }
       }
+    );
+  } else {
+    modsSearchStatus.textContent = translate("installationFailed")
+      .replace("{error}", friendlyError(error));
+  }
+
+  addButton.disabled = false;
+}
     });
 
     card.append(main, addButton);
@@ -2165,7 +2462,6 @@ formatModDownloads(mod.downloads);
 }
 
 
-  
 function renderModsPagination() {
   if (!modsPagination) return;
 
@@ -2314,13 +2610,47 @@ async function searchModsNow() {
   showModsMessage(translate("searchingModrinth"));
 
   try {
-    const result = await window.cobble.searchMods({
-      query,
-      minecraftVersion: profile.minecraftVersion,
-      loader: profile.loader,
-      category: modsCategory,
-      offset: (modsCurrentPage - 1) * MODS_PAGE_SIZE
-    });
+
+let result;
+
+if (modsPlatform === "curseforge") {
+  const curseForgeResult = await window.cobble.searchCurseForgeMods({
+    query: query || "minecraft",
+    gameVersion: profile.minecraftVersion,
+    loader: profile.loader,
+    index: (modsCurrentPage - 1) * MODS_PAGE_SIZE
+  });
+
+  if (!curseForgeResult?.success) {
+    throw new Error(
+      curseForgeResult?.error || "Falha na pesquisa do CurseForge."
+    );
+  }
+
+  const curseForgeHits = curseForgeResult.data || [];
+
+  result = {
+    hits: curseForgeHits.map((mod) => ({
+      id: String(mod.id),
+      slug: mod.slug,
+      title: mod.name,
+      description: mod.summary,
+      author: "CurseForge",
+      downloads: mod.downloads,
+      iconUrl: mod.iconUrl,
+      projectType: "mod"
+    })),
+    totalHits: curseForgeResult.pagination?.totalCount ?? curseForgeHits.length
+  };
+} else {
+  result = await window.cobble.searchMods({
+    query,
+    minecraftVersion: profile.minecraftVersion,
+    loader: profile.loader,
+    category: modsCategory,
+    offset: (modsCurrentPage - 1) * MODS_PAGE_SIZE
+  });
+}
 
     if (requestId !== modsSearchRequest) return;
 
@@ -2818,12 +3148,12 @@ description.textContent =
     "{error}",
     friendlyError(error)
   )
-); 
+);
           toggleButton.disabled = false;
         }
       });
 
-      
+
       const removeButton = document.createElement("button");
 removeButton.type = "button";
 removeButton.className = "secondary-button";
@@ -3090,9 +3420,10 @@ async function loadSavedSkins() {
   }
 
   selectedAccountSkin = {
-    name: skin.name,
-    model: skin.model === "alex" ? "alex" : "steve"
-  };
+  name: skin.name,
+  model: skin.model === "alex" ? "alex" : "steve",
+  data: skin.data
+};
 
   document
   .querySelectorAll(".skin-card")
@@ -3102,10 +3433,11 @@ async function loadSavedSkins() {
 
   const updateStatus = document.getElementById("accountSkinUpdateStatus");
 
-  if (updateStatus) {
-    updateStatus.textContent =
-      `Skin selecionada: ${skin.name.replace(/\.png$/i, "")}.`;
-  }
+
+if (updateStatus) {
+  updateStatus.textContent = translate("skinSelectedAccount")
+    .replace("{name}", skin.name.replace(/\.png$/i, ""));
+}
 });
 
 
@@ -3173,7 +3505,7 @@ modelSelect.addEventListener("change", async () => {
 
     if (skinStatus) {
       skinStatus.textContent =
-       error.message || translate("saveSkinModelFailed"); 
+       error.message || translate("saveSkinModelFailed");
     }
 
     console.error("Erro ao salvar modelo da skin:", error);
@@ -3411,32 +3743,66 @@ const accountSkinUpdateStatus = document.getElementById(
 
 if (updateAccountSkinButton) {
   updateAccountSkinButton.addEventListener("click", async () => {
-    if (!selectedAccountSkin) {
-      accountSkinUpdateStatus.textContent =
-        "Selecione uma skin em Minhas skins primeiro.";
-      return;
-    }
-
-    updateAccountSkinButton.disabled = true;
+  if (!selectedAccountSkin) {
     accountSkinUpdateStatus.textContent =
-      "Enviando skin para sua conta Minecraft...";
+      translate("selectSkinFirst");
+    return;
+  }
+
+updateAccountSkinButton.disabled = true;
+accountSkinUpdateStatus.textContent =
+  translate("uploadingAccountSkin");
 
     try {
       const result = await window.cobble.updateAccountSkin(
-        selectedAccountSkin
-      );
+  selectedAccountSkin
+);
 
-      accountSkinUpdateStatus.textContent =
-        result.message || "Skin atualizada com sucesso!";
-    } catch (error) {
-      accountSkinUpdateStatus.textContent =
-        error.message || "Não foi possível atualizar a skin.";
-    } finally {
-      updateAccountSkinButton.disabled = false;
-    }
-  });
+console.log("[Avatar] Upload concluído:", result?.success);
+console.log("[Avatar] Imagem recebida:", Boolean(result?.skinData));
+console.log(
+  "[Avatar] Tamanho dos dados:",
+  result?.skinData?.length
+);
+
+if (result?.success && result.skinData && accountAvatar) {
+  try {
+    const avatarData = await generateHeadAvatar(result.skinData);
+    const avatarKey =
+      `cobble-account-avatar-${accountName.textContent.toLowerCase()}`;
+
+    localStorage.setItem(avatarKey, avatarData);
+    console.log("[Avatar] Imagem gerada:", Boolean(avatarData));
+    console.log("[Avatar] Tipo:", typeof avatarData);
+    console.log("[Avatar] Início da URL:", avatarData.slice(0, 80));
+    console.log("[Avatar] Comprimento da URL:", avatarData.length);
+    console.log("[Avatar] URL válida:", avatarData.startsWith("data:image/png;base64,"));
+    accountAvatar.onload = () => {
+      console.log("[Avatar] Imagem carregada com sucesso.");
+      accountAvatar.hidden = false;
+    };
+
+    accountAvatar.onerror = () => {
+      console.error("[Avatar] O navegador não conseguiu exibir a imagem.");
+    };
+
+    accountAvatar.src = avatarData;
+  } catch (error) {
+    console.error("[Avatar] Falha ao gerar a imagem:", error);
+  }
 }
 
+accountSkinUpdateStatus.textContent =
+  translate(result.messageKey || "skinUpdatedSuccess");
+} catch (error) {
+  accountSkinUpdateStatus.textContent =
+    error.message || translate("skinUpdateFailed");
+} finally {
+  updateAccountSkinButton.disabled = false;
+}
+
+  });
+}
 
 const capeGrid = document.getElementById("capeGrid");
 const capeStatus = document.getElementById("capeStatus");
@@ -3490,12 +3856,12 @@ async function loadAccountCapes() {
   "[CobbleLauncher] Dados da capa:",
   JSON.stringify(cape, null, 2)
 );
-      
-      
+
+
       const capeCard = document.createElement("article");
       capeCard.className = "skin-card";
 
-    
+
     const capeImage = document.createElement("img");
     capeImage.alt = `Capa ${cape.alias || "do Minecraft"}`;
     capeImage.className = "cape-image";
@@ -3570,7 +3936,7 @@ hideCapeButton?.addEventListener("click", async () => {
 
     const result = await window.cobble.hideAccountCape();
 
-    capeStatus.textContent = translate("capeHiddenSuccess"); 
+    capeStatus.textContent = translate("capeHiddenSuccess");
 
     await loadAccountCapes();
   } catch (error) {

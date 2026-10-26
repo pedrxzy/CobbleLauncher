@@ -29,7 +29,7 @@ const DEFAULT_RAM = 4096;
 const MAX_RAM_LIMIT = 65536;
 const MINECRAFT_VERSION_MANIFEST =
   "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json";
-  
+
 let minecraftVersionsCache = null;
 
 async function getMinecraftVersions() {
@@ -544,10 +544,13 @@ ipcMain.handle("update-account-skin", async (_event, input) => {
 
     await skinManager.updateSkin(skinBlob, model);
 
-    return {
-      success: true,
-      message: "Skin atualizada no perfil Minecraft."
-    };
+return {
+  success: true,
+  messageKey: "skinUpdatedSuccess",
+  skinData: `data:image/png;base64,${skinBuffer.toString("base64")}`,
+  model
+};
+
   } catch (error) {
     console.error("[Skin] Falha ao atualizar:", error);
     console.error("[Skin] Causa original:", error.cause);
@@ -811,12 +814,124 @@ ipcMain.handle("get-loader-versions", async (_event, input) => {
 
 const MODRINTH_API = "https://api.modrinth.com/v2";
 
+const COBBLELAUNCHER_API =
+  "https://cobblelauncher-api.pedrxz.workers.dev";
+
 const MODRINTH_LOADERS = [
   "fabric",
   "forge",
   "neoforge",
   "quilt"
 ];
+
+ipcMain.handle("curseforge-search", async (_event, input = {}) => {
+  try {
+    const query = String(input.query || "").trim();
+
+    if (query.length < 2 || query.length > 100) {
+      return {
+        success: false,
+        error: "A pesquisa deve ter entre 2 e 100 caracteres."
+      };
+    }
+
+    const params = new URLSearchParams();
+    params.set("query", query);
+
+    if (input.gameVersion) {
+      params.set("gameVersion", String(input.gameVersion));
+    }
+
+    if (input.loader) {
+      params.set("loader", String(input.loader).toLowerCase());
+    }
+
+    if (input.index !== undefined) {
+      params.set("index", String(input.index));
+    }
+
+    const response = await fetch(
+      `${COBBLELAUNCHER_API}/curseforge/search?${params.toString()}`,
+      {
+        headers: {
+          Accept: "application/json"
+        },
+        signal: AbortSignal.timeout(15000)
+      }
+    );
+
+    const result = await response.json();
+
+    console.log("[CurseForge] Resposta da API:", {
+  status: response.status,
+  quantidade: result.data?.length,
+  erro: result.error
+});
+
+    if (!response.ok) {
+      return {
+        success: false,
+        error: result.error || "Não foi possível pesquisar no CurseForge."
+      };
+    }
+
+    return {
+      success: true,
+      data: result.data || [],
+      pagination: result.pagination || null
+    };
+  } catch (error) {
+    console.error("[CobbleLauncher] Erro na pesquisa CurseForge:", error);
+
+    return {
+      success: false,
+      error: "Não foi possível conectar ao serviço do CurseForge."
+    };
+  }
+});
+
+ipcMain.handle("curseforge-files", async (_event, input = {}) => {
+  try {
+    const modId = Number(input.modId);
+    const gameVersion = String(input.gameVersion || "").trim();
+    const loader = String(input.loader || "").toLowerCase();
+
+    if (!Number.isSafeInteger(modId) || modId <= 0) {
+      return { success: false, error: "ID do mod inválido." };
+    }
+
+    const params = new URLSearchParams({
+      modId: String(modId),
+      gameVersion,
+      loader
+    });
+
+    const response = await fetch(
+      `${COBBLELAUNCHER_API}/curseforge/files?${params}`,
+      {
+        headers: { Accept: "application/json" },
+        signal: AbortSignal.timeout(15000)
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      return {
+        success: false,
+        error: result.error || "Não foi possível buscar os arquivos."
+      };
+    }
+
+    return { success: true, data: result.data || [] };
+  } catch (error) {
+    console.error("[CobbleLauncher] Erro ao buscar arquivos CurseForge:", error);
+    return {
+      success: false,
+      error: "Não foi possível conectar ao serviço do CurseForge."
+    };
+  }
+});
 
 ipcMain.handle("modrinth-search", async (_event, input) => {
   const query = String(input?.query || "").trim();
@@ -867,7 +982,7 @@ ipcMain.handle("modrinth-search", async (_event, input) => {
   } else {
     facets.push([`versions:${minecraftVersion}`]);
   }
-  
+
 const params = new URLSearchParams({
   limit: "20",
   offset: String(offset),
@@ -994,12 +1109,18 @@ function isAllowedDownloadUrl(value) {
 
     const host = url.hostname.toLowerCase();
 
-    return [
+    const allowedHosts = [
       "cdn.modrinth.com",
       "github.com",
       "raw.githubusercontent.com",
-      "gitlab.com"
-    ].some((allowed) => host === allowed || host.endsWith(`.${allowed}`));
+      "gitlab.com",
+      "edge.forgecdn.net",
+      "media.forgecdn.net"
+    ];
+
+    return allowedHosts.some(
+      (allowed) => host === allowed || host.endsWith(`.${allowed}`)
+    );
   } catch {
     return false;
   }
@@ -1063,6 +1184,70 @@ function copyMrpackOverrides(zip, prefix, instanceDirectory) {
   }
 }
 
+function checkDuplicateMod(
+  modsDirectory,
+  modId,
+  filename,
+  modName,
+  hashes = {}
+) {
+  const metadataPath = path.join(
+    modsDirectory,
+    ".cobble-mods.json"
+  );
+
+  let installedMods = {};
+
+  try {
+    installedMods = JSON.parse(
+      fs.readFileSync(metadataPath, "utf8")
+    );
+  } catch {
+    installedMods = {};
+  }
+
+  const normalizedFilename = String(filename || "")
+    .trim()
+    .toLowerCase();
+
+  const incomingSha1 = String(hashes.sha1 || "").toLowerCase();
+  const incomingSha512 = String(hashes.sha512 || "").toLowerCase();
+
+  const duplicateEntry = Object.entries(installedMods).find(
+    ([id, mod]) => {
+      if (id === String(modId)) return true;
+
+      const sameFile =
+        String(mod.filename || "").trim().toLowerCase() ===
+        normalizedFilename;
+
+      const sameSha1 =
+        incomingSha1 &&
+        String(mod.sha1 || "").toLowerCase() === incomingSha1;
+
+      const sameSha512 =
+        incomingSha512 &&
+        String(mod.sha512 || "").toLowerCase() === incomingSha512;
+
+      return sameFile || sameSha1 || sameSha512;
+    }
+  );
+
+  if (duplicateEntry) {
+    throw new Error(
+      `"${modName}" parece já estar instalado neste perfil. Verifique os mods instalados antes de tentar novamente.`
+    );
+  }
+
+  const destination = path.join(modsDirectory, filename);
+
+  if (fs.existsSync(destination)) {
+    throw new Error(
+      `Já existe um arquivo chamado "${filename}" na pasta de mods.`
+    );
+  }
+}
+
 async function installModrinthMod(input) {
   const settings = loadSettings();
   const profile = settings.profiles.find(
@@ -1118,9 +1303,16 @@ async function installModrinthMod(input) {
     "mods"
   );
 
-  const destination = resolveInside(modsDirectory, file.filename);
+checkDuplicateMod(
+  modsDirectory,
+  projectId,
+  file.filename,
+  project.title
+);
 
-  await downloadVerifiedFile(
+const destination = resolveInside(modsDirectory, file.filename);
+
+await downloadVerifiedFile(
   file.url,
   destination,
   file.hashes || {}
@@ -1147,6 +1339,8 @@ installedMods[projectId] = {
   name: project.title || "Mod sem nome",
   description: project.description || "",
   iconUrl: project.icon_url || "",
+  sha1: file.hashes?.sha1 || "",
+  sha512: file.hashes?.sha512 || "",
   installedAt: new Date().toISOString()
 };
 
@@ -1160,6 +1354,128 @@ fs.writeFileSync(
     success: true,
     profileName: profile.name,
     filename: file.filename
+  };
+}
+
+
+async function installCurseForgeMod(input) {
+  const settings = loadSettings();
+  const profile = settings.profiles.find(
+    (item) => item.id === input.profileId
+  );
+
+  if (!profile) {
+    throw new Error("Seleciona uma instalação válida.");
+  }
+
+  if (profile.loader === "vanilla") {
+    throw new Error("Mods exigem Fabric, Forge, NeoForge ou Quilt.");
+  }
+
+  const modId = Number(input.modId);
+
+  if (!Number.isSafeInteger(modId) || modId <= 0) {
+    throw new Error("Identificador do mod inválido.");
+  }
+
+  const params = new URLSearchParams({
+    modId: String(modId),
+    gameVersion: profile.minecraftVersion,
+    loader: profile.loader
+  });
+
+  const response = await fetch(
+    `${COBBLELAUNCHER_API}/curseforge/files?${params}`,
+    {
+      headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(15000)
+    }
+  );
+
+  const result = await response.json();
+
+  if (!response.ok || !Array.isArray(result.data)) {
+    throw new Error(
+      result.error || "Não foi possível buscar os arquivos do CurseForge."
+    );
+  }
+
+console.log(
+  "[CurseForge] Arquivos recebidos:",
+  result.data.map((item) => ({
+    fileName: item.fileName,
+    gameVersions: item.gameVersions,
+    hasDownloadUrl: Boolean(item.downloadUrl)
+  }))
+);
+
+const file = result.data.find(
+  (item) =>
+    item.downloadUrl &&
+    item.fileName &&
+    path.basename(item.fileName) === item.fileName &&
+    Array.isArray(item.gameVersions) &&
+    item.gameVersions.includes(profile.minecraftVersion)
+);
+
+  if (!file) {
+    throw new Error(
+      "Não foi encontrado um arquivo compatível com esta instalação."
+    );
+  }
+
+  const modsDirectory = path.join(
+    getInstanceDirectory(profile),
+    "mods"
+  );
+
+checkDuplicateMod(
+  modsDirectory,
+  `curseforge-${modId}`,
+  file.fileName,
+  file.displayName,
+  file.hashes || {}
+);
+
+const destination = resolveInside(modsDirectory, file.fileName);
+
+await downloadVerifiedFile(
+  file.downloadUrl,
+  destination,
+  file.hashes || {}
+);
+
+  const metadataPath = path.join(modsDirectory, ".cobble-mods.json");
+
+  let installedMods = {};
+
+  try {
+    installedMods = JSON.parse(fs.readFileSync(metadataPath, "utf8"));
+  } catch {
+    installedMods = {};
+  }
+
+installedMods[`curseforge-${modId}`] = {
+  filename: file.fileName,
+  name: file.displayName || file.fileName,
+  description: "",
+  iconUrl: "",
+  source: "curseforge",
+  sha1: file.hashes?.sha1 || "",
+  sha512: file.hashes?.sha512 || "",
+  installedAt: new Date().toISOString()
+};
+
+  fs.writeFileSync(
+    metadataPath,
+    JSON.stringify(installedMods, null, 2),
+    "utf8"
+  );
+
+  return {
+    success: true,
+    profileName: profile.name,
+    filename: file.fileName
   };
 }
 
@@ -1362,6 +1678,14 @@ ipcMain.handle("install-modrinth-content", async (_event, input) => {
   );
 });
 
+ipcMain.handle("install-curseforge-mod", async (_event, input) => {
+  if (!input || typeof input !== "object") {
+    throw new Error("Dados de instalação inválidos.");
+  }
+
+  return installCurseForgeMod(input);
+});
+
 
 // ==================================================
 // OPERAÇÕES DOS PERFIS
@@ -1434,6 +1758,8 @@ let data = metadataEntry?.[1] || {};
 
 if (
   projectId &&
+  data.source !== "curseforge" &&
+  !projectId.startsWith("curseforge-") &&
   (!data.name || !data.description || !data.iconUrl)
 ) {
   try {
@@ -1640,7 +1966,7 @@ ipcMain.handle("save-skin", async (_event, input) => {
   }
 
   const { name, data, model = "steve" } = input;
-  
+
 if (
   typeof name !== "string" ||
   !/^[\w -]+\.png$/i.test(name) ||
