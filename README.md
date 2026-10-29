@@ -1,3 +1,21 @@
+# 📢 CobbleLauncher — Temporary Development Pause
+
+Hey everyone!
+
+Development on CobbleLauncher will be taking a short break while I focus on another project.
+
+CobbleLauncher is already close to completion, and this isn't the end of the project! I just need some time to work on other things before returning to finish up and continue improving the launcher.
+
+Thank you to everyone who has supported CobbleLauncher so far. Your support means a lot!
+
+**We'll be back soon. See you in the next update!**
+
+— The CobbleLauncher Team
+
+
+
+
+
 # CobbleLauncher
 
 A custom Minecraft launcher for Windows, built with Electron. Manage your Minecraft profiles, install mods and modpacks, customize your skins, and keep your launcher up to date.
