@@ -19,9 +19,10 @@ A custom Minecraft Java Edition launcher built with Electron. Manage your Minecr
 ## Platform Support
 
 | Platform | Status |
-|---|---|
-| Windows | Available |
-| Linux | In development |
+|----------|--------|
+| Windows  | Available |
+| Linux    | In development |
+| macOS    | Not supported yet |
 
 ## Features
 
