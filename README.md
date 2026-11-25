@@ -22,7 +22,7 @@ A custom Minecraft Java Edition launcher built with Electron. Manage your Minecr
 |----------|--------|
 | Windows  | Available |
 | Linux    | In development |
-| macOS    | Not supported yet |
+| MacOS    | Not supported yet |
 
 ## Features
 
