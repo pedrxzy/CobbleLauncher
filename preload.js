@@ -6,11 +6,45 @@ contextBridge.exposeInMainWorld("cobble", {
   checkForUpdates: () =>
   ipcRenderer.invoke("check-for-updates"),
 
+onManualDownloadRequired: (callback) => {
+  const listener = (_event, data) => callback(data);
+
+  ipcRenderer.on("manual-download-required", listener);
+
+  return () => {
+    ipcRenderer.removeListener(
+      "manual-download-required",
+      listener
+    );
+  };
+},
+
+openManualDownload: (requestId) =>
+  ipcRenderer.invoke("manual-download-open", requestId),
+
+selectManualDownload: (requestId) =>
+  ipcRenderer.invoke("manual-download-select", requestId),
+
+cancelManualDownload: (requestId) =>
+  ipcRenderer.invoke("manual-download-cancel", requestId),
+
+getProfileWorlds: (profileId) =>
+  ipcRenderer.invoke("get-profile-worlds", profileId),
+
+getInstalledContent: (input) =>
+  ipcRenderer.invoke("get-installed-content", input),
+
 downloadUpdate: () =>
   ipcRenderer.invoke("download-update"),
 
 installUpdate: () =>
   ipcRenderer.invoke("install-update"),
+
+toggleInstalledContent: (input) =>
+  ipcRenderer.invoke("toggle-installed-content", input),
+
+removeInstalledContent: (input) =>
+  ipcRenderer.invoke("remove-installed-content", input),
 
 onUpdateStatus: (callback) => {
   const listener = (_event, data) => callback(data);

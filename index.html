@@ -312,12 +312,21 @@
 <div class="mods-categories" id="mods-categories">
   <button class="mods-category active" data-category="mod" type="button" data-i18n="modsCategoryMods">Mods</button>
   <button class="mods-category" data-category="resourcepack" type="button" data-i18n="modsCategoryResourcePacks">Pacotes de recursos</button>
-  <button class="mods-category" data-category="datapack" type="button" data-i18n="modsCategoryDataPacks">Pacotes de dados</button>
+  <button class="mods-category" data-category="datapack" type="button" data-i18n="modsCategoryDataPacks">Datapacks</button>
   <button class="mods-category" data-category="modpack" type="button" data-i18n="modsCategoryModpacks">Modpacks</button>
   <button class="mods-category" data-category="shader" type="button" data-i18n="modsCategoryShaders">Shaders</button>
 </div>
 
-    <div class="mods-search-box">
+  <div id="datapack-world-group" hidden>
+  <label for="datapack-search-world"
+         data-i18n="selectWorld">
+    Selecionar mundo
+  </label>
+
+  <select id="datapack-search-world"></select>
+</div>  
+
+  <div class="mods-search-box">
       <label for="mods-search-query" data-i18n="modsSearchLabel">Pesquisar</label>
       <input
         id="mods-search-query"
@@ -586,8 +595,7 @@
 </footer>
   </main>
 
-  <script src="node_modules/skinview3d/bundles/skinview3d.bundle.js"></script>
-  <script src="renderer.js"></script>
+  
 
 <div class="modal-overlay" id="deleteSkinModal" hidden>
   <section class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="deleteSkinTitle">
@@ -629,5 +637,159 @@
   </section>
 </div>
 
+<dialog id="world-picker-modal"
+        class="world-picker-modal">
+
+  <div class="world-picker-header">
+    <h2 data-i18n="selectWorldTitle">
+      Selecionar mundo
+    </h2>
+
+    <button id="world-picker-close"
+            class="world-picker-close"
+            type="button"
+            data-i18n-aria-label="close">
+      ×
+    </button>
+  </div>
+
+  <p class="world-picker-description"
+     data-i18n="selectWorldDescription">
+    Escolha em qual mundo deseja instalar este Datapack.
+  </p>
+
+  <div id="world-picker-profile"
+       class="world-picker-profile">
+  </div>
+
+  <div id="world-picker-list"
+       class="world-picker-list">
+  </div>
+
+  <div class="world-picker-actions">
+    <button id="world-picker-cancel"
+            class="secondary-button"
+            type="button"
+            data-i18n="cancel">
+      Cancelar
+    </button>
+
+    <button id="world-picker-confirm"
+            class="world-picker-confirm"
+            type="button"
+            data-i18n="installDatapack"
+            disabled>
+      Instalar Datapack
+    </button>
+  </div>
+
+</dialog>
+<div
+  id="manual-download-overlay"
+  class="manual-download-overlay"
+  hidden
+>
+  <section
+    class="manual-download-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="manual-download-title"
+  >
+    <div class="manual-download-header">
+      <div class="manual-download-heading">
+        <span class="tag">CURSEFORGE</span>
+
+        <h2 id="manual-download-title"
+            data-i18n="manualDownloadTitle">
+          Download manual necessário
+        </h2>
+      </div>
+
+      <button
+        id="manual-download-close"
+        class="manual-download-close"
+        type="button"
+        aria-label="Fechar"
+        data-i18n-aria-label="close"
+      >×</button>
+    </div>
+
+    <p
+      class="manual-download-description"
+      data-i18n="manualDownloadDescription"
+    >
+      Este conteúdo não pode ser baixado automaticamente.
+    </p>
+
+    <article class="manual-download-project">
+      <img id="manual-download-icon" alt="" hidden>
+
+      <div class="manual-download-project-info">
+        <h3 id="manual-download-name"></h3>
+        <p id="manual-download-filename"></p>
+
+        <span
+          class="manual-download-status"
+          data-i18n="manualDownloadWaiting"
+        >
+          Aguardando arquivo
+        </span>
+      </div>
+    </article>
+
+    <button
+      id="manual-download-select"
+      class="manual-download-select"
+      type="button"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+        />
+        <path d="M14 2v6h6M12 18v-7m-3 3 3-3 3 3"/>
+      </svg>
+
+      <strong data-i18n="manualDownloadSelect">
+        Selecionar arquivo baixado
+      </strong>
+
+      <span data-i18n="manualDownloadVerification">
+        O arquivo será verificado automaticamente.
+      </span>
+    </button>
+
+    <p
+      id="manual-download-error"
+      class="manual-download-error"
+      role="status"
+      hidden
+    ></p>
+
+    <div class="manual-download-actions">
+      <button
+        id="manual-download-open"
+        type="button"
+        data-i18n="manualDownloadOpen"
+      >
+        Abrir CurseForge
+      </button>
+
+      <button
+        id="manual-download-cancel"
+        class="secondary-button"
+        type="button"
+        data-i18n="cancel"
+      >
+        Cancelar
+      </button>
+    </div>
+  </section>
+</div>
+<script src="node_modules/skinview3d/bundles/skinview3d.bundle.js"></script>
+  <script src="renderer.js"></script>
 </body>
 </html>

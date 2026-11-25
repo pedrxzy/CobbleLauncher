@@ -5,7 +5,10 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder --win nsis"
+    "dist": "electron-builder --win nsis",
+    "dist:win": "electron-builder --win nsis",
+    "dist:linux": "electron-builder --linux AppImage --publish never",
+    "dist:deb": "electron-builder --linux deb --publish never"
   },
   "keywords": [],
   "author": "",
@@ -13,12 +16,13 @@
   "type": "commonjs",
   "devDependencies": {
     "electron": "^44.9.0",
-    "electron-builder": "^26.17.0"
+    "electron-builder": "26.18.0"
   },
   "dependencies": {
     "adm-zip": "^0.6.1",
     "electron-updater": "^6.8.11",
     "eml-lib": "^2.7.4",
+    "prismarine-nbt": "^2.8.0",
     "skinview3d": "^3.4.2",
     "three": "^0.186.1"
   },
@@ -42,6 +46,14 @@
     "win": {
       "icon": "build/icon.ico",
       "target": "nsis"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Game",
+      "icon": "build/icon.png",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
     },
     "nsis": {
       "installerIcon": "build/icon.ico",

@@ -1,9 +1,11 @@
 "use strict";
 
-const { app, BrowserWindow, ipcMain, safeStorage, shell } = require("electron");
+const { app, BrowserWindow, ipcMain, safeStorage, shell, dialog } = require("electron");
 const path = require("node:path");
+const nbt = require("prismarine-nbt");
 const fs = require("node:fs");
 const crypto = require("node:crypto");
+
 const { MicrosoftAuth, Launcher, Skin } = require("eml-lib");
 const AdmZip = require("adm-zip");
 const { autoUpdater } = require("electron-updater");
@@ -87,7 +89,15 @@ ipcMain.handle("open-update-page", async () => {
 
 let isLaunching = false;
 
-const ROOT_NAME = "CobbleLauncher";
+const ROOT_NAME = "cobblelauncher";
+function getGameRoot() {
+  const baseDirectory =
+    process.platform === "linux"
+      ? app.getPath("home")
+      : app.getPath("appData");
+
+  return path.join(baseDirectory, `.${ROOT_NAME}`);
+}
 const LOADERS = ["vanilla", "fabric", "forge", "neoforge", "quilt"];
 const MIN_RAM = 512;
 const DEFAULT_RAM = 4096;
@@ -294,7 +304,8 @@ if (!(await isMinecraftVersionAvailable(minecraftVersion))) {
     loaderVersion: loader === "vanilla" ? "" : loaderVersion,
     maxRam,
     javaMode,
-    javaPath
+    javaPath,
+    modpack: existing?.modpack || null
   };
 }
 
@@ -900,16 +911,41 @@ ipcMain.handle("curseforge-search", async (_event, input = {}) => {
       };
     }
 
-    const params = new URLSearchParams();
-    params.set("query", query);
+    const category = String(input.category || "mod");
+    console.log("[CurseForge] Categoria recebida:", category);
+const allowedCategories = [
+  "mod",
+  "resourcepack",
+  "datapack",
+  "modpack",
+  "shader"
+];
 
-    if (input.gameVersion) {
-      params.set("gameVersion", String(input.gameVersion));
-    }
+if (!allowedCategories.includes(category)) {
+  return {
+    success: false,
+    error: "Categoria inválida."
+  };
+}
 
-    if (input.loader) {
-      params.set("loader", String(input.loader).toLowerCase());
-    }
+const params = new URLSearchParams();
+
+params.set("query", query);
+params.set("category", category);
+
+   if (category === "mod" && input.loader) {
+  params.set(
+    "loader",
+    String(input.loader).toLowerCase()
+  );
+}
+
+if (input.gameVersion) {
+  params.set(
+    "gameVersion",
+    String(input.gameVersion)
+  );
+}
 
     if (input.index !== undefined) {
       params.set("index", String(input.index));
@@ -1080,6 +1116,137 @@ if (query) {
   };
 });
 
+ipcMain.handle("toggle-installed-content", (_event, input) => {
+  if (isLaunching) {
+    throw new Error("Feche o Minecraft primeiro.");
+  }
+
+  const profile = getContentProfile(input?.profileId);
+
+  const category = input.category;
+  const filename = input.filename;
+
+  validateContentFilename(filename, category);
+
+  const directory = getContentDirectory(
+    profile,
+    category,
+    input.worldId
+  );
+
+  const disabledDirectory = `${directory}-disabled`;
+
+  const enabled = input.enabled === true;
+
+  const sourceDirectory = enabled
+    ? disabledDirectory
+    : directory;
+
+  const destinationDirectory = enabled
+    ? directory
+    : disabledDirectory;
+
+  const source = path.join(sourceDirectory, filename);
+  const destination = path.join(destinationDirectory, filename);
+
+  if (!fs.existsSync(source)) {
+    throw new Error("Arquivo não encontrado.");
+  }
+
+  if (
+    !fs.lstatSync(source).isFile() ||
+    fs.lstatSync(sourceDirectory).isSymbolicLink()
+  ) {
+    throw new Error("Arquivo inválido.");
+  }
+
+  if (fs.existsSync(destination)) {
+    throw new Error("Já existe um arquivo no destino.");
+  }
+
+  fs.mkdirSync(destinationDirectory, {
+    recursive: true
+  });
+
+  if (fs.lstatSync(destinationDirectory).isSymbolicLink()) {
+    throw new Error("Diretório inválido.");
+  }
+
+  fs.renameSync(source, destination);
+
+  return {
+    success: true,
+    enabled
+  };
+});
+
+ipcMain.handle("remove-installed-content", (_event, input) => {
+  if (isLaunching) {
+    throw new Error("Feche o Minecraft primeiro.");
+  }
+
+  const profile = getContentProfile(input?.profileId);
+
+  const category = input.category;
+  const filename = input.filename;
+
+  validateContentFilename(filename, category);
+
+  const directory = getContentDirectory(
+    profile,
+    category,
+    input.worldId
+  );
+
+  const sourceDirectory = input.enabled === false
+    ? `${directory}-disabled`
+    : directory;
+
+  const file = path.join(sourceDirectory, filename);
+
+  if (
+    !fs.existsSync(file) ||
+    !fs.lstatSync(file).isFile() ||
+    fs.lstatSync(sourceDirectory).isSymbolicLink()
+  ) {
+    throw new Error("Arquivo não encontrado ou inválido.");
+  }
+
+  fs.unlinkSync(file);
+
+  const stillExists =
+    fs.existsSync(path.join(directory, filename)) ||
+    fs.existsSync(path.join(`${directory}-disabled`, filename));
+
+  const metadataPath = path.join(
+    directory,
+    ".cobble-mods.json"
+  );
+
+  if (!stillExists && fs.existsSync(metadataPath)) {
+    const metadata = JSON.parse(
+      fs.readFileSync(metadataPath, "utf8")
+    );
+
+    for (const [id, data] of Object.entries(metadata)) {
+      if (data.filename === filename) {
+        delete metadata[id];
+      }
+    }
+
+    const temporaryPath = `${metadataPath}.tmp`;
+
+    fs.writeFileSync(
+      temporaryPath,
+      JSON.stringify(metadata, null, 2),
+      "utf8"
+    );
+
+    fs.renameSync(temporaryPath, metadataPath);
+  }
+
+  return { success: true };
+});
 
 ipcMain.handle("modrinth-versions", async (_event, input) => {
   const projectId = String(input?.projectId || "");
@@ -1131,10 +1298,8 @@ ipcMain.handle("modrinth-versions", async (_event, input) => {
 // ==================================================
 
 function getInstanceDirectory(profile) {
-  // EML usa uma pasta isolada para cada slug de perfil.
   return path.join(
-    app.getPath("appData"),
-    `.${ROOT_NAME}`,
+    getGameRoot(),
     profile.slug
   );
 }
@@ -1249,6 +1414,319 @@ function copyMrpackOverrides(zip, prefix, instanceDirectory) {
   }
 }
 
+async function identifyInstalledContent(directory, category) {
+  const extension = category === "mod" ? ".jar" : ".zip";
+
+  const registered = readInstalledContent(directory);
+
+  const registeredFiles = new Set(
+    registered.map((item) => item.filename)
+  );
+
+  const locations = [
+    directory,
+    `${directory}-disabled`
+  ];
+
+  for (const location of locations) {
+    if (!fs.existsSync(location)) continue;
+
+    const entries = fs.readdirSync(location, {
+      withFileTypes: true
+    });
+
+    for (const entry of entries) {
+      if (
+        !entry.isFile() ||
+        !entry.name.toLowerCase().endsWith(extension) ||
+        registeredFiles.has(entry.name) &&
+registered.some((item) =>
+  item.filename === entry.name &&
+  !item.projectId.startsWith("curseforge-")
+)
+      ) {
+        continue;
+      }
+
+      try {
+        const filePath = path.join(
+          location,
+          entry.name
+        );
+
+        const buffer = await fs.promises.readFile(filePath);
+
+        const sha1 = crypto
+          .createHash("sha1")
+          .update(buffer)
+          .digest("hex");
+
+        const sha512 = crypto
+          .createHash("sha512")
+          .update(buffer)
+          .digest("hex");
+
+        const response = await fetch(
+          `${MODRINTH_API}/version_file/${sha1}?algorithm=sha1`,
+          {
+            headers: {
+              "User-Agent": "CobbleLauncher/1.1.1"
+            },
+            signal: AbortSignal.timeout(10000)
+          }
+        );
+
+        if (!response.ok) continue;
+
+        const version = await response.json();
+
+        if (!version.project_id) continue;
+
+        const project = await fetchJson(
+          `${MODRINTH_API}/project/${encodeURIComponent(version.project_id)}`
+        );
+
+        fs.mkdirSync(directory, {
+          recursive: true
+        });
+
+        registerInstalledContent(
+          directory,
+          version.project_id,
+          {
+            category,
+            filename: entry.name,
+            name: project.title || entry.name,
+            description: project.description || "",
+            iconUrl: project.icon_url || "",
+            source: "modrinth",
+            slug: project.slug || "",
+            sha1,
+            sha512
+          }
+        );
+
+        registeredFiles.add(entry.name);
+
+        console.log(
+          "[Conteúdo identificado]",
+          entry.name,
+          project.title,
+          version.project_id
+        );
+
+      } catch (error) {
+        console.warn(
+          "[Identificação de conteúdo]",
+          entry.name,
+          error.message
+        );
+      }
+    }
+  }
+}
+
+function readInstalledContent(directory) {
+  const metadataPath = path.join(
+    directory,
+    ".cobble-mods.json"
+  );
+
+  let metadata = {};
+
+  try {
+    metadata = JSON.parse(
+      fs.readFileSync(metadataPath, "utf8")
+    );
+  } catch {
+    return [];
+  }
+
+  return Object.entries(metadata)
+    .filter(([projectId, data]) => {
+      if (
+        !data?.filename ||
+        path.basename(data.filename) !== data.filename ||
+        /[\\/]/.test(data.filename)
+      ) {
+        return false;
+      }
+
+      return (
+        fs.existsSync(
+          path.join(directory, data.filename)
+        ) ||
+        fs.existsSync(
+          path.join(`${directory}-disabled`, data.filename)
+        )
+      );
+    })
+    .map(([projectId, data]) => ({
+      ...data,
+      projectId
+    }));
+}
+
+ipcMain.handle("get-installed-content", async (_event, input) => {
+  const profile = getContentProfile(input?.profileId);
+
+  const category = input.category;
+
+  if (category === "modpack") {
+    return loadSettings().profiles
+      .filter((item) => item.id === profile.id && item.modpack)
+      .map((item) => ({
+        ...item.modpack,
+        profileId: item.id,
+        name: item.name,
+        enabled: true
+      }));
+  }
+
+  const directory = getContentDirectory(
+    profile,
+    category,
+    input.worldId
+  );
+
+  await identifyInstalledContent(directory, category);
+
+  return listManagedContent(directory, category);
+});
+
+const CONTENT_DIRECTORIES = {
+  mod: "mods",
+  resourcepack: "resourcepacks",
+  shader: "shaderpacks",
+  datapack: "datapacks"
+};
+
+function getContentDirectory(profile, category, worldId) {
+  if (!Object.hasOwn(CONTENT_DIRECTORIES, category)) {
+    throw new Error("Categoria inválida.");
+  }
+
+  if (category === "datapack") {
+    return selectDatapackDirectory(profile, worldId);
+  }
+
+  return path.join(
+    getInstanceDirectory(profile),
+    CONTENT_DIRECTORIES[category]
+  );
+}
+
+function getContentProfile(profileId) {
+  const profile = loadSettings().profiles.find(
+    (item) => item.id === profileId
+  );
+
+  if (!profile) {
+    throw new Error("Perfil não encontrado.");
+  }
+
+  return profile;
+}
+
+function listManagedContent(directory, category) {
+  const metadata = readInstalledContent(directory);
+  const result = [];
+
+  const locations = [
+    { directory, enabled: true },
+    {
+      directory: `${directory}-disabled`,
+      enabled: false
+    }
+  ];
+
+  for (const location of locations) {
+    if (!fs.existsSync(location.directory)) continue;
+
+    if (fs.lstatSync(location.directory).isSymbolicLink()) {
+      throw new Error("Diretório inválido.");
+    }
+
+    const entries = fs.readdirSync(
+      location.directory,
+      { withFileTypes: true }
+    );
+
+    for (const entry of entries) {
+      if (!entry.isFile()) continue;
+
+      const extension = category === "mod" ? ".jar" : ".zip";
+
+      if (!entry.name.toLowerCase().endsWith(extension)) {
+        continue;
+      }
+
+      const matches = metadata.filter((item) => item.filename === entry.name);
+      const registered = matches.find(item => !item.projectId.startsWith("curseforge-")) || matches[0];
+
+      result.push({
+        ...registered,
+        projectId: registered?.projectId || null,
+        projectIds: matches.map(item => item.projectId),
+        category,
+        filename: entry.name,
+        name: registered?.name ||
+          entry.name.replace(/\.(jar|zip)$/i, ""),
+        description: registered?.description || "",
+        iconUrl: registered?.iconUrl || "",
+        enabled: location.enabled
+      });
+    }
+  }
+
+  return result.sort(
+    (a, b) => a.name.localeCompare(b.name)
+  );
+}
+
+function validateContentFilename(filename, category) {
+  const extension = category === "mod" ? ".jar" : ".zip";
+
+  if (
+    typeof filename !== "string" ||
+    path.basename(filename) !== filename ||
+    /[\\/]/.test(filename) ||
+    !filename.toLowerCase().endsWith(extension)
+  ) {
+    throw new Error("Nome de arquivo inválido.");
+  }
+}
+
+function registerInstalledContent(directory, projectId, data) {
+  const metadataPath = path.join(
+    directory,
+    ".cobble-mods.json"
+  );
+
+  let metadata = {};
+
+  if (fs.existsSync(metadataPath)) {
+    metadata = JSON.parse(
+      fs.readFileSync(metadataPath, "utf8")
+    );
+  }
+
+  metadata[projectId] = {
+    ...data,
+    installedAt: new Date().toISOString()
+  };
+
+  const temporaryPath = `${metadataPath}.tmp`;
+
+  fs.writeFileSync(
+    temporaryPath,
+    JSON.stringify(metadata, null, 2),
+    "utf8"
+  );
+
+  fs.renameSync(temporaryPath, metadataPath);
+}
+
 function checkDuplicateMod(
   modsDirectory,
   modId,
@@ -1280,6 +1758,22 @@ function checkDuplicateMod(
 
   const duplicateEntry = Object.entries(installedMods).find(
     ([id, mod]) => {
+      const activeFile = path.join(
+  modsDirectory,
+  mod.filename
+);
+
+const disabledFile = path.join(
+  `${modsDirectory}-disabled`,
+  mod.filename
+);
+
+if (
+  !fs.existsSync(activeFile) &&
+  !fs.existsSync(disabledFile)
+) {
+  return false;
+}
       if (id === String(modId)) return true;
 
       const sameFile =
@@ -1300,15 +1794,20 @@ function checkDuplicateMod(
 
   if (duplicateEntry) {
     throw new Error(
-      `"${modName}" parece já estar instalado neste perfil. Verifique os mods instalados antes de tentar novamente.`
+      `"${modName}" parece já estar instalado neste perfil. Verifique os conteúdos instalados antes de tentar novamente.`
     );
   }
 
   const destination = path.join(modsDirectory, filename);
 
-  if (fs.existsSync(destination)) {
+  if (
+  fs.existsSync(destination) ||
+  fs.existsSync(
+    path.join(`${modsDirectory}-disabled`, filename)
+  )
+) {
     throw new Error(
-      `Já existe um arquivo chamado "${filename}" na pasta de mods.`
+      `Já existe um arquivo chamado "${filename}" na pasta de conteúdo.`
     );
   }
 }
@@ -1372,16 +1871,13 @@ checkDuplicateMod(
   modsDirectory,
   projectId,
   file.filename,
-  project.title
+  project.title,
+  file.hashes || {}
 );
 
 const destination = resolveInside(modsDirectory, file.filename);
 
-await downloadVerifiedFile(
-  file.url,
-  destination,
-  file.hashes || {}
-);
+await downloadVerifiedFile(file.url, destination, file.hashes || {});
 
 // Registra qual projeto foi instalado neste perfil.
 const metadataPath = path.join(
@@ -1422,6 +1918,532 @@ fs.writeFileSync(
   };
 }
 
+const pendingManualDownloads = new Map();
+
+async function importCurseForgeDependency(file, destination) {
+  const expectedSha1 = String(
+    file.hashes?.sha1 || ""
+  ).toLowerCase();
+
+  if (!/^[a-f0-9]{40}$/.test(expectedSha1)) {
+    throw new Error("Hash do arquivo indisponível.");
+  }
+
+  const requestId = crypto.randomUUID();
+
+  let websiteUrl = null;
+
+  try {
+    const url = new URL(file.websiteUrl);
+
+    if (
+      url.protocol === "https:" &&
+      ["www.curseforge.com", "curseforge.com"]
+        .includes(url.hostname) &&
+      Number.isSafeInteger(file.id)
+    ) {
+      url.pathname =
+        url.pathname.replace(/\/+$/, "") +
+        `/files/${file.id}`;
+
+      url.search = "";
+      url.hash = "";
+
+      websiteUrl = url.toString();
+    }
+  } catch {
+    websiteUrl = null;
+  }
+
+  return new Promise((resolve, reject) => {
+    if (!mainWindow || mainWindow.isDestroyed()) {
+      reject(new Error("Janela indisponível."));
+      return;
+    }
+
+    const window = mainWindow;
+
+const timeout = setTimeout(() => {
+  const request = pendingManualDownloads.get(requestId);
+
+  if (request) {
+    request.reject(
+      new Error("Tempo limite do download manual atingido.")
+    );
+  }
+}, 30 * 60 * 1000);
+
+    const cleanup = () => {
+  clearTimeout(timeout);
+  pendingManualDownloads.delete(requestId);
+  window.removeListener("closed", onClosed);
+};
+
+    const onClosed = () => {
+      cleanup();
+      reject(new Error("Instalação cancelada."));
+    };
+
+    pendingManualDownloads.set(requestId, {
+      file,
+      destination,
+      expectedSha1,
+      websiteUrl,
+      busy: false,
+
+      resolve: () => {
+        cleanup();
+        resolve();
+      },
+
+      reject: (error) => {
+        cleanup();
+        reject(error);
+      }
+    });
+
+    window.once("closed", onClosed);
+
+    window.webContents.send("manual-download-required", {
+      requestId,
+      name: file.projectName || file.displayName,
+      filename: file.fileName,
+      iconUrl: file.iconUrl || "",
+      canOpenWebsite: Boolean(websiteUrl)
+    });
+  });
+}
+
+ipcMain.handle("manual-download-open", async (_event, requestId) => {
+  const request = pendingManualDownloads.get(requestId);
+
+  if (!request?.websiteUrl) {
+    return { success: false };
+  }
+
+  await shell.openExternal(request.websiteUrl);
+
+  return { success: true };
+});
+
+ipcMain.handle("manual-download-select", async (_event, requestId) => {
+  const request = pendingManualDownloads.get(requestId);
+
+  if (!request || request.busy) {
+    return { success: false };
+  }
+
+  request.busy = true;
+
+  try {
+    const extension = path.extname(request.file.fileName)
+      .slice(1)
+      .toLowerCase();
+
+    const selected = await dialog.showOpenDialog(
+      mainWindow,
+      {
+        defaultPath: app.getPath("downloads"),
+        properties: ["openFile"],
+        filters: [
+          {
+            name: "Minecraft content",
+            extensions: [extension]
+          }
+        ]
+      }
+    );
+
+    if (selected.canceled || !selected.filePaths.length) {
+      return { success: false, canceled: true };
+    }
+
+    const buffer = await fs.promises.readFile(
+      selected.filePaths[0]
+    );
+
+    const actualSha1 = crypto
+      .createHash("sha1")
+      .update(buffer)
+      .digest("hex");
+
+    if (actualSha1 !== request.expectedSha1) {
+      return {
+        success: false,
+        error: "invalidHash"
+      };
+    }
+
+    if (!pendingManualDownloads.has(requestId)) {
+      return { success: false, canceled: true };
+    }
+
+    fs.mkdirSync(
+      path.dirname(request.destination),
+      { recursive: true }
+    );
+
+    fs.writeFileSync(request.destination, buffer, {
+      flag: "wx"
+    });
+
+    console.log(
+      "[CurseForge] Arquivo manual verificado:",
+      request.file.fileName
+    );
+
+    request.resolve();
+
+    return { success: true };
+
+  } catch (error) {
+    console.error("[Manual download]", error);
+
+    return {
+      success: false,
+      error: "importFailed"
+    };
+
+  } finally {
+    request.busy = false;
+  }
+});
+
+ipcMain.handle("manual-download-cancel", (_event, requestId) => {
+  const request = pendingManualDownloads.get(requestId);
+
+  if (!request || request.busy) {
+    return { success: false };
+  }
+
+  request.reject(
+    new Error("Instalação cancelada pelo usuário.")
+  );
+
+  return { success: true };
+});
+
+async function installCurseForgeModpack(input) {
+  const settings = loadSettings();
+
+  const sourceProfile = getContentProfile(
+    input.profileId
+  );
+
+  const modId = Number(input.modId);
+
+  if (!Number.isSafeInteger(modId) || modId <= 0) {
+    throw new Error("Modpack inválido.");
+  }
+
+  const params = new URLSearchParams({
+    modId: String(modId),
+    category: "modpack",
+    gameVersion: sourceProfile.minecraftVersion
+  });
+
+  const result = await fetchJson(
+    `${COBBLELAUNCHER_API}/curseforge/files?${params}`
+  );
+
+  let packFile = result.data?.find((file) =>
+  /\.zip$/i.test(file.fileName || "") &&
+  Array.isArray(file.gameVersions) &&
+  file.gameVersions.includes(
+    sourceProfile.minecraftVersion
+  )
+);
+
+if (packFile && !packFile.downloadUrl) {
+  const details = await fetchJson(
+    `${COBBLELAUNCHER_API}/curseforge/file?modId=${modId}&fileId=${packFile.id}`
+  );
+
+  if (!details.data) {
+    throw new Error(
+      "Não foi possível consultar o modpack."
+    );
+  }
+
+  packFile = {
+    ...packFile,
+    ...details.data
+  };
+}
+
+  if (!packFile) {
+    throw new Error("Nenhum modpack compatível disponível.");
+  }
+
+  const tempDirectory = fs.mkdtempSync(
+    path.join(app.getPath("temp"), "cobble-cursepack-")
+  );
+
+  let instanceDirectory = null;
+  let completed = false;
+
+  try {
+    const archivePath = path.join(
+      tempDirectory,
+      "modpack.zip"
+    );
+
+    if (
+  packFile.downloadUrl &&
+  packFile.allowModDistribution !== false
+) {
+  await downloadVerifiedFile(
+    packFile.downloadUrl,
+    archivePath,
+    packFile.hashes || {}
+  );
+} else {
+  await importCurseForgeDependency(
+    packFile,
+    archivePath
+  );
+}
+
+    const zip = new AdmZip(archivePath);
+
+    const entry = zip.getEntry("manifest.json");
+
+    if (!entry) {
+      throw new Error("Manifesto do modpack não encontrado.");
+    }
+
+    const manifest = JSON.parse(
+      entry.getData().toString("utf8")
+    );
+
+    if (
+      manifest.manifestType !== "minecraftModpack" ||
+      !manifest.minecraft?.version ||
+      !Array.isArray(manifest.files)
+    ) {
+      throw new Error("Manifesto inválido.");
+    }
+
+    const loaders = manifest.minecraft.modLoaders || [];
+
+    const primaryLoader =
+      loaders.find((loader) => loader.primary) ||
+      loaders[0];
+
+    let loader = "vanilla";
+    let loaderVersion = "";
+
+    if (primaryLoader) {
+      const match = String(primaryLoader.id).match(
+        /^(forge|fabric|neoforge|quilt)-(.+)$/
+      );
+
+      if (!match) {
+        throw new Error("Loader do modpack não suportado.");
+      }
+
+      loader = match[1];
+      loaderVersion = match[2];
+    }
+
+    const profile = await normalizeProfile({
+      name: String(manifest.name || "CurseForge Modpack")
+        .trim()
+        .slice(0, 60),
+      minecraftVersion: manifest.minecraft.version,
+      loader,
+      loaderVersion,
+      maxRam: sourceProfile.maxRam,
+      javaMode: sourceProfile.javaMode,
+      javaPath: sourceProfile.javaPath
+    }, settings.profiles);
+
+    const originalSlug = profile.slug;
+
+let suffix = 2;
+
+while (fs.existsSync(getInstanceDirectory(profile))) {
+  profile.slug = `${originalSlug}-${suffix++}`;
+}
+
+const destination = getInstanceDirectory(profile);
+
+    // Não reutiliza uma pasta existente.
+    fs.mkdirSync(path.dirname(destination), {
+      recursive: true
+    });
+
+    fs.mkdirSync(destination);
+
+    instanceDirectory = destination;
+
+    let installedFiles = 0;
+
+    for (const dependency of manifest.files) {
+      if (dependency.required === false) continue;
+
+      const projectId = Number(dependency.projectID);
+      const fileId = Number(dependency.fileID);
+
+      if (
+        !Number.isSafeInteger(projectId) ||
+        !Number.isSafeInteger(fileId) ||
+        projectId <= 0 ||
+        fileId <= 0
+      ) {
+        throw new Error("Dependência inválida.");
+      }
+
+      const data = await fetchJson(
+        `${COBBLELAUNCHER_API}/curseforge/file?modId=${projectId}&fileId=${fileId}`
+      );
+
+      const file = data.data;
+      console.log("[CurseForge Modpack] Dependência:", {
+        projectId,
+  fileId,
+  projectName: file?.projectName,
+  fileName: file?.fileName,
+  classId: file?.classId,
+  downloadUrl: file?.downloadUrl,
+  allowModDistribution: file?.allowModDistribution,
+  websiteUrl: file?.websiteUrl,
+  hashes: file?.hashes
+});
+      if (!file) {
+  throw new Error(
+    `Não foi possível consultar o arquivo ${fileId}.`
+  );
+}
+
+      if (
+        !file.fileName ||
+        path.basename(file.fileName) !== file.fileName ||
+        /[\\/]/.test(file.fileName)
+      ) {
+        throw new Error("Nome de arquivo inválido.");
+      }
+
+      let folder;
+
+      if (/\.jar$/i.test(file.fileName)) {
+        folder = "mods";
+      } else if (
+        /\.zip$/i.test(file.fileName) &&
+        file.classId === 12
+      ) {
+        folder = "resourcepacks";
+      } else if (
+        /\.zip$/i.test(file.fileName) &&
+        file.classId === 6552
+      ) {
+        folder = "shaderpacks";
+      } else {
+        throw new Error(
+          `Tipo de dependência não suportado: ${file.fileName}`
+        );
+      }
+
+      const targetDirectory = path.join(
+        instanceDirectory,
+        folder
+      );
+
+      const target = resolveInside(
+        targetDirectory,
+        file.fileName
+      );
+
+      if (fs.existsSync(target)) {
+        throw new Error("Arquivo duplicado no modpack.");
+      }
+
+      if (
+  file.downloadUrl &&
+  file.allowModDistribution !== false
+) {
+  await downloadVerifiedFile(
+    file.downloadUrl,
+    target,
+    file.hashes || {}
+  );
+} else {
+  await importCurseForgeDependency(
+    file,
+    target
+  );
+}
+      registerInstalledContent(
+        targetDirectory,
+        `curseforge-${projectId}`,
+        {
+          filename: file.fileName,
+          name: file.displayName || file.fileName,
+          source: "curseforge",
+          sha1: file.hashes?.sha1 || ""
+        }
+      );
+
+      installedFiles++;
+
+      sendProgress(
+        "installing",
+        `Instalando modpack: ${installedFiles} arquivos...`,
+        {
+          percent: Math.round(
+            installedFiles /
+            Math.max(1, manifest.files.length) * 100
+          )
+        }
+      );
+    }
+
+    const overrides = String(
+      manifest.overrides || "overrides"
+    );
+
+    copyMrpackOverrides(
+      zip,
+      overrides,
+      instanceDirectory
+    );
+
+    profile.modpack = {
+      projectId: `curseforge-${modId}`,
+      source: "curseforge",
+      category: "modpack",
+      name: profile.name,
+      versionId: packFile.id
+    };
+
+    const latestSettings = loadSettings();
+
+    latestSettings.profiles.push(profile);
+
+    saveSettings(latestSettings);
+
+    completed = true;
+
+    return {
+      success: true,
+      profile,
+      installedFiles
+    };
+
+  } finally {
+    fs.rmSync(tempDirectory, {
+      recursive: true,
+      force: true
+    });
+
+    if (!completed && instanceDirectory) {
+      fs.rmSync(instanceDirectory, {
+        recursive: true,
+        force: true
+      });
+    }
+  }
+}
 
 async function installCurseForgeMod(input) {
   const settings = loadSettings();
@@ -1433,9 +2455,25 @@ async function installCurseForgeMod(input) {
     throw new Error("Seleciona uma instalação válida.");
   }
 
-  if (profile.loader === "vanilla") {
-    throw new Error("Mods exigem Fabric, Forge, NeoForge ou Quilt.");
-  }
+  const category = String(input.category || "mod");
+    if (category === "modpack") {
+  return installCurseForgeModpack(input);
+}
+
+const contentDirectories = {
+  mod: "mods",
+  resourcepack: "resourcepacks",
+  shader: "shaderpacks",
+  datapack: "datapacks"
+};
+
+if (!Object.hasOwn(contentDirectories, category)) {
+  throw new Error("A instalação desta categoria ainda não está implementada.");
+}
+
+if (category === "mod" && profile.loader === "vanilla") {
+  throw new Error("Mods exigem Fabric, Forge, NeoForge ou Quilt.");
+}
 
   const modId = Number(input.modId);
 
@@ -1444,11 +2482,14 @@ async function installCurseForgeMod(input) {
   }
 
   const params = new URLSearchParams({
-    modId: String(modId),
-    gameVersion: profile.minecraftVersion,
-    loader: profile.loader
-  });
+  modId: String(modId),
+  gameVersion: profile.minecraftVersion,
+  category
+});
 
+if (category === "mod") {
+  params.set("loader", profile.loader);
+}
   const response = await fetch(
     `${COBBLELAUNCHER_API}/curseforge/files?${params}`,
     {
@@ -1474,14 +2515,36 @@ console.log(
   }))
 );
 
-const file = result.data.find(
+const compatibleFiles = result.data.filter(
   (item) =>
-    item.downloadUrl &&
     item.fileName &&
     path.basename(item.fileName) === item.fileName &&
+    !/[\\/]/.test(item.fileName) &&
+    item.fileName.toLowerCase().endsWith(
+      category === "mod" ? ".jar" : ".zip"
+    ) &&
     Array.isArray(item.gameVersions) &&
     item.gameVersions.includes(profile.minecraftVersion)
 );
+
+let file = compatibleFiles[0];
+
+if (file && !file.downloadUrl) {
+  const details = await fetchJson(
+    `${COBBLELAUNCHER_API}/curseforge/file?modId=${modId}&fileId=${file.id}`
+  );
+
+  if (!details.data) {
+    throw new Error(
+      "Não foi possível consultar os detalhes do conteúdo."
+    );
+  }
+
+  file = {
+    ...file,
+    ...details.data
+  };
+}
 
   if (!file) {
     throw new Error(
@@ -1489,10 +2552,17 @@ const file = result.data.find(
     );
   }
 
-  const modsDirectory = path.join(
-    getInstanceDirectory(profile),
-    "mods"
-  );
+  const modsDirectory =
+  category === "datapack"
+    ? selectDatapackDirectory(profile, input.worldId)
+    : path.join(
+        getInstanceDirectory(profile),
+        contentDirectories[category]
+      );
+
+if (!modsDirectory) {
+  return { success: false, canceled: true };
+}
 
 checkDuplicateMod(
   modsDirectory,
@@ -1502,13 +2572,80 @@ checkDuplicateMod(
   file.hashes || {}
 );
 
+fs.mkdirSync(modsDirectory, { recursive: true });
+
+if (category !== "mod") {
+  if (
+    !file.fileName.toLowerCase().endsWith(".zip") ||
+    /[\\/]/.test(file.fileName)
+  ) {
+    throw new Error("Formato de arquivo inválido.");
+  }
+
+  const destination = resolveInside(
+    modsDirectory,
+    file.fileName
+  );
+
+  if (fs.existsSync(destination)) {
+    throw new Error("Este conteúdo já está instalado neste perfil.");
+  }
+
+  if (
+  file.downloadUrl &&
+  file.allowModDistribution !== false
+) {
+  await downloadVerifiedFile(
+    file.downloadUrl,
+    destination,
+    file.hashes || {}
+  );
+} else {
+  await importCurseForgeDependency(
+    file,
+    destination
+  );
+}
+
+  registerInstalledContent(
+  modsDirectory,
+  `curseforge-${modId}`,
+  {
+    category,
+    filename: file.fileName,
+    name: file.displayName || file.fileName,
+    description: "",
+    iconUrl: "",
+    source: "curseforge",
+    sha1: file.hashes?.sha1 || "",
+    sha512: file.hashes?.sha512 || ""
+  }
+);
+
+  return {
+    success: true,
+    profileName: profile.name,
+    filename: file.fileName
+  };
+}
+
 const destination = resolveInside(modsDirectory, file.fileName);
 
-await downloadVerifiedFile(
-  file.downloadUrl,
-  destination,
-  file.hashes || {}
-);
+if (
+  file.downloadUrl &&
+  file.allowModDistribution !== false
+) {
+  await downloadVerifiedFile(
+    file.downloadUrl,
+    destination,
+    file.hashes || {}
+  );
+} else {
+  await importCurseForgeDependency(
+    file,
+    destination
+  );
+}
 
   const metadataPath = path.join(modsDirectory, ".cobble-mods.json");
 
@@ -1550,7 +2687,7 @@ async function installModrinthModpack(input) {
     (item) => item.id === input.profileId
   );
 
-  if (!sourceProfile) {
+if (!sourceProfile) {
     throw new Error("Seleciona uma instalação para escolher a versão do Minecraft.");
   }
 
@@ -1650,7 +2787,7 @@ async function installModrinthModpack(input) {
       throw new Error("O nome do modpack é inválido.");
     }
 
-    const profile = normalizeProfile({
+    const profile = await normalizeProfile({
       name: profileName,
       minecraftVersion,
       loader,
@@ -1709,6 +2846,14 @@ async function installModrinthModpack(input) {
     copyMrpackOverrides(zip, "overrides", instanceDirectory);
     copyMrpackOverrides(zip, "client-overrides", instanceDirectory);
 
+    profile.modpack = {
+  projectId,
+  source: "modrinth",
+  category: "modpack",
+  name: profile.name,
+  versionId: version.id
+};
+
     // Só registra o perfil depois de terminar a instalação.
     settings.profiles.push(profile);
     saveSettings(settings);
@@ -1721,6 +2866,312 @@ async function installModrinthModpack(input) {
   } finally {
     fs.rmSync(tempDirectory, { recursive: true, force: true });
   }
+}
+
+function getWorldIconData(worldDirectory) {
+  const iconPath = path.join(worldDirectory, "icon.png");
+
+  if (!fs.existsSync(iconPath)) {
+    return null;
+  }
+
+  try {
+    const buffer = fs.readFileSync(iconPath);
+    return `data:image/png;base64,${buffer.toString("base64")}`;
+  } catch {
+    return null;
+  }
+}
+
+async function getWorldName(worldDirectory) {
+  try {
+    const levelPath = path.join(
+      worldDirectory,
+      "level.dat"
+    );
+
+    const buffer = await fs.promises.readFile(levelPath);
+
+    const { parsed } = await nbt.parse(buffer);
+    const data = nbt.simplify(parsed);
+
+    return data.Data?.LevelName ||
+      path.basename(worldDirectory);
+
+  } catch (error) {
+    console.warn(
+      "[Mundos] Não foi possível ler o level.dat:",
+      error.message
+    );
+
+    return path.basename(worldDirectory);
+  }
+}
+
+function getProfileWorlds(profile) {
+  const savesDirectory = path.join(
+    getInstanceDirectory(profile),
+    "saves"
+  );
+
+  if (!fs.existsSync(savesDirectory)) {
+    return [];
+  }
+
+  return fs.readdirSync(savesDirectory, {
+    withFileTypes: true
+  })
+    .filter((entry) => entry.isDirectory())
+    .filter((entry) =>
+      fs.existsSync(
+        path.join(savesDirectory, entry.name, "level.dat")
+      )
+    )
+    .map((entry) => {
+  const worldDirectory = path.join(savesDirectory, entry.name);
+
+  return {
+    id: entry.name,
+    name: entry.name,
+    icon: getWorldIconData(worldDirectory)
+  };
+})
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+ipcMain.handle("get-profile-worlds", async (_event, profileId) => {
+  const settings = loadSettings();
+
+  const profile = settings.profiles.find(
+    (item) => item.id === profileId
+  );
+
+  if (!profile) {
+    throw new Error("Perfil não encontrado.");
+  }
+
+  const worlds = getProfileWorlds(profile);
+
+  const result = await Promise.all(
+    worlds.map(async (world) => {
+      const worldDirectory = path.join(
+        getInstanceDirectory(profile),
+        "saves",
+        world.id
+      );
+
+      return {
+        ...world,
+        name: await getWorldName(worldDirectory)
+      };
+    })
+  );
+
+  return result.sort(
+    (a, b) => a.name.localeCompare(b.name)
+  );
+});
+
+function selectDatapackDirectory(profile, worldId) {
+  const worlds = getProfileWorlds(profile);
+
+  const world = worlds.find(
+    (item) => item.id === worldId
+  );
+
+  if (!world) {
+    throw new Error("Mundo inválido ou não encontrado.");
+  }
+
+  const savesDirectory = path.join(
+    getInstanceDirectory(profile),
+    "saves"
+  );
+
+  const savesRoot = fs.realpathSync(savesDirectory);
+
+  const worldDirectory = fs.realpathSync(
+    path.join(savesRoot, world.id)
+  );
+
+  if (path.dirname(worldDirectory) !== savesRoot) {
+    throw new Error("Caminho do mundo inválido.");
+  }
+
+  const datapacksDirectory = path.join(
+    worldDirectory,
+    "datapacks"
+  );
+
+  fs.mkdirSync(datapacksDirectory, {
+    recursive: true
+  });
+
+  if (
+    fs.realpathSync(datapacksDirectory) !== datapacksDirectory
+  ) {
+    throw new Error("Pasta de Datapacks inválida.");
+  }
+
+  return datapacksDirectory;
+}
+
+async function installModrinthPack(input) {
+  const settings = loadSettings();
+
+  const profile = settings.profiles.find(
+    (item) => item.id === input.profileId
+  );
+
+  if (!profile) {
+    throw new Error("Seleciona uma instalação válida.");
+  }
+
+  const directories = {
+  shader: "shaderpacks",
+  resourcepack: "resourcepacks",
+  datapack: "datapacks"
+};
+
+  const directory = directories[input.category];
+
+  if (!directory) {
+    throw new Error("Categoria inválida.");
+  }
+
+  const projectId = String(input.projectId || "");
+
+  if (!/^[a-zA-Z0-9]{1,64}$/.test(projectId)) {
+    throw new Error("Identificador de projeto inválido.");
+  }
+
+  const project = await fetchJson(
+    `${MODRINTH_API}/project/${encodeURIComponent(projectId)}`
+  );
+
+  if (
+  input.category !== "datapack" &&
+  project.project_type !== input.category
+) {
+  throw new Error("O tipo de conteúdo é inválido.");
+}
+
+  const params = new URLSearchParams({
+    game_versions: JSON.stringify([
+      profile.minecraftVersion
+    ])
+  });
+
+  if (input.category === "datapack") {
+  params.set(
+    "loaders",
+    JSON.stringify(["datapack"])
+  );
+}
+
+  const versions = await fetchJson(
+    `${MODRINTH_API}/project/${encodeURIComponent(projectId)}/version?${params}`
+  );
+
+  if (!Array.isArray(versions) || !versions.length) {
+    throw new Error(
+      "Nenhuma versão compatível foi encontrada."
+    );
+  }
+
+  const version = versions.find((item) => {
+  if (
+    input.category === "datapack" &&
+    !item.loaders?.includes("datapack")
+  ) {
+    return false;
+  }
+
+  return item.files?.some((file) =>
+    /\.zip$/i.test(file.filename || "")
+  );
+});
+
+if (!version) {
+  throw new Error("Nenhum arquivo ZIP compatível encontrado.");
+}
+
+const file =
+  version.files.find((item) =>
+    item.primary && /\.zip$/i.test(item.filename || "")
+  ) ||
+  version.files.find((item) =>
+    /\.zip$/i.test(item.filename || "")
+  );
+
+  if (!file?.url || !file.filename) {
+    throw new Error("Arquivo instalável não encontrado.");
+  }
+
+  if (
+    path.basename(file.filename) !== file.filename ||
+    !file.filename.toLowerCase().endsWith(".zip")
+  ) {
+    throw new Error("Nome ou formato de arquivo inválido.");
+  }
+
+  const targetDirectory =
+  input.category === "datapack"
+    ? selectDatapackDirectory(profile, input.worldId)
+    : path.join(
+        getInstanceDirectory(profile),
+        directory
+      );
+
+if (!targetDirectory) {
+  return { success: false, canceled: true };
+}
+
+  const destination = resolveInside(
+    targetDirectory,
+    file.filename
+  );
+
+  if (fs.existsSync(destination)) {
+    throw new Error(
+      "Este conteúdo já está instalado neste perfil."
+    );
+  }
+
+checkDuplicateMod(
+  targetDirectory,
+  projectId,
+  file.filename,
+  project.title,
+  file.hashes || {}
+);
+await downloadVerifiedFile(
+  file.url,
+  destination,
+  file.hashes || {}
+);
+registerInstalledContent(
+  targetDirectory,
+  projectId,
+  {
+    category: input.category,
+    filename: file.filename,
+    name: project.title || file.filename,
+    description: project.description || "",
+    iconUrl: project.icon_url || "",
+    source: "modrinth",
+    slug: project.slug || "",
+    sha1: file.hashes?.sha1 || "",
+    sha512: file.hashes?.sha512 || ""
+  }
+);
+
+
+  return {
+    success: true,
+    profileName: profile.name,
+    filename: file.filename
+  };
 }
 
 ipcMain.handle("install-modrinth-content", async (_event, input) => {
@@ -1737,6 +3188,14 @@ ipcMain.handle("install-modrinth-content", async (_event, input) => {
   if (category === "modpack") {
     return installModrinthModpack(input);
   }
+
+  if (
+  category === "shader" ||
+  category === "resourcepack" ||
+  category === "datapack"
+) {
+  return installModrinthPack(input);
+}
 
   throw new Error(
     "A instalação desta categoria ainda não está implementada."
@@ -2327,10 +3786,7 @@ ipcMain.handle("delete-profile", async (_event, id) => {
     throw new Error("A instalação não possui uma pasta identificada.");
   }
 
-  const gameRoot = path.resolve(
-    app.getPath("appData"),
-    ".cobblelauncher"
-  );
+  const gameRoot = path.resolve(getGameRoot());
 
   const folderName = String(profile.slug)
     .replace(/[^a-z0-9_-]/gi, "_")
@@ -2357,10 +3813,7 @@ ipcMain.handle("delete-profile", async (_event, id) => {
 });
 
 ipcMain.handle("open-game-folder", async () => {
-  const gameFolder = path.join(
-    app.getPath("appData"),
-    ".cobblelauncher"
-  );
+  const gameFolder = getGameRoot();
 
   await fs.promises.mkdir(gameFolder, { recursive: true });
 

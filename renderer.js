@@ -245,7 +245,7 @@ const translations = {
     modsExploreContent: "Explorar conteúdo",
     modsCategoryMods: "Mods",
     modsCategoryResourcePacks: "Pacotes de recursos",
-    modsCategoryDataPacks: "Pacotes de dados",
+    modsCategoryDataPacks: "Datapacks",
     modsCategoryModpacks: "Modpacks",
     modsCategoryShaders: "Shaders",
     modsSearchLabel: "Pesquisar",
@@ -265,8 +265,30 @@ const translations = {
     updateAvailablePrompt: "A versão {version} está disponível. Desejas baixar a atualização agora?",
     updateErrorDownload: "Não foi possível baixar a atualização.",
     updateErrorChecking: "Não foi possível verificar atualizações.",
-    updateAlreadyCurrent: "O CobbleLauncher já está atualizado."
-
+    updateAlreadyCurrent: "O CobbleLauncher já está atualizado.",
+    selectWorldTitle: "Selecionar mundo",
+    selectWorldDescription: "Escolha em qual mundo deseja instalar este Datapack.",
+    installDatapack: "Instalar Datapack",
+    minecraftWorld: "Mundo do Minecraft",
+    noWorldsFound: "Nenhum mundo encontrado. Crie um mundo nesta instalação primeiro.",
+    manageContent: "Gerenciar conteúdo",
+    noInstalledContent: "Nenhum conteúdo instalado.",
+    loadingContent: "Carregando conteúdo...",
+    removeContentTitle: "Excluir conteúdo?",
+    removeContentMessage: 'O conteúdo "{name}" será excluído.',
+    confirmRemoveContent: "Excluir conteúdo",
+    selectWorld: "Selecionar mundo",
+    modpackIndependent: "Modpacks são instalações independentes.",
+    closeMinecraftFirst: "Feche o Minecraft primeiro.",
+    manualDownloadTitle: "Download manual necessário",
+    manualDownloadDescription: "Este conteúdo não está disponível para download automático. Baixe a versão solicitada pelo CurseForge para continuar.",
+    manualDownloadWaiting: "Aguardando arquivo",
+    manualDownloadSelect: "Selecionar arquivo baixado",
+    manualDownloadVerification: "O arquivo será verificado automaticamente.",
+    manualDownloadOpen: "Abrir CurseForge",
+    manualDownloadInvalid: "O arquivo selecionado não corresponde à versão necessária.",
+    manualDownloadFailed: "Não foi possível importar o arquivo.",
+    manualDownloadChecking: "Verificando arquivo...",
   },
 
   "en-US": {
@@ -503,7 +525,7 @@ const translations = {
     modsExploreContent: "Explore content",
     modsCategoryMods: "Mods",
     modsCategoryResourcePacks: "Resource packs",
-    modsCategoryDataPacks: "Data packs",
+    modsCategoryDataPacks: "Datapacks",
     modsCategoryModpacks: "Modpacks",
     modsCategoryShaders: "Shaders",
     modsSearchLabel: "Search",
@@ -523,7 +545,30 @@ const translations = {
     updateAvailablePrompt: "Version {version} is available. Would you like to download it now?",
     updateErrorDownload: "Could not download the update.",
     updateErrorChecking: "Could not check for updates.",
-    updateAlreadyCurrent: "CobbleLauncher is up to date."
+    updateAlreadyCurrent: "CobbleLauncher is up to date.",
+    selectWorldTitle: "Select world",
+    selectWorldDescription: "Choose the world where you want to install this Datapack.",
+    installDatapack: "Install Datapack",
+    minecraftWorld: "Minecraft world",
+    noWorldsFound: "No worlds found. Create a world in this installation first.",
+    manageContent: "Manage content",
+    noInstalledContent: "No installed content.",
+    loadingContent: "Loading content...",
+    removeContentTitle: "Delete content?",
+    removeContentMessage: 'The content "{name}" will be deleted.',
+    confirmRemoveContent: "Delete content",
+    selectWorld: "Select world",
+    modpackIndependent: "Modpacks are independent installations.",
+    closeMinecraftFirst: "Close Minecraft first.",
+    manualDownloadTitle: "Manual download required",
+    manualDownloadDescription: "This content is unavailable for automatic download. Download the required version from CurseForge to continue.",
+    manualDownloadWaiting: "Waiting for file",
+    manualDownloadSelect: "Select downloaded file",
+    manualDownloadVerification: "The file will be verified automatically.",
+    manualDownloadOpen: "Open CurseForge",
+    manualDownloadInvalid: "The selected file does not match the required version.",
+    manualDownloadFailed: "Could not import the file.",
+    manualDownloadChecking: "Verifying file...",
   },
 
   "es-ES": {
@@ -760,7 +805,7 @@ const translations = {
     modsExploreContent: "Explorar contenido",
     modsCategoryMods: "Mods",
     modsCategoryResourcePacks: "Paquetes de recursos",
-    modsCategoryDataPacks: "Paquetes de datos",
+    modsCategoryDataPacks: "Datapacks",
     modsCategoryModpacks: "Modpacks",
     modsCategoryShaders: "Shaders",
     modsSearchLabel: "Buscar",
@@ -780,7 +825,30 @@ const translations = {
     updateAvailablePrompt: "La versión {version} está disponible. ¿Quieres descargarla ahora?",
     updateErrorDownload: "No se pudo descargar la actualización.",
     updateErrorChecking: "No se pudieron buscar actualizaciones.",
-    updateAlreadyCurrent: "CobbleLauncher está actualizado."
+    updateAlreadyCurrent: "CobbleLauncher está actualizado.",
+    selectWorldTitle: "Seleccionar mundo",
+    selectWorldDescription: "Elige en qué mundo quieres instalar este Datapack.",
+    installDatapack: "Instalar Datapack",
+    minecraftWorld: "Mundo de Minecraft",
+    noWorldsFound: "No se encontraron mundos. Crea un mundo en esta instalación primero.",
+    manageContent: "Gestionar contenido",
+    noInstalledContent: "No hay contenido instalado.",
+    loadingContent: "Cargando contenido...",
+    removeContentTitle: "¿Eliminar contenido?",
+    removeContentMessage: 'El contenido "{name}" será eliminado.',
+    confirmRemoveContent: "Eliminar contenido",
+    selectWorld: "Seleccionar mundo",
+    modpackIndependent: "Los modpacks son instalaciones independientes.",
+    closeMinecraftFirst: "Cierra Minecraft primero.",
+    manualDownloadTitle: "Descarga manual necesaria",
+    manualDownloadDescription: "Este contenido no está disponible para descarga automática. Descarga la versión requerida desde CurseForge para continuar.",
+    manualDownloadWaiting: "Esperando archivo",
+    manualDownloadSelect: "Seleccionar archivo descargado",
+    manualDownloadVerification: "El archivo se verificará automáticamente.",
+    manualDownloadOpen: "Abrir CurseForge",
+    manualDownloadInvalid: "El archivo seleccionado no coincide con la versión requerida.",
+    manualDownloadFailed: "No se pudo importar el archivo.",
+    manualDownloadChecking: "Verificando archivo...",
   }
 };
 
@@ -1027,14 +1095,19 @@ function showMessage(message, type = "info") {
   return box;
 }
 
-function friendlyError(error) {
+function isDuplicateContentError(error) {
   const message = String(error?.message || error || "");
 
-  if (
+  return (
     message.includes("parece já estar instalado") ||
-    message.includes("já está instalado neste perfil")
-  ) {
-    return "Este mod já está instalado neste perfil.";
+    message.includes("já está instalado neste perfil") ||
+    message.includes("Já existe um arquivo chamado")
+  );
+}
+
+function friendlyError(error) {
+  if (isDuplicateContentError(error)) {
+    return translate("modAlreadyInstalled");
   }
 
   return translate("unexpectedError");
@@ -1153,6 +1226,117 @@ if (account.uuid) {
   }
 
   setStatus(translate("accountConnected"));
+}
+
+async function showWorldPicker(profile) {
+  const worlds = await window.cobble.getProfileWorlds(
+    profile.id
+  );
+
+  const modal = $("world-picker-modal");
+  const list = $("world-picker-list");
+  const profileLabel = $("world-picker-profile");
+  const confirmButton = $("world-picker-confirm");
+  const cancelButton = $("world-picker-cancel");
+  const closeButton = $("world-picker-close");
+
+  let selectedWorld = null;
+
+  list.replaceChildren();
+
+  profileLabel.textContent =
+    `${translate("installation")}: ${profile.name}`;
+
+  confirmButton.disabled = true;
+
+  if (worlds.length === 0) {
+    const empty = document.createElement("p");
+
+    empty.className = "world-picker-empty";
+    empty.textContent = translate("noWorldsFound");
+
+    list.appendChild(empty);
+  }
+
+  for (const world of worlds) {
+    const item = document.createElement("button");
+
+    item.type = "button";
+    item.className = "world-picker-item";
+    item.setAttribute("aria-pressed", "false");
+
+    const icon = document.createElement("span");
+icon.className = "world-picker-icon";
+
+if (world.icon) {
+  const image = document.createElement("img");
+  image.src = world.icon;
+  image.alt = world.name;
+  image.className = "world-picker-image";
+  icon.appendChild(image);
+} else {
+  icon.innerHTML = `
+    <svg viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="1.5">
+      <circle cx="12" cy="12" r="9"/>
+      <ellipse cx="12" cy="12" rx="4" ry="9"/>
+      <path d="M3 12h18M5 7h14M5 17h14"/>
+    </svg>
+  `;
+}
+
+    const details = document.createElement("span");
+    details.className = "world-picker-details";
+
+    const name = document.createElement("strong");
+    name.textContent = world.name;
+
+    const description = document.createElement("small");
+    description.textContent = translate("minecraftWorld");
+
+    details.append(name, description);
+
+    const indicator = document.createElement("span");
+    indicator.className = "world-picker-indicator";
+
+    item.append(icon, details, indicator);
+
+    item.addEventListener("click", () => {
+      list.querySelectorAll(".world-picker-item")
+        .forEach((element) => {
+          element.classList.remove("selected");
+          element.setAttribute("aria-pressed", "false");
+        });
+
+      item.classList.add("selected");
+      item.setAttribute("aria-pressed", "true");
+
+      selectedWorld = world.id;
+      confirmButton.disabled = false;
+    });
+
+    list.appendChild(item);
+  }
+
+  return new Promise((resolve) => {
+    let result = null;
+
+    modal.onclose = () => resolve(result);
+
+    confirmButton.onclick = () => {
+      if (!selectedWorld) return;
+
+      result = selectedWorld;
+      modal.close();
+    };
+
+    cancelButton.onclick = () => modal.close();
+    closeButton.onclick = () => modal.close();
+
+    modal.showModal();
+  });
 }
 
 function showModNotice(message, title = translate("noticeTitle"), options = null) {
@@ -1533,7 +1717,6 @@ function renderProfiles() {
         "Ainda não tens instalações. Cria uma acima para começar."
       )
     );
-
     updateModsInfo();
     return;
   }
@@ -1596,7 +1779,7 @@ function renderProfiles() {
     const manageModsButton = document.createElement("button");
     manageModsButton.type = "button";
     manageModsButton.className = "secondary-button";
-    manageModsButton.textContent = translate("manageMods");
+    manageModsButton.textContent = translate("manageContent");
 
     manageModsButton.addEventListener("click", () => {
       openModManager(profile.id);
@@ -2185,34 +2368,51 @@ async function renderModResults(mods) {
 
   const selectedProfileId = modsProfile?.value;
   const selectedCategory = modsCategory;
+  const selectedPlatform = modsPlatform;
+  const selectedWorld = $("datapack-search-world")?.value;
+  const renderRequest = modsSearchRequest;
 
   let installedIds = new Set();
 
-  // Consulta os mods instalados no perfil selecionado.
-  if (
-    selectedCategory === "mod" &&
-    selectedProfileId &&
-    window.cobble?.getInstalledMods
-  ) {
-    try {
-      const installedMods =
-        await window.cobble.getInstalledMods(selectedProfileId);
+if (
+  ["mod", "resourcepack", "shader", "datapack"].includes(selectedCategory) &&
+  (selectedCategory !== "datapack" || $("datapack-search-world")?.value) &&
+  selectedProfileId &&
+  window.cobble?.getInstalledContent
+) {
+  try {
+    const installedContent =
+  await window.cobble.getInstalledContent({
+    profileId: selectedProfileId,
+    category: selectedCategory,
+    worldId: selectedCategory === "datapack"
+      ? $("datapack-search-world")?.value
+      : undefined
+  });
 
-      installedIds = new Set(
-        installedMods.map((item) => item.projectId)
-      );
-    } catch (error) {
-      console.error(
-        "[Mods instalados]",
-        error
-      );
-    }
+    installedIds = new Set(
+      installedContent.flatMap((item) => item.projectIds || [item.projectId])
+    );
+    console.log("[Diagnóstico] Categoria:", selectedCategory);
+console.log("[Diagnóstico] Perfil:", selectedProfileId);
+console.log("[Diagnóstico] Conteúdos:", installedContent);
+console.log("[Diagnóstico] IDs:", [...installedIds]);
+
+  } catch (error) {
+    console.error(
+      "[Conteúdo instalado]",
+      error
+    );
   }
+}
 
   // Evita exibir resultados antigos se o perfil ou a categoria mudar.
   if (
     selectedProfileId !== modsProfile?.value ||
-    selectedCategory !== modsCategory
+    selectedCategory !== modsCategory ||
+    selectedPlatform !== modsPlatform ||
+    renderRequest !== modsSearchRequest ||
+    (selectedCategory === "datapack" && selectedWorld !== $("datapack-search-world")?.value)
   ) {
     return;
   }
@@ -2271,9 +2471,17 @@ const installedId =
   modsPlatform === "curseforge"
     ? `curseforge-${mod.id}`
     : mod.id;
+    console.log(
+  "[Diagnóstico] Resultado da pesquisa:",
+  mod.title,
+  installedId,
+  installedIds.has(installedId)
+);
 
 const isInstalled =
-  !isModpack && installedIds.has(installedId);
+  ["mod", "resourcepack", "shader", "datapack"]
+    .includes(selectedCategory) &&
+  installedIds.has(installedId);
 
     function setDownloadedState() {
       addButton.textContent = translate("downloaded");
@@ -2291,7 +2499,7 @@ const isInstalled =
     }
 
     addButton.addEventListener("click", async () => {
-      if (addButton.disabled) return;
+      if (addButton.disabled || renderRequest !== modsSearchRequest || selectedProfileId !== modsProfile?.value || selectedCategory !== modsCategory || selectedPlatform !== modsPlatform) return;
 
     const installFunction =
       modsPlatform === "curseforge"
@@ -2319,18 +2527,38 @@ const isInstalled =
   ? translate("preparingModpack").replace("{name}", mod.title)
   : translate("downloadingMod").replace("{name}", mod.title);
       try {
+let worldId = null;
+
+if (categoryAtClick === "datapack") {
+  worldId = $("datapack-search-world")?.value;
+
+  if (!worldId) {
+    addButton.disabled = false;
+    modsSearchStatus.textContent = "";
+    return;
+  }
+}
+
 const result = await installFunction(
   modsPlatform === "curseforge"
     ? {
         modId: Number(mod.id),
-        profileId: profileIdAtClick
+        category: categoryAtClick,
+        profileId: profileIdAtClick,
+        worldId
       }
     : {
         projectId: mod.id,
         category: categoryAtClick,
-        profileId: profileIdAtClick
+        profileId: profileIdAtClick,
+        worldId
       }
 );
+      if (result?.canceled) {
+  addButton.disabled = false;
+  modsSearchStatus.textContent = "";
+  return;
+}
         if (categoryAtClick === "modpack" && result.profile) {
           await loadProfiles();
 
@@ -2355,25 +2583,25 @@ const result = await installFunction(
   .replace("{profile}", profile.name);
 
         // Só marca como baixado se ainda estivermos no mesmo perfil
-        // e na mesma categoria em que a instalação começou.
-        if (
-          modsProfile?.value === profileIdAtClick &&
-          modsCategory === categoryAtClick
-        ) {
-          setDownloadedState();
-        } else {
-          addButton.disabled = false;
-        }
+// e na mesma categoria em que a instalação começou.
+if (
+  modsProfile?.value === profileIdAtClick &&
+  modsCategory === categoryAtClick &&
+  selectedPlatform === modsPlatform &&
+  (categoryAtClick !== "datapack" || worldId === $("datapack-search-world")?.value)
+) {
+  setDownloadedState();
+} else {
+  addButton.disabled = false;
+}
 
 } catch (error) {
   console.error("[Instalação de mod]", error);
 
   const errorMessage = String(error?.message || error || "");
 
-  if (
-    errorMessage.includes("parece já estar instalado") ||
-    errorMessage.includes("já está instalado neste perfil")
-  ) {
+  if (isDuplicateContentError(error)) {
+    scheduleModsSearch(true);
     modsSearchStatus.textContent =
       "Este mod já está instalado neste perfil.";
 
@@ -2594,8 +2822,71 @@ function renderModsPagination() {
   });
 }
 
+let datapackWorldRequest = 0;
+
+async function updateDatapackWorlds() {
+  const group = $("datapack-world-group");
+  const select = $("datapack-search-world");
+
+  const request = ++datapackWorldRequest;
+
+  group.hidden = modsCategory !== "datapack";
+
+  if (group.hidden) return;
+
+  const profileId = modsProfile?.value;
+  const previous = select.value;
+
+  select.replaceChildren();
+  select.disabled = true;
+
+  if (!profileId) return;
+
+  const worlds = await window.cobble.getProfileWorlds(
+    profileId
+  );
+
+  if (
+    request !== datapackWorldRequest ||
+    profileId !== modsProfile?.value ||
+    modsCategory !== "datapack"
+  ) {
+    return;
+  }
+
+  if (!worlds.length) {
+    select.add(
+      new Option(translate("noWorldsFound"), "")
+    );
+    select.disabled = true;
+    return;
+  }
+
+  for (const world of worlds) {
+    select.add(new Option(world.name, world.id));
+  }
+
+  if (worlds.some((world) => world.id === previous)) {
+    select.value = previous;
+  }
+
+  select.disabled = false;
+}
+
+$("datapack-search-world")?.addEventListener(
+  "change",
+  () => scheduleModsSearch(true)
+);
+
 async function searchModsNow() {
   const requestId = ++modsSearchRequest;
+  try {
+    await updateDatapackWorlds();
+  } catch (error) {
+    console.error("[Mundos]", error);
+    return;
+  }
+  if (requestId !== modsSearchRequest) return;
   const query = modsSearchQuery?.value.trim() || "";
   const profile = getProfile(modsProfile?.value);
 
@@ -2648,11 +2939,12 @@ let result;
 
 if (modsPlatform === "curseforge") {
   const curseForgeResult = await window.cobble.searchCurseForgeMods({
-    query: query || "minecraft",
-    gameVersion: profile.minecraftVersion,
-    loader: profile.loader,
-    index: (modsCurrentPage - 1) * MODS_PAGE_SIZE
-  });
+  query: query || "minecraft",
+  gameVersion: profile.minecraftVersion,
+  loader: modsCategory === "mod" ? profile.loader : "",
+  category: modsCategory,
+  index: (modsCurrentPage - 1) * MODS_PAGE_SIZE
+});
 
   if (!curseForgeResult?.success) {
     throw new Error(
@@ -2671,7 +2963,7 @@ if (modsPlatform === "curseforge") {
       author: "CurseForge",
       downloads: mod.downloads,
       iconUrl: mod.iconUrl,
-      projectType: "mod"
+      projectType: modsCategory
     })),
     totalHits: curseForgeResult.pagination?.totalCount ?? curseForgeHits.length
   };
@@ -3018,7 +3310,7 @@ function createModManager() {
     >
       <header class="mod-manager-header">
         <div>
-          <h2 id="mod-manager-title" data-i18n="manageMods">Gerenciar mods</h2>
+          <h2 id="mod-manager-title" data-i18n="manageContent">Gerenciar conteúdo</h2>
           <p id="mod-manager-profile"></p>
         </div>
         <button
@@ -3058,6 +3350,57 @@ function createModManager() {
 
 const modManagerOverlay = createModManager();
 
+let managedCategory = "mod";
+let managedWorldId = null;
+let managedProfileId = null;
+let managedContentRequest = 0;
+
+const managedCategories = {
+  mod: "modsCategoryMods",
+  resourcepack: "modsCategoryResourcePacks",
+  datapack: "modsCategoryDataPacks",
+  shader: "modsCategoryShaders"
+};
+
+function renderManagerTabs(profileId) {
+  const list = $("mod-manager-list");
+
+  let tabs = $("content-manager-tabs");
+
+  if (!tabs) {
+    tabs = document.createElement("div");
+    tabs.id = "content-manager-tabs";
+    tabs.className = "content-manager-tabs";
+
+    list.before(tabs);
+  }
+
+  tabs.replaceChildren();
+
+  for (const [category, label] of Object.entries(managedCategories)) {
+    const button = document.createElement("button");
+
+    button.type = "button";
+    button.className = "mods-category";
+    button.textContent = translate(label);
+
+    button.classList.toggle(
+      "active",
+      managedCategory === category
+    );
+
+    button.onclick = async () => {
+      managedCategory = category;
+      managedWorldId = null;
+
+      renderManagerTabs(profileId);
+
+      await renderManagedMods(profileId);
+    };
+
+    tabs.appendChild(button);
+  }
+}
 
 async function openModManager(profileId) {
   const profile = getProfile(profileId);
@@ -3078,171 +3421,261 @@ async function openModManager(profileId) {
       `${profile.name} · Minecraft ${profile.minecraftVersion}`;
   }
 
+  managedProfileId = profileId;
+managedCategory = "mod";
+managedWorldId = null;
+
+renderManagerTabs(profileId);
   await renderManagedMods(profileId);
 }
 
 async function renderManagedMods(profileId) {
-  const list = document.getElementById("mod-manager-list");
+  const list = $("mod-manager-list");
 
   if (!list) return;
 
+  const request = ++managedContentRequest;
+  const category = managedCategory;
+
   list.replaceChildren();
 
-  const loading = document.createElement("p");
-  loading.className = "mod-manager-empty";
-  loading.textContent = translate("loadingMods");
-  list.append(loading);
+  function isCurrent() {
+    return request === managedContentRequest &&
+      managedProfileId === profileId &&
+      managedCategory === category;
+  }
 
   try {
-    const mods = await window.cobble.getInstalledMods(profileId);
+    if (category === "datapack") {
+      const worlds = await window.cobble.getProfileWorlds(
+        profileId
+      );
 
-    list.replaceChildren();
+      if (!isCurrent()) return;
 
-    if (!Array.isArray(mods) || mods.length === 0) {
+      if (!worlds.length) {
+        const empty = document.createElement("p");
+        empty.className = "mod-manager-empty";
+        empty.textContent = translate("noWorldsFound");
+        list.append(empty);
+        return;
+      }
+
+      if (!worlds.some((world) => world.id === managedWorldId)) {
+        managedWorldId = worlds[0].id;
+      }
+
+      const select = document.createElement("select");
+
+      select.className = "content-manager-world";
+
+      for (const world of worlds) {
+        select.add(new Option(world.name, world.id));
+      }
+
+      select.value = managedWorldId;
+
+      select.onchange = async () => {
+        managedWorldId = select.value;
+        await renderManagedMods(profileId);
+      };
+
+      list.append(select);
+    }
+
+    const worldId = managedWorldId;
+
+    const loading = document.createElement("p");
+    loading.className = "mod-manager-empty";
+    loading.textContent = translate("loadingContent");
+
+    list.append(loading);
+
+    const contents = await window.cobble.getInstalledContent({
+      profileId,
+      category,
+      worldId
+    });
+
+    if (!isCurrent()) return;
+
+    loading.remove();
+
+    if (category === "modpack") {
+      const hint = document.createElement("p");
+      hint.className = "mod-manager-empty";
+      hint.textContent = translate("modpackIndependent");
+      list.append(hint);
+    }
+
+    if (!contents.length) {
       const empty = document.createElement("p");
       empty.className = "mod-manager-empty";
-      empty.textContent = translate("noInstalledMods");
+      empty.textContent = translate("noInstalledContent");
       list.append(empty);
       return;
     }
 
-    for (const mod of mods) {
+    for (const content of contents) {
       const item = document.createElement("article");
       item.className = "mod-manager-item";
 
       const icon = document.createElement("div");
       icon.className = "mod-manager-icon";
-      icon.textContent = "M";
 
-      if (mod.iconUrl) {
-        try {
-          const iconUrl = new URL(mod.iconUrl);
+      icon.textContent = {
+        mod: "M",
+        resourcepack: "R",
+        shader: "S",
+        datapack: "D",
+        modpack: "P"
+      }[category];
 
-          if (iconUrl.protocol === "https:" || iconUrl.protocol === "http:") {
-            const image = document.createElement("img");
-            image.src = iconUrl.href;
-            image.alt = "";
-            image.width = 52;
-            image.height = 52;
-            image.style.objectFit = "cover";
+      if (content.iconUrl?.startsWith("https://")) {
+        const image = document.createElement("img");
 
-            image.addEventListener("error", () => {
-              image.remove();
-            });
+        image.src = content.iconUrl;
+        image.alt = "";
+        image.width = 52;
+        image.height = 52;
+        image.style.objectFit = "cover";
 
-            icon.replaceChildren(image);
-          }
-        } catch {
-          // Mantém o ícone padrão quando a URL não é válida.
-        }
+        image.onerror = () => image.remove();
+
+        icon.replaceChildren(image);
       }
 
       const info = document.createElement("div");
       info.className = "mod-manager-info";
 
       const title = document.createElement("h3");
-      title.textContent = mod.name || translate("unnamedMod");
+      title.textContent = content.name;
 
       const description = document.createElement("p");
-description.textContent =
-  mod.description || translate("noModDescription");
+      description.textContent = content.filename || "";
 
       const state = document.createElement("p");
-      state.textContent = mod.enabled
-  ? translate("activated")
-  : translate("deactivated");
+      state.textContent = content.enabled
+        ? translate("activated")
+        : translate("deactivated");
 
       info.append(title, description, state);
 
       const actions = document.createElement("div");
       actions.className = "mod-manager-actions";
 
-      const toggleButton = document.createElement("button");
-      toggleButton.type = "button";
-      toggleButton.className = "secondary-button";
-      toggleButton.textContent = mod.enabled
-  ? translate("disable")
-  : translate("enable");
-
-      toggleButton.addEventListener("click", async () => {
-        toggleButton.disabled = true;
-
-        try {
-          await window.cobble.toggleInstalledMod({
-            profileId,
-            filename: mod.filename,
-            enabled: !mod.enabled
-          });
-
-          await renderManagedMods(profileId);
-        } catch (error) {
-         setStatus(
-  translate("toggleModError").replace(
-    "{error}",
-    friendlyError(error)
-  )
-);
-          toggleButton.disabled = false;
-        }
-      });
-
-
       const removeButton = document.createElement("button");
-removeButton.type = "button";
-removeButton.className = "secondary-button";
-removeButton.textContent = translate("remove");
 
-removeButton.addEventListener("click", async () => {
-  const modName = mod.name || mod.filename;
+      removeButton.type = "button";
+      removeButton.className = "secondary-button";
+      removeButton.textContent = translate("remove");
 
-  const confirmed = await showConfirmModal({
-    title: translate("removeModTitle"),
-    message: translate("removeModMessage").replace(
-      "{name}",
-      modName
-    ),
-    confirmText: translate("confirmRemoveMod")
-  });
+      if (category !== "modpack") {
+        const toggle = document.createElement("button");
 
-  if (!confirmed) return;
+        toggle.type = "button";
+        toggle.className = "secondary-button";
+
+        toggle.textContent = content.enabled
+          ? translate("disable")
+          : translate("enable");
+
+        toggle.onclick = async () => {
+          if (gameStarted || launchInProgress) {
+            showModNotice(
+              translate("closeMinecraftFirst")
+            );
+            return;
+          }
+
+          toggle.disabled = true;
+          removeButton.disabled = true;
+
+          try {
+            await window.cobble.toggleInstalledContent({
+              profileId,
+              category,
+              worldId,
+              filename: content.filename,
+              enabled: !content.enabled
+            });
+
+            scheduleModsSearch(true);
+            if (isCurrent()) {
+              await renderManagedMods(profileId);
+            }
+          } catch (error) {
+            console.error(error);
+            showModNotice(friendlyError(error));
+          } finally {
+            toggle.disabled = false;
+            removeButton.disabled = false;
+          }
+        };
+
+        actions.append(toggle);
+      }
+
+      removeButton.onclick = async () => {
+        if (gameStarted || launchInProgress) {
+          showModNotice(
+            translate("closeMinecraftFirst")
+          );
+          return;
+        }
+
+        if (category === "modpack") {
+          modManagerOverlay.hidden = true;
+
+          await deleteProfile(content.profileId);
+          return;
+        }
+
+        const confirmed = await showConfirmModal({
+          title: translate("removeContentTitle"),
+          message: translate("removeContentMessage")
+            .replace("{name}", content.name),
+          confirmText: translate("confirmRemoveContent")
+        });
+
+        if (!confirmed) return;
 
         removeButton.disabled = true;
 
         try {
-          await window.cobble.removeInstalledMod({
+          await window.cobble.removeInstalledContent({
             profileId,
-            filename: mod.filename
+            category,
+            worldId,
+            filename: content.filename,
+            enabled: content.enabled
           });
 
-          await renderManagedMods(profileId);
+          scheduleModsSearch(true);
+          if (isCurrent()) {
+            await renderManagedMods(profileId);
+          }
         } catch (error) {
-          setStatus(
-  translate("removeModError").replace(
-    "{error}",
-    friendlyError(error)
-  )
-);
+          console.error(error);
+          showModNotice(friendlyError(error));
+        } finally {
           removeButton.disabled = false;
         }
-      });
+      };
 
-      actions.append(toggleButton, removeButton);
+      actions.append(removeButton);
+
       item.append(icon, info, actions);
       list.append(item);
     }
   } catch (error) {
-    console.error("[Gerenciador de mods] Erro:", error);
+    console.error("[Gerenciador de conteúdo]", error);
 
-    list.replaceChildren();
+    if (!isCurrent()) return;
 
-    const message = document.createElement("p");
-    message.className = "mod-manager-empty";
-    message.textContent = translate("loadModsError").replace(
-  "{error}",
-  friendlyError(error)
-);
-
-    list.append(message);
+    list.replaceChildren(
+      showMessage(friendlyError(error), "error")
+    );
   }
 }
 
@@ -3265,7 +3698,6 @@ async function initialize() {
 
   loadProfileSettings();
   updateModsInfo();
-  scheduleModsSearch(true);
 }
 
 initialize();
@@ -3291,7 +3723,6 @@ async function generateSkinPortrait(skin) {
     viewer.controls.enableZoom = false;
 
     viewer.playerObject.rotation.set(0, 0, 0);
-
     viewer.camera.position.set(0, 0, 40);
     viewer.camera.lookAt(0, 0, 0);
     viewer.render();
@@ -3489,8 +3920,11 @@ generateSkinPortrait(skin)
     preview.src = image;
   })
   .catch((error) => {
-    console.error("Erro ao gerar imagem 2D da skin:", error);
-    console.error(error.stack || error.message || error);
+    console.error(
+      "Erro ao gerar imagem 2D da skin:",
+      error
+    );
+
     preview.alt = "Não foi possível gerar a imagem da skin";
   });
 
@@ -4139,3 +4573,213 @@ if (checkUpdatesButton && updateButtonLabel) {
 
 window.cobble.setLanguage(getCurrentLanguage());
 applyTranslations();
+
+// ==================================================
+// DOWNLOAD MANUAL DO CURSEFORGE
+// ==================================================
+
+const manualDownloadOverlay =
+  $("manual-download-overlay");
+
+const manualDownloadSelect =
+  $("manual-download-select");
+
+const manualDownloadOpen =
+  $("manual-download-open");
+
+const manualDownloadCancel =
+  $("manual-download-cancel");
+
+const manualDownloadClose =
+  $("manual-download-close");
+
+const manualDownloadError =
+  $("manual-download-error");
+
+let activeManualDownload = null;
+let manualDownloadBusy = false;
+
+function setManualDownloadBusy(busy) {
+  manualDownloadBusy = busy;
+
+  manualDownloadSelect.disabled = busy;
+  manualDownloadOpen.disabled = busy;
+  manualDownloadCancel.disabled = busy;
+  manualDownloadClose.disabled = busy;
+
+  manualDownloadSelect.querySelector("strong").textContent =
+    translate(
+      busy
+        ? "manualDownloadChecking"
+        : "manualDownloadSelect"
+    );
+}
+
+function showManualDownloadError(message) {
+  manualDownloadError.textContent = message;
+  manualDownloadError.hidden = false;
+}
+
+function closeManualDownload() {
+  manualDownloadOverlay.hidden = true;
+  activeManualDownload = null;
+
+  setManualDownloadBusy(false);
+}
+
+window.cobble.onManualDownloadRequired((data) => {
+  activeManualDownload = data;
+
+  $("manual-download-name").textContent =
+    data.name || data.filename;
+
+  $("manual-download-filename").textContent =
+    data.filename;
+
+  const icon = $("manual-download-icon");
+
+  icon.hidden = true;
+  icon.removeAttribute("src");
+
+  if (data.iconUrl?.startsWith("https://")) {
+    icon.onload = () => {
+      icon.hidden = false;
+    };
+
+    icon.onerror = () => {
+      icon.hidden = true;
+    };
+
+    icon.src = data.iconUrl;
+  }
+
+  manualDownloadError.hidden = true;
+  manualDownloadError.textContent = "";
+
+  manualDownloadOpen.hidden =
+    !data.canOpenWebsite;
+
+  setManualDownloadBusy(false);
+
+  manualDownloadOverlay.hidden = false;
+
+  manualDownloadSelect.focus();
+});
+
+manualDownloadOpen.addEventListener("click", async () => {
+  if (!activeManualDownload || manualDownloadBusy) {
+    return;
+  }
+
+  try {
+    const result = await window.cobble.openManualDownload(
+      activeManualDownload.requestId
+    );
+
+    if (!result.success) {
+      showManualDownloadError(
+        translate("manualDownloadFailed")
+      );
+    }
+  } catch (error) {
+    console.error(error);
+
+    showManualDownloadError(
+      translate("manualDownloadFailed")
+    );
+  }
+});
+
+manualDownloadSelect.addEventListener("click", async () => {
+  if (!activeManualDownload || manualDownloadBusy) {
+    return;
+  }
+
+  const requestId = activeManualDownload.requestId;
+
+  manualDownloadError.hidden = true;
+
+  setManualDownloadBusy(true);
+
+  try {
+    const result = await window.cobble.selectManualDownload(
+      requestId
+    );
+
+    // Outra dependência pode ter sido solicitada.
+    if (activeManualDownload?.requestId !== requestId) {
+      return;
+    }
+
+    if (result.success) {
+      closeManualDownload();
+      return;
+    }
+
+    if (result.canceled) return;
+
+    showManualDownloadError(
+      translate(
+        result.error === "invalidHash"
+          ? "manualDownloadInvalid"
+          : "manualDownloadFailed"
+      )
+    );
+
+  } catch (error) {
+    console.error(error);
+
+    if (activeManualDownload?.requestId === requestId) {
+      showManualDownloadError(
+        translate("manualDownloadFailed")
+      );
+    }
+  } finally {
+    if (activeManualDownload?.requestId === requestId) {
+      setManualDownloadBusy(false);
+    }
+  }
+});
+
+async function cancelManualDownload() {
+  if (!activeManualDownload || manualDownloadBusy) {
+    return;
+  }
+
+  const requestId = activeManualDownload.requestId;
+
+  setManualDownloadBusy(true);
+
+  try {
+    const result = await window.cobble.cancelManualDownload(
+      requestId
+    );
+
+    if (
+      result.success &&
+      activeManualDownload?.requestId === requestId
+    ) {
+      closeManualDownload();
+    }
+  } catch (error) {
+    console.error(error);
+
+    showManualDownloadError(
+      translate("manualDownloadFailed")
+    );
+  } finally {
+    if (activeManualDownload?.requestId === requestId) {
+      setManualDownloadBusy(false);
+    }
+  }
+}
+
+manualDownloadCancel.addEventListener(
+  "click",
+  cancelManualDownload
+);
+
+manualDownloadClose.addEventListener(
+  "click",
+  cancelManualDownload
+);
