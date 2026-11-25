@@ -4495,16 +4495,21 @@ if (checkUpdatesButton && updateButtonLabel) {
     }
 
     if (data.status === "error") {
-      updateDownloading = false;
-      checkUpdatesButton.disabled = false;
+  const wasDownloading = updateDownloading;
 
-      if (!updateReadyToInstall) {
-        checkUpdatesButton.hidden = false;
-        setUpdateButtonText("updateNowButton");
-      }
+  updateDownloading = false;
+  checkUpdatesButton.disabled = false;
 
-      console.error("[Updates] Erro:", data.message);
-    }
+  if (updateReadyToInstall) {
+    checkUpdatesButton.hidden = false;
+    setUpdateButtonText("updateInstallRestart");
+  } else {
+    checkUpdatesButton.hidden = !wasDownloading;
+    setUpdateButtonText("updateNowButton");
+  }
+
+  console.error("[Updates] Erro:", data.message);
+}
   });
 
   checkUpdatesButton.addEventListener("click", async () => {
