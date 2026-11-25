@@ -8,8 +8,6 @@ We're fixing bugs, improving compatibility, and polishing existing features to e
 
 Thank you to everyone who has supported CobbleLauncher so far. Your support means a lot!
 
-**We'll be back soon. See you in the next update!**
-
 — The CobbleLauncher Team
 
 ---
