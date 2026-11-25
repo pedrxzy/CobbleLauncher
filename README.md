@@ -1,136 +1,135 @@
-# 📢 CobbleLauncher — Linux Support Coming Soon!
-
-Hey everyone!
-
-We're currently working on bringing CobbleLauncher to Linux, and we hope to make it available for download soon!
-
-We're fixing bugs, improving compatibility, and polishing existing features to ensure you have the best possible experience with CobbleLauncher.
-
-Thank you to everyone who has supported CobbleLauncher so far. Your support means a lot!
-
-— The CobbleLauncher Team
-
----
-
 # CobbleLauncher
 
-A custom Minecraft Java Edition launcher built with Electron. Manage your Minecraft installations, discover and install community content, customize your skins, and keep your launcher up to date.
+**Your Minecraft. Your way.**
 
-## Platform Support
+A modern, independent Minecraft Java Edition launcher developed by Zavira Studios, designed to provide a simple, customizable and integrated Minecraft experience.
 
-| Platform | Status |
-|----------|--------|
-| Windows  | Available |
-| Linux    | In development |
-| MacOS    | Not supported yet |
+![Version](https://img.shields.io/badge/version-1.2.0-brightgreen)
+![Windows](https://img.shields.io/badge/Windows-Supported-0078D6)
+![Linux](https://img.shields.io/badge/Linux-Supported-FCC624)
+![Modrinth](https://img.shields.io/badge/Modrinth-Integrated-1BD96A)
+![CurseForge](https://img.shields.io/badge/CurseForge-Integrated-F16436)
 
 ## Features
 
-- **Microsoft Authentication** — Sign in with your Microsoft account to access Minecraft.
-- **Minecraft Profiles** — Create and manage independent installations with different Minecraft versions and mod loaders.
-- **Mod Loader Support** — Supports Vanilla, Fabric, Forge, NeoForge, and Quilt installations.
-- **Modrinth Integration** — Discover and install compatible Minecraft mods and modpacks.
-- **CurseForge Integration** — Browse and install compatible Minecraft mods.
-- **Mod Management** — Manage, enable, disable, and remove installed mods.
-- **Skin Management** — Import, rename, manage, and apply custom Minecraft skins.
-- **Cape Management** — View and manage available Minecraft account capes.
-- **Automatic Updates** — Check for new versions, download updates, and install them by restarting the launcher.
-- **Multilingual Interface** — Available in Brazilian Portuguese, English, and Spanish.
-- **Customizable Settings** — Configure memory allocation and Java settings for each installation.
+### Minecraft Management
 
-## In Development
+- Microsoft account authentication.
+- Independent Minecraft installations.
+- Multiple Minecraft versions.
+- Automatic Java detection and installation.
+- Custom Java paths and RAM allocation.
+- Skin and cape management.
+- Automatic launcher updates.
 
-- Native Linux support.
-- Improved Resource Pack, Shader, and Datapack support.
-- Built-in world selection for Datapack installation.
-- Unified content management.
-- Improved duplicate detection across Modrinth and CurseForge.
-- CurseForge Modpack installation.
+### Supported Mod Loaders
+
+- Vanilla
+- Fabric
+- Forge
+- NeoForge
+- Quilt
+
+### Content Management
+
+Download and manage Minecraft content directly from CobbleLauncher through Modrinth and CurseForge.
+
+- Mods
+- Modpacks
+- Resource packs
+- Datapacks
+- Shaders
+- Enable, disable and remove installed content.
+- Automatic duplicate detection.
+- Independent modpack installations.
+- Manual download support for restricted CurseForge files.
+- File integrity verification.
+
+### Supported Languages
+
+- English
+- Português (Brasil)
+- Español
 
 ## Download
 
-Download the latest stable version from the [GitHub Releases](https://github.com/pedrxzy/CobbleLauncher/releases) page.
+CobbleLauncher is available for Windows and Linux.
 
-1. Open the latest stable release.
-2. Download the Windows installer (`CobbleLauncher-Setup-x.x.x.exe`).
-3. Run the installer and follow the instructions.
-4. Open CobbleLauncher and sign in with your Microsoft account.
+| Platform | Architecture | Package |
+|---|---|---|
+| Windows | x64 | EXE Installer |
+| Linux | x86_64 | AppImage |
+| Debian / Ubuntu | AMD64 | DEB Package |
 
-Linux builds are not officially available yet.
+[Download the latest version](https://github.com/pedrxzy/CobbleLauncher/releases/latest)
 
-## Requirements
+### Linux Installation
 
-- Windows 10 or Windows 11.
-- A valid Minecraft Java Edition license to play the game.
-- An internet connection for authentication, downloads, and updates.
+**AppImage:**
+
+Make the downloaded AppImage executable and launch it:
+
+`chmod +x CobbleLauncher-1.2.0-x86_64.AppImage`
+
+`./CobbleLauncher-1.2.0-x86_64.AppImage`
+
+**Debian and Ubuntu:**
+
+`sudo apt install ./CobbleLauncher-1.2.0-amd64.deb`
 
 ## Development
 
-### Prerequisites
-
-- [Node.js](https://nodejs.org/)
-- npm (included with Node.js)
-- [Git](https://git-scm.com/)
-
-### Setup
-
-Clone the repository:
-
-```bash
-git clone https://github.com/pedrxzy/CobbleLauncher.git
-cd CobbleLauncher
-```
-
-Install dependencies:
-
-```bash
-npm ci
-```
-
-Start the launcher in development mode:
-
-```bash
-npm start
-```
-
-### Building
-
-Build the Windows installer:
-
-```bash
-npm run dist
-```
-
-The generated installer and update files are placed in the `dist` directory.
-
-**Note:** Automatic updates are intended for packaged installations, not development mode.
-
-## Technologies
+CobbleLauncher is built using:
 
 - Electron
 - Node.js
 - JavaScript
-- HTML and CSS
-- eml-lib
-- electron-updater
-- electron-builder
-- adm-zip
-- prismarine-nbt
+- HTML
+- CSS
+- EML Lib
+- Electron Builder
+- Cloudflare Workers
 
-## Contributing
+### Running from source
 
-Bug reports and feature suggestions are welcome.
+`git clone https://github.com/pedrxzy/CobbleLauncher.git`
 
-Please open an issue in the [GitHub repository](https://github.com/pedrxzy/CobbleLauncher/issues).
+`cd CobbleLauncher`
+
+`npm ci`
+
+`npm start`
+
+### Building
+
+Windows:
+
+`npm run dist:win`
+
+Linux AppImage:
+
+`npm run dist:linux`
+
+Linux DEB:
+
+`npm run dist:deb`
+
+## Feedback and Bug Reports
+
+Found a bug or have a suggestion?
+
+[Open an issue on GitHub](https://github.com/pedrxzy/CobbleLauncher/issues)
 
 ## Disclaimer
 
-CobbleLauncher is an independent, unofficial Minecraft launcher and is not affiliated with, endorsed by, or sponsored by Mojang Studios or Microsoft.
+CobbleLauncher is an independent third-party Minecraft launcher. It is not affiliated with, endorsed by or associated with Mojang Studios, Microsoft, Modrinth or CurseForge.
 
-Minecraft is a trademark of its respective owner.
+A valid Minecraft Java Edition license is required to play.
 
-CurseForge and Modrinth are third-party platforms. Their services and content are subject to their respective terms and policies.
+All respective trademarks and content belong to their respective owners.
 
-## License
+## Credits
 
-See the [LICENSE](LICENSE) file for licensing information.
+Developed and maintained by **Zavira Studios**.
+
+© 2026 Zavira Studios. All rights reserved.
