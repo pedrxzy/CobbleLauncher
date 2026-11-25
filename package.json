@@ -11,7 +11,10 @@
     "dist:deb": "electron-builder --linux deb --publish never"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Zavira Studios",
+    "email": "zavirastudios@proton.me"
+  },
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
