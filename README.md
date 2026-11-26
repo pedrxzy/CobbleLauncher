@@ -48,18 +48,18 @@ A modern, independent Minecraft Java Edition launcher developed by **Zavira Stud
 
 ### Development Roadmap
 
-- [ ] Tauri project architecture.
-- [ ] Rust backend implementation.
-- [ ] User interface migration.
+- [x] Tauri project architecture.
+- [x] Rust backend implementation.
+- [x] User interface migration.
 - [ ] Microsoft authentication.
 - [ ] Minecraft installation and execution.
-- [ ] Java management.
+- [x] Java management.
 - [ ] Mod loader integration.
 - [ ] Modrinth integration.
 - [ ] CurseForge integration.
 - [ ] Content management.
-- [ ] Migration from previous versions.
-- [ ] Automatic update system.
+- [x] Migration from previous versions.
+- [x] Automatic update system.
 - [ ] Multiplatform testing.
 - [ ] Public beta.
 - [ ] CobbleLauncher 2.0 stable release.
